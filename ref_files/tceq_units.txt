@@ -1,0 +1,38 @@
+Description	Abbr	Code	Type
+Beta Light Scatter	Beta Scat	027	BetaLightScatter
+Coefficient of Haze per 1,000 linear feet.	COHS/1,000 Linear Ft	009	Soiling Index
+CUBIC METER	m3	065	Volume
+DEGREES CENTIGRADE	Deg C	017	Temp
+DEGREES FAHRENHEIT	Deg F	015	Temp
+DEGREES, COMPASS	deg	014	CompassBearing
+INCHES (RAINFALL)	in. (rain)	021	Length
+Inverse of Micrograms per Cubic Meter	(ug/m3)-1	936	MassDensity
+Inverse of Milligrams (of substance) per Kilogram (of human body mass) per Day	(mg/kg-day)-1	938	MassRatio
+Inverse of Parts per Billion	ppb-1	935	VolRatio
+KNOTS	Knots	013	Speed
+LANGLEYS/MINUTE	Langy/min	025	Power/Area
+Microgram	ug	077	Mass
+Micrograms per Cubic Meter	ug/m3	933	MassDensity
+MILES (VISIBILITY)	mi	024	Length
+MILES/HOUR	mph	012	Speed
+MILLIBARS	Millibars	016	PressureAbs
+Milligrams (of substance) per Kilogram (of human body mass) per Day	mg/kg-day	937	MassRatio
+Milligrams per Cubic Meter	mg/m3	934	MassDensity
+MILLIMETERS (MERCURY)	mm (Hg)	059	PressureAbs
+MILLIMETERS (RAINFALL)	mm (rain)	029	Length
+Millivolts	mv	902	Electric Potential
+Minutes	Min	106	Elapse Time
+Nanogram	ng	921	Mass
+Nanograms	ng	125	Mass
+NG/CU METER (25 C)	ng/m3 (25 C)	003	MassDensity
+Parts per Billion	ppb	932	VolRatio
+PARTS PER BILLION BY VOLUME	ppbv	008	VolRatio
+PARTS PER BILLION CARBON	ppb C	078	CarbonVolRatio
+PARTS PER MILLION BY VOLUME	ppmv	007	VolRatio
+PARTS PER MILLION CARBON	ppm C	101	CarbonVolRatio
+PERCENT	%	107	Number
+PERCENT RELATIVE HUMIDITY	%RH	019	Relative Humidity
+PICOCURIES/CU. METER	picocuries/m3	030	Radioactivity Density
+UG/CU METER (25 C)	ug/m3 (25 C)	001	MassDensity
+UG/CU Meter (LC)	ug/m3 (LC)	105	MassDensityLc
+
