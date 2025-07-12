@@ -18,6 +18,7 @@ classifiers = [
 
 dependencies = [
   "pandas",
+  "pyarrow",
 ]
 
 license = "MIT"
