@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "geotam_processor"
+version = "0.0.1"
+authors = [
+  { name="JDG", email="157560746+Jo-graves@users.noreply.github.com" },
+]
+description = "Convert geotam outputs to csv or parquet"
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+
+dependencies = [
+  "sys",
+  "argparse",
+  "pathlib",
+  "pandas",
+  "datetime", 
+  "functools",
+  "os",
+]
+
+license = "MIT"
+license-files = ["LICEN[CS]E*"]
+

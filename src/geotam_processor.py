@@ -9,7 +9,7 @@ import sys
 import os
 
 
-class tceq_dataframes: #Create class for dataframes in the df_splitter idctionary 
+class tceq_dataframes: #Create class for dataframes in the df_splitter dictionary 
     def __init__(self,dicty, key):
         self.parameter = key
         self.dictionary = dicty[key][1]
@@ -29,7 +29,6 @@ def dict_processer(dict):
     return final_dict
 
 
-
 def header_getter(filepath):
     with open(filepath, newline = '', errors = 'ignore') as pracfile: #finds which line the header should be - always seems to be 1 less than expected (only if you use skip_blank_lines = false)
             p = 0
@@ -39,18 +38,11 @@ def header_getter(filepath):
                 if "State Cd" in row:
                     # print(p)
                     # print(row)
-                    global TCEQ_Header # Why did I make this global?
+                    # global TCEQ_Header # Why did I make this global?
                     TCEQ_Header = p-1
     return TCEQ_Header
 
-def convert_gm3_ppm(gm3, MW):
-    
-    R = 8.314472
-    T = 293.15 
-    P = 1.0* 1e5
 
-    ppm = gm3*R * T / P / MW *1e6
-    return ppm
 
 def df_splitter(filepath):
 
@@ -67,7 +59,9 @@ def df_splitter(filepath):
 
 
 
-    TCEQ_header = header_getter(filepath)        #get header from header_getter function
+    TCEQ_Header = header_getter(filepath)        #get header from header_getter function
+
+
     RD =  pd.read_csv(filepath, sep = ',', header = TCEQ_Header, #open csv
             skiprows = [], skip_blank_lines = False, encoding = 'ascii',
             encoding_errors = 'replace') 
@@ -121,7 +115,6 @@ def df_splitter(filepath):
 
 def geotam_to_csv(geotam_txt_file, date_start = None, date_end = None, save = False, save_csv = False):
 
-    
 
     foo = df_splitter(geotam_txt_file)
 
