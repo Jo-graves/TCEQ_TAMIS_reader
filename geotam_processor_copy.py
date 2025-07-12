@@ -39,7 +39,7 @@ def header_getter(filepath):
                 if "State Cd" in row:
                     # print(p)
                     # print(row)
-                    global TCEQ_Header
+                    global TCEQ_Header # Why did I make this global?
                     TCEQ_Header = p-1
     return TCEQ_Header
 
@@ -52,6 +52,8 @@ def convert_gm3_ppm(gm3, MW):
     ppm = gm3*R * T / P / MW *1e6
     return ppm
 
+def print_file_loc():
+    print(__file__)
 def df_splitter(filepath):
 
     file_path = Path(os.path.realpath(__file__)).parent
