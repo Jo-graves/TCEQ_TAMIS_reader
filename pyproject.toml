@@ -17,13 +17,7 @@ classifiers = [
 ]
 
 dependencies = [
-  "sys",
-  "argparse",
-  "pathlib",
   "pandas",
-  "datetime", 
-  "functools",
-  "os",
 ]
 
 license = "MIT"

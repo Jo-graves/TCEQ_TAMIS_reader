@@ -4,3 +4,4 @@ dist
 *.whl
 *tar.gz
 *egg-info
+*build
