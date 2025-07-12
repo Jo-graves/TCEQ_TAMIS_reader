@@ -52,8 +52,6 @@ def convert_gm3_ppm(gm3, MW):
     ppm = gm3*R * T / P / MW *1e6
     return ppm
 
-def print_file_loc():
-    print(__file__)
 def df_splitter(filepath):
 
     file_path = Path(os.path.realpath(__file__)).parent
