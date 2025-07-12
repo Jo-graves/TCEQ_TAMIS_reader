@@ -39,7 +39,7 @@ def header_getter(filepath):
                 if "State Cd" in row:
                     # print(p)
                     # print(row)
-                    global TCEQ_Header
+                    global TCEQ_Header # Why did I make this global?
                     TCEQ_Header = p-1
     return TCEQ_Header
 
@@ -52,6 +52,8 @@ def convert_gm3_ppm(gm3, MW):
     ppm = gm3*R * T / P / MW *1e6
     return ppm
 
+def print_file_loc():
+    print(__file__)
 def df_splitter(filepath):
 
     file_path = Path(os.path.realpath(__file__)).parent
@@ -119,7 +121,7 @@ def df_splitter(filepath):
 
     
 
-def geotam_to_csv(geotam_txt_file, date_start = None, date_end = None, save = False, filetype = "parquet"):
+def geotam_to_csv(geotam_txt_file, date_start = None, date_end = None, save = False, save_csv = False):
 
     
 
@@ -178,15 +180,42 @@ def geotam_to_csv(geotam_txt_file, date_start = None, date_end = None, save = Fa
     df_out_sort_copy = df_out_sort_copy.copy()[df_out_sort_copy.copy()["Datetime - CST"].between(date_start, date_end)]
 
     if save == True:
-        if filetype == "csv":
-            df_out_sort_copy.to_csv(Path(geotam_txt_file).with_suffix(".csv"))
+        if save_csv == True:
+                df_out_sort_copy.to_csv(Path(geotam_txt_file).with_suffix(".csv"))
+                print(f"Processd file saved to: {Path(geotam_txt_file).with_suffix(".csv")}")
+
         
         df_out_sort_copy.to_parquet(Path(geotam_txt_file).with_suffix(".gzip"))
+        print(f"Processd file saved to: {Path(geotam_txt_file).with_suffix(".gzip")}")
+
     
-
-
     return df_out_sort_copy
 
- 
+
+if __name__ == "__main__":
+    import sys
+    import argparse
+
+    def str2bool(v): 
+        if isinstance(v, bool): 
+            return v 
+        if v.lower() in ('yes', 'true', 't', 'y', '1'): 
+            return True 
+        elif v.lower() in ('no', 'false', 'f', 'n', '0'):
+                                                
+            return False 
+        else: 
+            raise argparse.ArgumentTypeError('Boolean value expected.')
+
+    p = argparse.ArgumentParser()
+    p.add_argument('-f', "--file2proc", type=str, help='TCEQ geotam data file to process - processed data is saved to location of input file')
+    p.add_argument('--start_date', type=int, default = None, help='Process only dates after start_date')
+    p.add_argument('--end_date', type=int, default = None, help='Process only dates before end_date')
+    p.add_argument('--save_as_csv', type=bool, default = False, help='save file as csv as well as parquet')
+   
+    args = p.parse_args()
+
+    # By running the script directly from the command line, it is assumed the file intends to be saved so the save flag is always set to true
+    geotam_to_csv(geotam_txt_file = args.file2proc, date_start = args.start_date, date_end = args.end_date, save = True, save_csv = args.save_as_csv)
 
     
