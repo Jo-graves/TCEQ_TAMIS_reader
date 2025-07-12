@@ -1,2 +1,6 @@
 *cache*
 *test_data*
+dist
+*.whl
+*tar.gz
+*egg-info
