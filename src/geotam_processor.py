@@ -29,18 +29,14 @@ def dict_processer(dict):
     return final_dict
 
 
-def header_getter(filepath):
-    with open(filepath, newline = '', errors = 'ignore') as pracfile: #finds which line the header should be - always seems to be 1 less than expected (only if you use skip_blank_lines = false)
-            p = 0
-            rows = csv.reader(pracfile, delimiter = ',') #returns a list where each entry is the information in each row of the file (define delimiter as ,)
-            for row in rows:
-                p = p+1
-                if "State Cd" in row:
-                    # print(p)
-                    # print(row)
-                    # global TCEQ_Header # Why did I make this global?
-                    TCEQ_Header = p-1
-    return TCEQ_Header
+def get_header(filepath):
+    '''Gets header of filepath (e.g., where column headers are located)'''
+    with open(filepath, "r+") as pracfile: 
+            for id, line in enumerate(pracfile):
+                if "State Cd" in line:
+                    return id
+            
+            
 
 
 
@@ -51,66 +47,78 @@ def df_splitter(filepath):
     params = fr"{file_path}/ref_files/tceq_parameters.txt"
     units = fr"{file_path}/ref_files/tceq_units.txt"
 
-    if params not in sys.path:
-        sys.path.append(params)
 
-    if units not in sys.path:
-        sys.path.append(units)
-
-
-
-    TCEQ_Header = header_getter(filepath)        #get header from header_getter function
+    TCEQ_Header = get_header(filepath)        #get header from get_header function
 
 
     RD =  pd.read_csv(filepath, sep = ',', header = TCEQ_Header, #open csv
             skiprows = [], skip_blank_lines = False, encoding = 'ascii',
             encoding_errors = 'replace') 
+    
+    # print(RD)
     # print(RD.dropna(axis = 'columns'))
     RD.dropna(axis = 'columns', inplace = True ) #drop na values - there's usually a bunch
     RD['Datetime'] = RD['Date'].astype(str) + ' '  + RD['Time'] #combine date and time to form datetime
-    RD["dt_string"] = [datetime.strptime(i,'%Y%m%d %H:%M') for i in RD['Datetime']] #create datetime object from strings in "Datetime" - confusing switch this
 
-    Par_cd = RD.groupby('Parameter Cd') #create groupby object grouping by parameters - for creating keys later on
-    Unit_cd = RD.groupby('Unit Cd') #create groupby object grouping units - for connecting them to parameters later on 
-    parameter_keys =  [key for key, item in Par_cd] #make a list of the parameters (paramter codes - not names)
-    parameter_units =  [key for key, item in Unit_cd] #make a list of the units (unit codes - not names
-    #print(parameter_units)
+    RD["dt_string"] = pd.to_datetime(RD["Datetime"], format='%Y%m%d %H:%M')
 
-    try:
-        tceq_keys = pd.read_table(params) #open tceq parameter info file to match parameter codes to parameters
-        tceq_units = pd.read_table(units) #open tceq unit info file to match unit codes to units
+    # print(RD)
+    # RD["dt_string"] = [datetime.strptime(i,'%Y%m%d %H:%M') for i in RD['Datetime']] #create datetime object from strings in "Datetime" - confusing switch this
 
-    except:
-        tceq_keys = pd.read_table(f"{file_path}/ref_files/tceq_parameters.txt") #open tceq parameter info file to match parameter codes to parameters
-        tceq_units = pd.read_table(f"{file_path}ref_files/tceq_units.txt") #open tceq unit info file to match unit codes to units
+    print(RD)
+    # Par_cd = RD.groupby('Parameter Cd') #create groupby object grouping by parameters - for creating keys later on
+    # Unit_cd = RD.groupby('Unit Cd') #create groupby object grouping units - for connecting them to parameters later on 
+    # parameter_keys =  [key for key, item in Par_cd] #make a list of the parameters (paramter codes - not names)
+    # parameter_units =  [key for key, item in Unit_cd] #make a list of the units (unit codes - not names
+    # #print(parameter_units)
 
-    vals = [i for i in tceq_keys.index if tceq_keys.iloc[i,0] in parameter_keys] #compares tceq codes to parameter codes from parameter_keys list - if a parameter code in the tceq parameter file shows up in the data uploaded, it gets saves in this list
-    tceq_new = tceq_keys.iloc[vals] #truncate tceq_keys (parameter codes) df based on what is actually present
+    # try:
+    #     tceq_keys = pd.read_table(params) #open tceq parameter info file to match parameter codes to parameters
+    #     tceq_units = pd.read_table(units) #open tceq unit info file to match unit codes to units
 
-    unit_vals = [i for i in tceq_units.index if tceq_units.iloc[i,2] in parameter_units] #same as above but with units
-    tceq_unit_new = tceq_units.iloc[unit_vals]
+    # except:
+    #     tceq_keys = pd.read_table(f"{file_path}/ref_files/tceq_parameters.txt") #open tceq parameter info file to match parameter codes to parameters
+    #     tceq_units = pd.read_table(f"{file_path}ref_files/tceq_units.txt") #open tceq unit info file to match unit codes to units
 
-    parameters = list(tceq_new.iloc[:,1])
-    units = list(tceq_unit_new.iloc[:,1])
-    unit_codes = list(tceq_unit_new.iloc[:,2])
-    #print(f"units: {units}")
-    unit_dict = {}
-    param_dict = {}
-    my_dict = {}
+    # vals = [i for i in tceq_keys.index if tceq_keys.iloc[i,0] in parameter_keys] #compares tceq codes to parameter codes from parameter_keys list - if a parameter code in the tceq parameter file shows up in the data uploaded, it gets saves in this list
+    # tceq_new = tceq_keys.iloc[vals] #truncate tceq_keys (parameter codes) df based on what is actually present
 
-    for i in range(len(parameter_units)): 
-        unit_dict[unit_codes[i]] = units[i]
+    # unit_vals = [i for i in tceq_units.index if tceq_units.iloc[i,2] in parameter_units] #same as above but with units
+    # tceq_unit_new = tceq_units.iloc[unit_vals]
 
-    print(unit_dict)
+    # parameters = list(tceq_new.iloc[:,1])
+    # units = list(tceq_unit_new.iloc[:,1])
+    # unit_codes = list(tceq_unit_new.iloc[:,2])
+    # #print(f"units: {units}")
+    # unit_dict = {}
+    # param_dict = {}
+    # my_dict = {}
 
-    for i in range(len(parameter_keys)):
-        unit = unit_dict[Par_cd.get_group(parameter_keys[i]).iloc[0,8]]
-        param_dict[ parameter_keys[i]] = unit,  parameters[i]
-        my_dict[ parameters[i]] = unit,  Par_cd.get_group( parameter_keys[i])
+    # for i in range(len(parameter_units)): 
+    #     unit_dict[unit_codes[i]] = units[i]
 
-    return my_dict
+    # print(unit_dict)
 
+    # for i in range(len(parameter_keys)):
+    #     unit = unit_dict[Par_cd.get_group(parameter_keys[i]).iloc[0,8]]
+        # param_dict[ parameter_keys[i]] = unit,  parameters[i]
+        # my_dict[ parameters[i]] = unit,  Par_cd.get_group( parameter_keys[i])
 
+    # return my_dict
+
+def convert_ref_files():
+    file_path = Path(os.path.realpath(__file__)).parent
+
+    params = fr"{file_path}/ref_files/tceq_parameters.txt"
+    units = fr"{file_path}/ref_files/tceq_units.txt"
+
+    tceq_keys = pd.read_table(params) 
+    tceq_units = pd.read_table(units)
+
+    print(Path(params).with_suffix(".csv"))
+
+    tceq_keys.to_csv(Path(params).with_suffix(".csv"))
+    tceq_units.to_csv(Path(units).with_suffix(".csv"))
     
 
 def geotam_to_csv(geotam_txt_file, date_start = None, date_end = None, save = False, save_csv = False):
@@ -184,29 +192,40 @@ def geotam_to_csv(geotam_txt_file, date_start = None, date_end = None, save = Fa
 
 
 if __name__ == "__main__":
-    import sys
-    import argparse
 
-    def str2bool(v): 
-        if isinstance(v, bool): 
-            return v 
-        if v.lower() in ('yes', 'true', 't', 'y', '1'): 
-            return True 
-        elif v.lower() in ('no', 'false', 'f', 'n', '0'):
+    fpath = r"TCEQ_geotam_reader\tests\2023_kc_autogc_w_ws_wd.txt"
+
+    # df_splitter(fpath)
+    convert_ref_files()
+    # geotam_to_csv(fpath)
+    # header = get_header(fpath)
+
+    # print(header)
+
+
+    # import sys
+    # import argparse
+
+    # def str2bool(v): 
+    #     if isinstance(v, bool): 
+    #         return v 
+    #     if v.lower() in ('yes', 'true', 't', 'y', '1'): 
+    #         return True 
+    #     elif v.lower() in ('no', 'false', 'f', 'n', '0'):
                                                 
-            return False 
-        else: 
-            raise argparse.ArgumentTypeError('Boolean value expected.')
+    #         return False 
+    #     else: 
+    #         raise argparse.ArgumentTypeError('Boolean value expected.')
 
-    p = argparse.ArgumentParser()
-    p.add_argument('-f', "--file2proc", type=str, help='TCEQ geotam data file to process - processed data is saved to location of input file')
-    p.add_argument('--start_date', type=int, default = None, help='Process only dates after start_date')
-    p.add_argument('--end_date', type=int, default = None, help='Process only dates before end_date')
-    p.add_argument('--save_as_csv', type=bool, default = False, help='save file as csv as well as parquet')
+    # p = argparse.ArgumentParser()
+    # p.add_argument('-f', "--file2proc", type=str, help='TCEQ geotam data file to process - processed data is saved to location of input file')
+    # p.add_argument('--start_date', type=int, default = None, help='Process only dates after start_date')
+    # p.add_argument('--end_date', type=int, default = None, help='Process only dates before end_date')
+    # p.add_argument('--save_as_csv', type=bool, default = False, help='save file as csv as well as parquet')
    
-    args = p.parse_args()
+    # args = p.parse_args()
 
-    # By running the script directly from the command line, it is assumed the file intends to be saved so the save flag is always set to true
-    geotam_to_csv(geotam_txt_file = args.file2proc, date_start = args.start_date, date_end = args.end_date, save = True, save_csv = args.save_as_csv)
+    # # By running the script directly from the command line, it is assumed the file intends to be saved so the save flag is always set to true
+    # geotam_to_csv(geotam_txt_file = args.file2proc, date_start = args.start_date, date_end = args.end_date, save = True, save_csv = args.save_as_csv)
 
     
