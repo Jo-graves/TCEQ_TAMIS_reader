@@ -9,26 +9,6 @@ import sys
 import os
 
 
-class tceq_dataframes: #Create class for dataframes in the df_splitter dictionary 
-    def __init__(self,dicty, key):
-        self.parameter = key
-        self.dictionary = dicty[key][1]
-        self.unit = dicty[key][0]
-        self.values = dicty[key][1]["Value"]
-        self.dates = dicty[key][1]["dt_string"]
-        self.tuple = self.dates, self.values, self.unit, self.parameter
-        # self.units = dict[key][0]
-
-def dict_processer(dict):
-    final_dict = {}
-    for key in dict:
-        # print(keys)
-        dict[key][1].reset_index(drop = True)
-        process = tceq_dataframes(dict,key)
-        final_dict[key] = process
-    return final_dict
-
-
 def get_header(filepath):
     '''Gets header of filepath (e.g., where column headers are located)'''
     with open(filepath, "r+") as pracfile: 
@@ -37,8 +17,6 @@ def get_header(filepath):
                     return id
             
             
-
-
 
 def df_splitter(filepath):
 
@@ -83,33 +61,6 @@ def df_splitter(filepath):
     RD_u = RD_keys.merge(tceq_units, on = "Unit Cd", how = "inner")
     print(RD_u)
 
-    # print(tceq_units.columns, tceq_keys.columns)
-    # print(RD)
-    # print(tceq_keys)
-    # vals = [i for i in tceq_keys.index if tceq_keys.iloc[i,0] in parameter_keys] #compares tceq codes to parameter codes from parameter_keys list - if a parameter code in the tceq parameter file shows up in the data uploaded, it gets saves in this list
-    # tceq_new = tceq_keys.iloc[vals] #truncate tceq_keys (parameter codes) df based on what is actually present
-
-    # unit_vals = [i for i in tceq_units.index if tceq_units.iloc[i,2] in parameter_units] #same as above but with units
-    # tceq_unit_new = tceq_units.iloc[unit_vals]
-
-    # parameters = list(tceq_new.iloc[:,1])
-    # units = list(tceq_unit_new.iloc[:,1])
-    # unit_codes = list(tceq_unit_new.iloc[:,2])
-    # #print(f"units: {units}")
-    # unit_dict = {}
-    # param_dict = {}
-    # my_dict = {}
-
-    # for i in range(len(parameter_units)): 
-    #     unit_dict[unit_codes[i]] = units[i]
-
-    # print(unit_dict)
-
-    # for i in range(len(parameter_keys)):
-    #     unit = unit_dict[Par_cd.get_group(parameter_keys[i]).iloc[0,8]]
-    #     param_dict[ parameter_keys[i]] = unit,  parameters[i]
-    #     my_dict[ parameters[i]] = unit,  Par_cd.get_group( parameter_keys[i])
-    
     return RD_u
 
     # return my_dict
@@ -132,80 +83,57 @@ def convert_ref_files():
 def geotam_to_csv(geotam_txt_file, date_start = None, date_end = None, save = False, save_csv = False):
 
 
-    foo = df_splitter(geotam_txt_file)
+    df_out = df_splitter(geotam_txt_file)
 
+    df_out["Column_Name"] = "TCEQ " + df_out["Parameter Name"] + " (" + df_out["Unit Abbr"] + ")"
 
-    f = dict_processer(foo)
-    print(f.keys())
+    print(df_out)
 
-    for key in f.keys():
-        f[key].dictionary["units"]  = f[key].unit
-        f[key].dictionary["parameter"] = f[key].parameter
-        f[key].dictionary["Datetime - CST"] = [datetime.strptime(i, "%Y%m%d %H:%M").strftime("%Y-%m-%d %H:%M:%S") for i in f[key].dictionary["Datetime"]]
+    df_clean = df_out[["Value", "Column_Name", "dt_string"]]
 
+    print(df_clean)
 
-    df_list = [f[key].dictionary[["Datetime - CST", "parameter", "Value", "units"]] for key in f.keys()] 
-    df_pivot_list = [df.pivot(index='Datetime - CST', columns='parameter', values='Value') for df in df_list]
-    df_pivot_list_reset = [df.reset_index() for df in df_pivot_list]
-    df_to_check = df_pivot_list[0]
+    df_clean_piv = df_clean.pivot(index = "dt_string", values = "Value", columns="Column_Name")
+    print(df_clean_piv)
+    df_clean_piv["Datetime - CST"] = df_clean_piv.index.tz_localize("Etc/GMT+6")
+    df_clean_piv.reset_index(inplace = True, drop = True)
+    df_clean_piv.columns.name =None
 
-    # print(df_to_check)
+    print(df_clean_piv)
 
-
-    #I see I concatenated them...
-    # df_out = pd.concat(df_list)
-    df_out = reduce(lambda  x,y: pd.merge(x,y,on="Datetime - CST",
-                                                how='outer'), df_pivot_list_reset)
-
-    for column in df_out.columns:
-        if column != "Datetime - CST":
-            unit_for_col = f[column].dictionary["units"].iloc[0]
-            df_out.rename(columns = {f"{column}": f"TCEQ {column} ({unit_for_col})"}, inplace=True)
-            # print(unit_for_col)
-
-    # print(df_out)
-
-    df_out_sort = df_out.sort_values("Datetime - CST")
-    df_out_sort.reset_index(inplace = True, drop = True)
-
-    df_out_sort_copy = df_out_sort.copy().drop(columns = "Datetime - CST")
-    df_out_sort_copy['Datetime - CST'] = pd.to_datetime(df_out_sort["Datetime - CST"])
-
-    df_out_sort_copy["Datetime - CST"] = pd.DatetimeIndex(df_out_sort_copy["Datetime - CST"]).tz_localize("Etc/GMT+6")
-    df_out_sort_copy["Datetime - CDT"] = pd.DatetimeIndex(df_out_sort_copy["Datetime - CST"]).tz_convert("CST6CDT")
-
+  
     if date_start == None:
-        date_start = df_out_sort_copy["Datetime - CST"].iloc[0]
+        date_start = df_clean_piv["Datetime - CST"].iloc[0]
     else:
         date_start == date_start
 
     if date_end == None:
-        date_end = df_out_sort_copy["Datetime - CST"].iloc[-1]
+        date_end = df_clean_piv["Datetime - CST"].iloc[-1]
     else:
         date_end == date_end
 
-    df_out_sort_copy = df_out_sort_copy.copy()[df_out_sort_copy.copy()["Datetime - CST"].between(date_start, date_end)]
+    df_clean_piv = df_clean_piv.copy()[df_clean_piv.copy()["Datetime - CST"].between(date_start, date_end)]
 
     if save == True:
         if save_csv == True:
-                df_out_sort_copy.to_csv(Path(geotam_txt_file).with_suffix(".csv"))
+                df_clean_piv.to_csv(Path(geotam_txt_file).with_suffix(".csv"))
                 print(f"Processd file saved to: {Path(geotam_txt_file).with_suffix(".csv")}")
 
         
-        df_out_sort_copy.to_parquet(Path(geotam_txt_file).with_suffix(".gzip"))
+        df_clean_piv.to_parquet(Path(geotam_txt_file).with_suffix(".gzip"))
         print(f"Processd file saved to: {Path(geotam_txt_file).with_suffix(".gzip")}")
 
     
-    return df_out_sort_copy
+    return df_clean_piv
 
 
 if __name__ == "__main__":
 
     fpath = r".\tests\2023_kc_autogc_w_ws_wd.txt"
 
-    df_splitter(fpath)
+    # df_splitter(fpath)
     # convert_ref_files()
-    # geotam_to_csv(fpath)
+    geotam_to_csv(fpath, save = True, save_csv=True)
     # header = get_header(fpath)
 
     # print(header)
