@@ -37,11 +37,6 @@ def df_splitter(filepath):
     RD['Datetime'] = RD['Date'].astype(str) + ' '  + RD['Time'] #combine date and time to form datetime
     RD["dt_string"] = pd.to_datetime(RD["Datetime"], format='%Y%m%d %H:%M')
 
-    Par_cd = RD.groupby('Parameter Cd') #create groupby object grouping by parameters - for creating keys later on
-    Unit_cd = RD.groupby('Unit Cd') #create groupby object grouping units - for connecting them to parameters later on 
-    parameter_keys =  [key for key, item in Par_cd] #make a list of the parameters (paramter codes - not names)
-    parameter_units =  [key for key, item in Unit_cd] #make a list of the units (unit codes - not names
-    #print(parameter_units)
 
     try:
         tceq_keys = pd.read_table(params) #open tceq parameter info file to match parameter codes to parameters
