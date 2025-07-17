@@ -9,40 +9,14 @@ import sys
 import os
 
 
-class tceq_dataframes: #Create class for dataframes in the df_splitter dictionary 
-    def __init__(self,dicty, key):
-        self.parameter = key
-        self.dictionary = dicty[key][1]
-        self.unit = dicty[key][0]
-        self.values = dicty[key][1]["Value"]
-        self.dates = dicty[key][1]["dt_string"]
-        self.tuple = self.dates, self.values, self.unit, self.parameter
-        # self.units = dict[key][0]
-
-def dict_processer(dict):
-    final_dict = {}
-    for key in dict:
-        # print(keys)
-        dict[key][1].reset_index(drop = True)
-        process = tceq_dataframes(dict,key)
-        final_dict[key] = process
-    return final_dict
-
-
-def header_getter(filepath):
-    with open(filepath, newline = '', errors = 'ignore') as pracfile: #finds which line the header should be - always seems to be 1 less than expected (only if you use skip_blank_lines = false)
-            p = 0
-            rows = csv.reader(pracfile, delimiter = ',') #returns a list where each entry is the information in each row of the file (define delimiter as ,)
-            for row in rows:
-                p = p+1
-                if "State Cd" in row:
-                    # print(p)
-                    # print(row)
-                    # global TCEQ_Header # Why did I make this global?
-                    TCEQ_Header = p-1
-    return TCEQ_Header
-
-
+def get_header(filepath):
+    '''Gets header of filepath (e.g., where column headers are located)'''
+    with open(filepath, "r+") as pracfile: 
+            for id, line in enumerate(pracfile):
+                if "State Cd" in line:
+                    return id
+            
+            
 
 def df_splitter(filepath):
 
@@ -51,24 +25,17 @@ def df_splitter(filepath):
     params = fr"{file_path}/ref_files/tceq_parameters.txt"
     units = fr"{file_path}/ref_files/tceq_units.txt"
 
-    if params not in sys.path:
-        sys.path.append(params)
 
-    if units not in sys.path:
-        sys.path.append(units)
-
-
-
-    TCEQ_Header = header_getter(filepath)        #get header from header_getter function
+    TCEQ_Header = get_header(filepath)        #get header from get_header function
 
 
     RD =  pd.read_csv(filepath, sep = ',', header = TCEQ_Header, #open csv
             skiprows = [], skip_blank_lines = False, encoding = 'ascii',
             encoding_errors = 'replace') 
-    # print(RD.dropna(axis = 'columns'))
+    
     RD.dropna(axis = 'columns', inplace = True ) #drop na values - there's usually a bunch
     RD['Datetime'] = RD['Date'].astype(str) + ' '  + RD['Time'] #combine date and time to form datetime
-    RD["dt_string"] = [datetime.strptime(i,'%Y%m%d %H:%M') for i in RD['Datetime']] #create datetime object from strings in "Datetime" - confusing switch this
+    RD["dt_string"] = pd.to_datetime(RD["Datetime"], format='%Y%m%d %H:%M')
 
     Par_cd = RD.groupby('Parameter Cd') #create groupby object grouping by parameters - for creating keys later on
     Unit_cd = RD.groupby('Unit Cd') #create groupby object grouping units - for connecting them to parameters later on 
@@ -84,129 +51,117 @@ def df_splitter(filepath):
         tceq_keys = pd.read_table(f"{file_path}/ref_files/tceq_parameters.txt") #open tceq parameter info file to match parameter codes to parameters
         tceq_units = pd.read_table(f"{file_path}ref_files/tceq_units.txt") #open tceq unit info file to match unit codes to units
 
-    vals = [i for i in tceq_keys.index if tceq_keys.iloc[i,0] in parameter_keys] #compares tceq codes to parameter codes from parameter_keys list - if a parameter code in the tceq parameter file shows up in the data uploaded, it gets saves in this list
-    tceq_new = tceq_keys.iloc[vals] #truncate tceq_keys (parameter codes) df based on what is actually present
 
-    unit_vals = [i for i in tceq_units.index if tceq_units.iloc[i,2] in parameter_units] #same as above but with units
-    tceq_unit_new = tceq_units.iloc[unit_vals]
+    tceq_keys.rename(columns = {"Parm Code": "Parameter Cd", "Name":"Parameter Name"}, inplace = True)
+    tceq_units.rename(columns = {"Code": "Unit Cd", "Description": "Unit Description", "Abbr": "Unit Abbr", "Type": "Unit Type"}, inplace = True)
 
-    parameters = list(tceq_new.iloc[:,1])
-    units = list(tceq_unit_new.iloc[:,1])
-    unit_codes = list(tceq_unit_new.iloc[:,2])
-    #print(f"units: {units}")
-    unit_dict = {}
-    param_dict = {}
-    my_dict = {}
+    # print(tceq_units.columns)
+    tceq_units.rename(columns = {"Code": "Unit Cd"}, inplace = True)
+    RD_keys = RD.merge(tceq_keys, on = "Parameter Cd", how = "inner")
+    RD_u = RD_keys.merge(tceq_units, on = "Unit Cd", how = "inner")
+    print(RD_u)
 
-    for i in range(len(parameter_units)): 
-        unit_dict[unit_codes[i]] = units[i]
+    return RD_u
 
-    print(unit_dict)
+    # return my_dict
 
-    for i in range(len(parameter_keys)):
-        unit = unit_dict[Par_cd.get_group(parameter_keys[i]).iloc[0,8]]
-        param_dict[ parameter_keys[i]] = unit,  parameters[i]
-        my_dict[ parameters[i]] = unit,  Par_cd.get_group( parameter_keys[i])
+def convert_ref_files():
+    file_path = Path(os.path.realpath(__file__)).parent
 
-    return my_dict
+    params = fr"{file_path}/ref_files/tceq_parameters.txt"
+    units = fr"{file_path}/ref_files/tceq_units.txt"
 
+    tceq_keys = pd.read_table(params) 
+    tceq_units = pd.read_table(units)
 
+    print(Path(params).with_suffix(".csv"))
+
+    tceq_keys.to_csv(Path(params).with_suffix(".csv"))
+    tceq_units.to_csv(Path(units).with_suffix(".csv"))
     
 
 def geotam_to_csv(geotam_txt_file, date_start = None, date_end = None, save = False, save_csv = False):
 
 
-    foo = df_splitter(geotam_txt_file)
+    df_out = df_splitter(geotam_txt_file)
 
+    df_out["Column_Name"] = "TCEQ " + df_out["Parameter Name"] + " (" + df_out["Unit Abbr"] + ")"
 
-    f = dict_processer(foo)
-    print(f.keys())
+    print(df_out)
 
-    for key in f.keys():
-        f[key].dictionary["units"]  = f[key].unit
-        f[key].dictionary["parameter"] = f[key].parameter
-        f[key].dictionary["Datetime - CST"] = [datetime.strptime(i, "%Y%m%d %H:%M").strftime("%Y-%m-%d %H:%M:%S") for i in f[key].dictionary["Datetime"]]
+    df_clean = df_out[["Value", "Column_Name", "dt_string"]]
 
+    print(df_clean)
 
-    df_list = [f[key].dictionary[["Datetime - CST", "parameter", "Value", "units"]] for key in f.keys()] 
-    df_pivot_list = [df.pivot(index='Datetime - CST', columns='parameter', values='Value') for df in df_list]
-    df_pivot_list_reset = [df.reset_index() for df in df_pivot_list]
-    df_to_check = df_pivot_list[0]
+    df_clean_piv = df_clean.pivot(index = "dt_string", values = "Value", columns="Column_Name")
+    print(df_clean_piv)
+    df_clean_piv["Datetime - CST"] = df_clean_piv.index.tz_localize("Etc/GMT+6")
+    df_clean_piv.reset_index(inplace = True, drop = True)
+    df_clean_piv.columns.name =None
 
-    # print(df_to_check)
+    print(df_clean_piv)
 
-
-    #I see I concatenated them...
-    # df_out = pd.concat(df_list)
-    df_out = reduce(lambda  x,y: pd.merge(x,y,on="Datetime - CST",
-                                                how='outer'), df_pivot_list_reset)
-
-    for column in df_out.columns:
-        if column != "Datetime - CST":
-            unit_for_col = f[column].dictionary["units"].iloc[0]
-            df_out.rename(columns = {f"{column}": f"TCEQ {column} ({unit_for_col})"}, inplace=True)
-            # print(unit_for_col)
-
-    # print(df_out)
-
-    df_out_sort = df_out.sort_values("Datetime - CST")
-    df_out_sort.reset_index(inplace = True, drop = True)
-
-    df_out_sort_copy = df_out_sort.copy().drop(columns = "Datetime - CST")
-    df_out_sort_copy['Datetime - CST'] = pd.to_datetime(df_out_sort["Datetime - CST"])
-
-    df_out_sort_copy["Datetime - CST"] = pd.DatetimeIndex(df_out_sort_copy["Datetime - CST"]).tz_localize("Etc/GMT+6")
-    df_out_sort_copy["Datetime - CDT"] = pd.DatetimeIndex(df_out_sort_copy["Datetime - CST"]).tz_convert("CST6CDT")
-
+  
     if date_start == None:
-        date_start = df_out_sort_copy["Datetime - CST"].iloc[0]
+        date_start = df_clean_piv["Datetime - CST"].iloc[0]
     else:
         date_start == date_start
 
     if date_end == None:
-        date_end = df_out_sort_copy["Datetime - CST"].iloc[-1]
+        date_end = df_clean_piv["Datetime - CST"].iloc[-1]
     else:
         date_end == date_end
 
-    df_out_sort_copy = df_out_sort_copy.copy()[df_out_sort_copy.copy()["Datetime - CST"].between(date_start, date_end)]
+    df_clean_piv = df_clean_piv.copy()[df_clean_piv.copy()["Datetime - CST"].between(date_start, date_end)]
 
     if save == True:
         if save_csv == True:
-                df_out_sort_copy.to_csv(Path(geotam_txt_file).with_suffix(".csv"))
+                df_clean_piv.to_csv(Path(geotam_txt_file).with_suffix(".csv"))
                 print(f"Processd file saved to: {Path(geotam_txt_file).with_suffix(".csv")}")
 
         
-        df_out_sort_copy.to_parquet(Path(geotam_txt_file).with_suffix(".gzip"))
+        df_clean_piv.to_parquet(Path(geotam_txt_file).with_suffix(".gzip"))
         print(f"Processd file saved to: {Path(geotam_txt_file).with_suffix(".gzip")}")
 
     
-    return df_out_sort_copy
+    return df_clean_piv
 
 
 if __name__ == "__main__":
-    import sys
-    import argparse
 
-    def str2bool(v): 
-        if isinstance(v, bool): 
-            return v 
-        if v.lower() in ('yes', 'true', 't', 'y', '1'): 
-            return True 
-        elif v.lower() in ('no', 'false', 'f', 'n', '0'):
+    fpath = r".\tests\2023_kc_autogc_w_ws_wd.txt"
+
+    # df_splitter(fpath)
+    # convert_ref_files()
+    geotam_to_csv(fpath, save = True, save_csv=True)
+    # header = get_header(fpath)
+
+    # print(header)
+
+
+    # import sys
+    # import argparse
+
+    # def str2bool(v): 
+    #     if isinstance(v, bool): 
+    #         return v 
+    #     if v.lower() in ('yes', 'true', 't', 'y', '1'): 
+    #         return True 
+    #     elif v.lower() in ('no', 'false', 'f', 'n', '0'):
                                                 
-            return False 
-        else: 
-            raise argparse.ArgumentTypeError('Boolean value expected.')
+    #         return False 
+    #     else: 
+    #         raise argparse.ArgumentTypeError('Boolean value expected.')
 
-    p = argparse.ArgumentParser()
-    p.add_argument('-f', "--file2proc", type=str, help='TCEQ geotam data file to process - processed data is saved to location of input file')
-    p.add_argument('--start_date', type=int, default = None, help='Process only dates after start_date')
-    p.add_argument('--end_date', type=int, default = None, help='Process only dates before end_date')
-    p.add_argument('--save_as_csv', type=bool, default = False, help='save file as csv as well as parquet')
+    # p = argparse.ArgumentParser()
+    # p.add_argument('-f', "--file2proc", type=str, help='TCEQ geotam data file to process - processed data is saved to location of input file')
+    # p.add_argument('--start_date', type=int, default = None, help='Process only dates after start_date')
+    # p.add_argument('--end_date', type=int, default = None, help='Process only dates before end_date')
+    # p.add_argument('--save_as_csv', type=bool, default = False, help='save file as csv as well as parquet')
    
-    args = p.parse_args()
+    # args = p.parse_args()
 
-    # By running the script directly from the command line, it is assumed the file intends to be saved so the save flag is always set to true
-    geotam_to_csv(geotam_txt_file = args.file2proc, date_start = args.start_date, date_end = args.end_date, save = True, save_csv = args.save_as_csv)
+    # # By running the script directly from the command line, it is assumed the file intends to be saved so the save flag is always set to true
+    # geotam_to_csv(geotam_txt_file = args.file2proc, date_start = args.start_date, date_end = args.end_date, save = True, save_csv = args.save_as_csv)
 
     

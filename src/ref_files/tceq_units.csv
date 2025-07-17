@@ -1,0 +1,37 @@
+,Description,Abbr,Code,Type
+0,Beta Light Scatter,Beta Scat,27,BetaLightScatter
+1,"Coefficient of Haze per 1,000 linear feet.","COHS/1,000 Linear Ft",9,Soiling Index
+2,CUBIC METER,m3,65,Volume
+3,DEGREES CENTIGRADE,Deg C,17,Temp
+4,DEGREES FAHRENHEIT,Deg F,15,Temp
+5,"DEGREES, COMPASS",deg,14,CompassBearing
+6,INCHES (RAINFALL),in. (rain),21,Length
+7,Inverse of Micrograms per Cubic Meter,(ug/m3)-1,936,MassDensity
+8,Inverse of Milligrams (of substance) per Kilogram (of human body mass) per Day,(mg/kg-day)-1,938,MassRatio
+9,Inverse of Parts per Billion,ppb-1,935,VolRatio
+10,KNOTS,Knots,13,Speed
+11,LANGLEYS/MINUTE,Langy/min,25,Power/Area
+12,Microgram,ug,77,Mass
+13,Micrograms per Cubic Meter,ug/m3,933,MassDensity
+14,MILES (VISIBILITY),mi,24,Length
+15,MILES/HOUR,mph,12,Speed
+16,MILLIBARS,Millibars,16,PressureAbs
+17,Milligrams (of substance) per Kilogram (of human body mass) per Day,mg/kg-day,937,MassRatio
+18,Milligrams per Cubic Meter,mg/m3,934,MassDensity
+19,MILLIMETERS (MERCURY),mm (Hg),59,PressureAbs
+20,MILLIMETERS (RAINFALL),mm (rain),29,Length
+21,Millivolts,mv,902,Electric Potential
+22,Minutes,Min,106,Elapse Time
+23,Nanogram,ng,921,Mass
+24,Nanograms,ng,125,Mass
+25,NG/CU METER (25 C),ng/m3 (25 C),3,MassDensity
+26,Parts per Billion,ppb,932,VolRatio
+27,PARTS PER BILLION BY VOLUME,ppbv,8,VolRatio
+28,PARTS PER BILLION CARBON,ppb C,78,CarbonVolRatio
+29,PARTS PER MILLION BY VOLUME,ppmv,7,VolRatio
+30,PARTS PER MILLION CARBON,ppm C,101,CarbonVolRatio
+31,PERCENT,%,107,Number
+32,PERCENT RELATIVE HUMIDITY,%RH,19,Relative Humidity
+33,PICOCURIES/CU. METER,picocuries/m3,30,Radioactivity Density
+34,UG/CU METER (25 C),ug/m3 (25 C),1,MassDensity
+35,UG/CU Meter (LC),ug/m3 (LC),105,MassDensityLc
