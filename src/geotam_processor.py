@@ -55,31 +55,37 @@ def df_splitter(filepath):
             skiprows = [], skip_blank_lines = False, encoding = 'ascii',
             encoding_errors = 'replace') 
     
-    # print(RD)
-    # print(RD.dropna(axis = 'columns'))
     RD.dropna(axis = 'columns', inplace = True ) #drop na values - there's usually a bunch
     RD['Datetime'] = RD['Date'].astype(str) + ' '  + RD['Time'] #combine date and time to form datetime
-
     RD["dt_string"] = pd.to_datetime(RD["Datetime"], format='%Y%m%d %H:%M')
 
+    Par_cd = RD.groupby('Parameter Cd') #create groupby object grouping by parameters - for creating keys later on
+    Unit_cd = RD.groupby('Unit Cd') #create groupby object grouping units - for connecting them to parameters later on 
+    parameter_keys =  [key for key, item in Par_cd] #make a list of the parameters (paramter codes - not names)
+    parameter_units =  [key for key, item in Unit_cd] #make a list of the units (unit codes - not names
+    #print(parameter_units)
+
+    try:
+        tceq_keys = pd.read_table(params) #open tceq parameter info file to match parameter codes to parameters
+        tceq_units = pd.read_table(units) #open tceq unit info file to match unit codes to units
+
+    except:
+        tceq_keys = pd.read_table(f"{file_path}/ref_files/tceq_parameters.txt") #open tceq parameter info file to match parameter codes to parameters
+        tceq_units = pd.read_table(f"{file_path}ref_files/tceq_units.txt") #open tceq unit info file to match unit codes to units
+
+
+    tceq_keys.rename(columns = {"Parm Code": "Parameter Cd", "Name":"Parameter Name"}, inplace = True)
+    tceq_units.rename(columns = {"Code": "Unit Cd", "Description": "Unit Description", "Abbr": "Unit Abbr", "Type": "Unit Type"}, inplace = True)
+
+    # print(tceq_units.columns)
+    tceq_units.rename(columns = {"Code": "Unit Cd"}, inplace = True)
+    RD_keys = RD.merge(tceq_keys, on = "Parameter Cd", how = "inner")
+    RD_u = RD_keys.merge(tceq_units, on = "Unit Cd", how = "inner")
+    print(RD_u)
+
+    # print(tceq_units.columns, tceq_keys.columns)
     # print(RD)
-    # RD["dt_string"] = [datetime.strptime(i,'%Y%m%d %H:%M') for i in RD['Datetime']] #create datetime object from strings in "Datetime" - confusing switch this
-
-    print(RD)
-    # Par_cd = RD.groupby('Parameter Cd') #create groupby object grouping by parameters - for creating keys later on
-    # Unit_cd = RD.groupby('Unit Cd') #create groupby object grouping units - for connecting them to parameters later on 
-    # parameter_keys =  [key for key, item in Par_cd] #make a list of the parameters (paramter codes - not names)
-    # parameter_units =  [key for key, item in Unit_cd] #make a list of the units (unit codes - not names
-    # #print(parameter_units)
-
-    # try:
-    #     tceq_keys = pd.read_table(params) #open tceq parameter info file to match parameter codes to parameters
-    #     tceq_units = pd.read_table(units) #open tceq unit info file to match unit codes to units
-
-    # except:
-    #     tceq_keys = pd.read_table(f"{file_path}/ref_files/tceq_parameters.txt") #open tceq parameter info file to match parameter codes to parameters
-    #     tceq_units = pd.read_table(f"{file_path}ref_files/tceq_units.txt") #open tceq unit info file to match unit codes to units
-
+    # print(tceq_keys)
     # vals = [i for i in tceq_keys.index if tceq_keys.iloc[i,0] in parameter_keys] #compares tceq codes to parameter codes from parameter_keys list - if a parameter code in the tceq parameter file shows up in the data uploaded, it gets saves in this list
     # tceq_new = tceq_keys.iloc[vals] #truncate tceq_keys (parameter codes) df based on what is actually present
 
@@ -101,8 +107,10 @@ def df_splitter(filepath):
 
     # for i in range(len(parameter_keys)):
     #     unit = unit_dict[Par_cd.get_group(parameter_keys[i]).iloc[0,8]]
-        # param_dict[ parameter_keys[i]] = unit,  parameters[i]
-        # my_dict[ parameters[i]] = unit,  Par_cd.get_group( parameter_keys[i])
+    #     param_dict[ parameter_keys[i]] = unit,  parameters[i]
+    #     my_dict[ parameters[i]] = unit,  Par_cd.get_group( parameter_keys[i])
+    
+    return RD_u
 
     # return my_dict
 
@@ -193,10 +201,10 @@ def geotam_to_csv(geotam_txt_file, date_start = None, date_end = None, save = Fa
 
 if __name__ == "__main__":
 
-    fpath = r"TCEQ_geotam_reader\tests\2023_kc_autogc_w_ws_wd.txt"
+    fpath = r".\tests\2023_kc_autogc_w_ws_wd.txt"
 
-    # df_splitter(fpath)
-    convert_ref_files()
+    df_splitter(fpath)
+    # convert_ref_files()
     # geotam_to_csv(fpath)
     # header = get_header(fpath)
 
