@@ -1,11 +1,5 @@
 import pandas as pd
-import csv
-from datetime import datetime
 from pathlib import Path
-from functools import reduce
-from datetime import datetime
-from functools import reduce
-import sys
 import os
 
 
@@ -90,26 +84,22 @@ def convert_ref_files():
 def geotam_to_csv(geotam_txt_file, date_start = None, date_end = None, save = False, saved_file_type = "csv"):
 
 
+    # Process data
     df_out = df_splitter(geotam_txt_file)
 
     df_out["Column_Name"] = "TCEQ " + df_out["Parameter Name"] + " (" + df_out["Unit Abbr"] + ")"
 
-    #print(df_out)
 
     df_clean = df_out[["Value", "Column_Name", "dt_string", "Site Name", "Site ID"]]
 
-    #print(df_clean)
-
     df_clean_piv = df_clean.pivot(index = ["dt_string", "Site Name", "Site ID"], values = "Value", columns="Column_Name").reset_index()
     df_clean_piv.set_index("dt_string", inplace = True)
-    #print(df_clean_piv)
     df_clean_piv.insert(2, "Datetime - CST", df_clean_piv.index.tz_localize("Etc/GMT+6"))
     df_clean_piv.reset_index(inplace = True, drop = True)
     df_clean_piv.columns.name =None
 
-    #print(df_clean_piv)
-
   
+    # Get only specified dates
     if date_start == None:
         date_start = df_clean_piv["Datetime - CST"].iloc[0]
     else:
@@ -122,6 +112,8 @@ def geotam_to_csv(geotam_txt_file, date_start = None, date_end = None, save = Fa
 
     df_clean_piv = df_clean_piv.copy()[df_clean_piv.copy()["Datetime - CST"].between(date_start, date_end)]
 
+
+    # Saving functions
     if save == True:
 
         if saved_file_type == "csv":
@@ -132,39 +124,37 @@ def geotam_to_csv(geotam_txt_file, date_start = None, date_end = None, save = Fa
             df_clean_piv.to_parquet(Path(geotam_txt_file).with_suffix(".gzip"))
             print(f"Processd file saved to: {Path(geotam_txt_file).with_suffix(".gzip")}")
 
-    print(df_clean_piv.columns)
+    # print(df_clean_piv.columns)
     
     return df_clean_piv
 
 
 if __name__ == "__main__":
      
-    fpath = Path(os.path.realpath(__file__)).parent
-    geotam_to_csv(f"{fpath}/../tests/2023_kc_autogc_w_ws_wd.txt", save = True, saved_file_type="csv")
 
-    # import sys
-    # import argparse
+    import sys
+    import argparse
 
-    # def str2bool(v): 
-    #     if isinstance(v, bool): 
-    #         return v 
-    #     if v.lower() in ('yes', 'true', 't', 'y', '1'): 
-    #         return True 
-    #     elif v.lower() in ('no', 'false', 'f', 'n', '0'):
+    def str2bool(v): 
+        if isinstance(v, bool): 
+            return v 
+        if v.lower() in ('yes', 'true', 't', 'y', '1'): 
+            return True 
+        elif v.lower() in ('no', 'false', 'f', 'n', '0'):
                                                 
-    #         return False 
-    #     else: 
-    #         raise argparse.ArgumentTypeError('Boolean value expected.')
+            return False 
+        else: 
+            raise argparse.ArgumentTypeError('Boolean value expected.')
 
-    # p = argparse.ArgumentParser()
-    # p.add_argument('-f', "--file2proc", type=str, help='TCEQ geotam data file to process - processed data is saved to location of input file')
-    # p.add_argument('--start_date', type=int, default = None, help='Process only dates after start_date')
-    # p.add_argument('--end_date', type=int, default = None, help='Process only dates before end_date')
-    # p.add_argument('--saved_file_type', type=bool, default = False, help='save file as csv as well as parquet')
+    p = argparse.ArgumentParser()
+    p.add_argument('-f', "--file2proc", type=str, help='TCEQ geotam data file to process - processed data is saved to location of input file')
+    p.add_argument('--start_date', type=int, default = None, help='Process only dates after start_date')
+    p.add_argument('--end_date', type=int, default = None, help='Process only dates before end_date')
+    p.add_argument('--saved_file_type', type=bool, default = False, help='save file as csv as well as parquet')
    
-    # args = p.parse_args()
+    args = p.parse_args()
 
-    # # By running the script directly from the command line, it is assumed the file intends to be saved so the save flag is always set to true
-    # geotam_to_csv(geotam_txt_file = args.file2proc, date_start = args.start_date, date_end = args.end_date, save = True, saved_file_type = args.saved_file_type)
+    # By running the script directly from the command line, it is assumed the file intends to be saved so the save flag is always set to true
+    geotam_to_csv(geotam_txt_file = args.file2proc, date_start = args.start_date, date_end = args.end_date, save = True, saved_file_type = args.saved_file_type)
 
     
