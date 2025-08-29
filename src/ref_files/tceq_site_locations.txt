@@ -1,0 +1,221 @@
+AQS Code	CAMS	TCEQ Region	Reg#	Site Name	Street Address	Activation Date	Owned By
+480131090	1090	SAN ANTONIO	13	Von Ormy Highway 16	17534 North State Highway 16 	29-May-2020	TCEQ
+480211612	1612	AUSTIN	11	CAPCOG Bastrop	25 American Legion Drive 	25-Feb-2019	Capital Area Council of Governments
+480211613	1613	AUSTIN	11	CAPCOG Elgin	900 E 2nd Street 	25-Feb-2019	Capital Area Council of Governments
+480271045	1045	WACO	09	Temple Georgia	8406 Georgia Avenue 	04-Oct-2013	TCEQ
+480271047	1047	WACO	09	Killeen Skylark Field	1605 Stone Tree Drive 	11-Jun-2009	TCEQ
+480290032	0023	SAN ANTONIO	13	San Antonio Northwest	6655 Bluebird Lane 	01-Jul-1981	TCEQ
+480290052	0058	SAN ANTONIO	13	Camp Bullis	F Range (1000Yd marker off Wilderness Trail) Near Wilderness Rd	10-Aug-1998	TCEQ
+480290055	0678	SAN ANTONIO	13	CPS Pecan Valley	802 Pecan Valley Drive 	11-Mar-1999	San Antonio City Public Services
+480290059	0059	SAN ANTONIO	13	Calaveras Lake	14620 Laguna Rd 	12-May-1998	TCEQ
+480290060	9999	SAN ANTONIO	13	Frank Wing Municipal Court	401 South Frio St 	18-May-2000	TCEQ
+480290501	0501	SAN ANTONIO	13	Elm Creek Elementary	11535  Pearsall Rd 	17-Jun-2002	Alamo Area Council of Governments
+480290502	0502	SAN ANTONIO	13	Fair Oaks Ranch	7286 Dietz Elkhorn Rd 	27-Jun-2002	Alamo Area Council of Governments
+480290622	0622	SAN ANTONIO	13	Heritage Middle School	7145 Gardner Road 	29-Jul-2004	San Antonio City Public Services
+480290623	0623	SAN ANTONIO	13	Gardner Rd. Gas Sub-Station	9599 Gardner Road 	28-Jun-2005	San Antonio City Public Services
+480290625	0625	SAN ANTONIO	13	Gate 9A CPS	12941 Cassiano Road 	01-Jun-2005	San Antonio City Public Services
+480290626	0626	SAN ANTONIO	13	Gate 58 CPS	1100 Hildebrandt 	01-Jun-2005	San Antonio City Public Services
+480290677	0677	SAN ANTONIO	13	Old Hwy 90	911 Old Hwy 90 West 	09-Oct-2006	TCEQ
+480291069	1069	SAN ANTONIO	13	San Antonio Interstate 35	9904 IH 35 N 	08-Jan-2014	TCEQ
+480291087	1087	SAN ANTONIO	13	San Antonio Bulverde Parkway	3843 Bulverde Parkway 	05-Nov-2019	TCEQ
+480291091	1091	SAN ANTONIO	13	San Antonio Red Hill Lane	2600 Red Hill Lane 	20-May-2020	TCEQ
+480291097	1097	SAN ANTONIO	13	San Antonio Interstate 10 West	5821 Interstate 10 West 	31-Mar-2025	TCEQ
+480291609	1609	SAN ANTONIO	13	Calaveras Lake Park	12965 Bernhardt Road 	09-Aug-2017	San Antonio City Public Services
+480291610	1610	SAN ANTONIO	13	Government Canyon	12861 Galm Rd 	29-Aug-2017	Alamo Area Council of Governments
+480371031	1031	TYLER	05	Texarkana New Boston	2700 New Boston Rd 	23-Mar-2016	TCEQ
+480391003	0011	HOUSTON	12	Clute	426 Commerce Street 	01-Jan-1974	TCEQ
+480391004	0084	HOUSTON	12	Manvel Croix Park	4503 Croix Pkwy 	23-Aug-2001	TCEQ
+480391012	1012	HOUSTON	12	Freeport South Avenue I	207 South Avenue I 	25-May-2011	TCEQ
+480391016	1016	HOUSTON	12	Lake Jackson	109B  Brazoria Hwy 332 West 	10-Jun-2003	TCEQ
+480391607	1607	HOUSTON	12	Oyster Creek	901 County Road 792 	14-Dec-2016	Freeport LNG
+480411086	1086	WACO	09	Bryan Finfeather Road	3670 Finfeather Road 	27-Feb-2020	TCEQ
+480430101	0067, 0316, 0656, 0691	EL PASO	06	Bravo Big Bend	Big Bend National Park 	01-Oct-1990	National Park Service
+480551604	1604	AUSTIN	11	Lockhart	214 Bufkin Lane 	24-Apr-2014	Capital Area Council of Governments
+480611023	1023	HARLINGEN	15	Harlingen Teege	1602 W Teege Avenue 	09-Oct-2012	TCEQ
+480611098	1098	HARLINGEN	15	Brownsville East 6th Street	85 East 6th Street 	05-Apr-2023	TCEQ
+480612004	0323, 0667	HARLINGEN	15	Isla Blanca State Park Road	33174 State Park Road 100 	01-Aug-2005	TCEQ
+480850005	0031, 0680	DALLAS/FORT WORTH	04	Frisco	6590 Hillcrest Road 	07-May-1992	TCEQ
+480850009	1010	DALLAS/FORT WORTH	04	Frisco Eubanks	6601 Eubanks 	15-Jan-1995	TCEQ
+480850029	9998	DALLAS/FORT WORTH	04	Frisco Stonebrook	7202 Stonebrook Parkway 	07-Jan-2011	TCEQ
+480910503	0503	SAN ANTONIO	13	Bulverde Elementary	1715 E Ammann Road 	27-Aug-2002	Alamo Area Council of Governments
+480910505	0505	SAN ANTONIO	13	City of Garden Ridge	21340 FM 3009 	25-Mar-2003	Alamo Area Council of Governments
+480911088	1088	SAN ANTONIO	13	New Braunfels Oak Run Parkway	3350 Oak Run Parkway 	13-Oct-2019	TCEQ
+480971504	1504	DALLAS/FORT WORTH	04	Gainesville Doss Street	1112 Doss Street 	01-Oct-2013	North Texas Commission
+481130050	0312	DALLAS/FORT WORTH	04	Convention Center	717 South Akard 	01-Jan-1979	TCEQ
+481130061	9997	DALLAS/FORT WORTH	04	Earhart	3434 Bickers (Earhart Elem School) 	01-Jan-2009	TCEQ
+481130069	0060, 0161, 0401, 3002	DALLAS/FORT WORTH	04	Dallas Hinton	1415 Hinton Street 	01-Jan-1986	TCEQ
+481130075	0063, 0679	DALLAS/FORT WORTH	04	Dallas North #2	12532 1/2 Nuestra Drive 	02-Nov-1998	TCEQ
+481130087	0402	DALLAS/FORT WORTH	04	Dallas Redbird Airport Executive	3277 W Redbird Lane 	01-Jan-1995	TCEQ
+481131067	1067	DALLAS/FORT WORTH	04	Dallas LBJ Freeway	8652 LBJ Freeway 	01-Apr-2014	TCEQ
+481131096	1096	DALLAS/FORT WORTH	04	Dallas Bexar Street	5800 Bexar Street 	07-Sep-2021	TCEQ
+481131500	1500	DALLAS/FORT WORTH	04	Lancaster Cedardale	1930 Cedardale Road 	01-Sep-2013	North Texas Commission
+481131505	1505	DALLAS/FORT WORTH	04	Dallas Elm Fork	2171 Manana Drive 	18-Nov-2013	North Texas Commission
+481210034	0056, 0157, 0163	DALLAS/FORT WORTH	04	Denton Airport South	Denton Airport South 	16-Feb-1998	TCEQ
+481211007	1007	DALLAS/FORT WORTH	04	Flower Mound Shiloh	4401 Shiloh Road 	27-Oct-2010	North Texas Commission
+481211013	1013	DALLAS/FORT WORTH	04	DISH Airfield	9800 Clark Airport Road 	31-Mar-2010	North Texas Commission
+481211032	1032	DALLAS/FORT WORTH	04	Pilot Point	792 E Northside Dr 	04-Apr-2006	TCEQ
+481350003	0047, 0122	MIDLAND	07	Odessa-Hays Elementary School	Barrett &amp; Monahans Streets 	02-Feb-1993	TCEQ
+481351014	1014	MIDLAND	07	Odessa Gonzales	2700 Disney 	06-Jun-2002	TCEQ
+481351092	1092	MIDLAND	07	Odessa Westmark Street	11695 West Westmark Street 	24-Sep-2020	TCEQ
+481351093	1093	MIDLAND	07	Goldsmith Street	520 North Goldsmith Street 	07-Nov-2020	TCEQ
+481391044	1044	DALLAS/FORT WORTH	04	Italy	900 FM 667 Ellis County 	21-Aug-2007	TCEQ
+481410029	0414	EL PASO	06	Ivanhoe	10834 Ivanhoe (Ivanhoe Fire Station) 	01-Jan-1979	TCEQ
+481410038	0418	EL PASO	06	El Paso Mimosa	7501 Mimosa Avenue 	01-Jan-1981	TCEQ
+481410044	0041, 0126, 3001	EL PASO	06	El Paso Chamizal	800 S San Marcial Street 	01-Apr-1988	TCEQ
+481410047	0123	EL PASO	06	Womble	Cleveland Ave at Clark Dr 	13-Apr-1993	TCEQ
+481410054	0036	EL PASO	06	El Paso Lower Valley	8470 Plant Rd 	07-Jun-1996	TCEQ
+481410055	0037, 0159, 0172	EL PASO	06	Ascarate Park SE	650 R E Thomason Loop 	01-Sep-1999	TCEQ
+481410057	0049	EL PASO	06	Socorro Hueco	320 Old Hueco Tanks Road 	18-Nov-1999	TCEQ
+481410058	0072	EL PASO	06	Skyline Park	5050A Yvette Drive 	11-Jul-2000	TCEQ
+481410693	0693	EL PASO	06	Van Buren	2700 Harrison Avenue 	05-Jul-2010	TCEQ
+481411021	1021	EL PASO	06	Ojo De Agua	6767 Ojo De Agua 	15-Apr-2013	TCEQ
+481611084	1084	WACO	09	Fairfield FM 2570 Ward Ranch	488 FM 2570 	30-Oct-2017	TCEQ
+481670004	0412, 9995	HOUSTON	12	Texas City Fire Station	2516 Texas Avenue 	01-Jan-1972	TCEQ
+481670005	0147, 1022	HOUSTON	12	Texas City Ball Park	2516 1/2 Texas Avenue 	20-Oct-1997	TCEQ
+481670056	0620	HOUSTON	12	Texas City 34th Street	2212 North 34th Street 	01-Jun-2003	Texas City Industry Group
+481670615	0615, 1615	HOUSTON	12	Texas City BP 31st Street (Site 1)	Texas City Bp Property 	31-Dec-2009	Marathon Petroleum Co.
+481670616	0616, 1616	HOUSTON	12	Texas City BP Onsite (Site 2)	Texas City Bp Property Onsite 	23-Mar-2010	Marathon Petroleum Co.
+481670621	0621, 1621	HOUSTON	12	Texas City BP Logan Street (Site 3)	303 Logan Street 	07-Apr-2010	Marathon Petroleum Co.
+481671034	1034	HOUSTON	12	Galveston 99th Street	9511 Avenue V 1/2 	20-Mar-2007	TCEQ
+481830001	0019, 0127, 0644	TYLER	05	Longview	Gregg Co Airport near Longview 	01-Jan-1977	TCEQ
+481870504	0504	SAN ANTONIO	13	New Braunfels Airport	2090 Airport Rd 	30-Aug-2002	Alamo Area Council of Governments
+481870506	0506	SAN ANTONIO	13	Seguin Outdoor Learning Center	1865 Hwy 90 East 	26-Mar-2003	Alamo Area Council of Governments
+482010024	0008, 0108, 0150	HOUSTON	12	Houston Aldine	4510 1/2 Aldine Mail Rd 	01-Jan-1974	TCEQ
+482010026	0015, 0115	HOUSTON	12	Channelview	1405 Sheldon Road 	01-Jan-1980	TCEQ
+482010029	0026, 0110, 0154	HOUSTON	12	Northwest Harris County	16822 Kitzman 	01-Jan-1981	TCEQ
+482010036	1036	HOUSTON	12	Channelview Drive Water Tower	15913 Channelview Drive 	19-Jul-2006	TCEQ
+482010046	0405, 1033	HOUSTON	12	Houston North Wayside	7330 1/2 North Wayside 	01-Jan-1976	TCEQ
+482010047	0408	HOUSTON	12	Lang	4401 1/2 Lang Rd 	01-Jan-1978	TCEQ
+482010051	0409	HOUSTON	12	Houston Croquet	13826 1/2 Croquet 	01-Jan-1978	TCEQ
+482010055	0053, 0146, 0181	HOUSTON	12	Houston Bayland Park	6400 Bissonnet Street 	24-Mar-1998	TCEQ
+482010057	0167, 1667	HOUSTON	12	Galena Park	1713 2nd Street 	21-Oct-1997	TCEQ
+482010058	0148	HOUSTON	12	Baytown	7210 1/2 Bayway Drive 	25-Mar-1998	TCEQ
+482010061	0145	HOUSTON	12	Shore Acres	3903 1/2 Old Highway 146 	28-May-1998	TCEQ
+482010062	0406	HOUSTON	12	Houston Monroe	9726 1/2 Monroe 	01-Jan-1984	TCEQ
+482010066	0410, 3003	HOUSTON	12	Houston Westhollow	3333 1/2 Hwy 6 South 	01-Jul-1994	TCEQ
+482010069	0169	HOUSTON	12	Milby Park	2201A Central St 	07-Apr-1999	TCEQ
+482010307	1029	HOUSTON	12	Manchester East Avenue N	9415 East Avenue N 	09-May-2005	TCEQ
+482010416	0416	HOUSTON	12	Park Place	7421 Park Place Blvd 	22-Feb-2006	TCEQ
+482010417	0417	HOUSTON	12	Houston Harvard Street	160 Harvard Street 	25-Jan-2021	TCEQ
+482010551	0551	HOUSTON	12	Sheldon	15345 Beaumont Hwy 	17-Apr-2002	Harris County Pollution Control Services
+482010552	0552	HOUSTON	12	Baytown Wetlands Center	1724 Market Street 	11-Jun-2003	Harris County Pollution Control Services
+482010553	0553	HOUSTON	12	Crosby Library	135 Hare Road 	16-Jun-2003	Harris County Pollution Control Services
+482010554	0554	HOUSTON	12	West Houston	16719 Clay Road 	24-Dec-2003	Harris County Pollution Control Services
+482010556	0556	HOUSTON	12	La Porte Sylvan Beach	636 Bayshore Drive 	01-Jan-2004	Harris County Pollution Control Services
+482010557	0557	HOUSTON	12	Mercer Arboretum	22306 Aldine Westfield Road 	12-Feb-2004	Harris County Pollution Control Services
+482010558	0558	HOUSTON	12	Tom Bass	15108 Cullen Blvd 	06-Feb-2004	Harris County Pollution Control Services
+482010559	0559	HOUSTON	12	Katy Park	24927 Morton Road 	12-Mar-2004	Harris County Pollution Control Services
+482010560	0560	HOUSTON	12	Atascocita	2302 Atascocita Rd 	29-Jul-2004	Harris County Pollution Control Services
+482010561	0561	HOUSTON	12	Meyer Park	7700 Cypresswood Dr 	30-Jul-2004	Harris County Pollution Control Services
+482010562	0562	HOUSTON	12	Bunker Hill Village	11977 Memorial Drive 	08-Oct-2004	Harris County Pollution Control Services
+482010563	0563	HOUSTON	12	Huffman Wolf Road	2100 Wolf Road 	21-Sep-2010	Harris County Pollution Control Services
+482010617	0617	HOUSTON	12	Wallisville Road	4727 Wallisville Road 	30-May-2003	Houston Regional Monitoring
+482010669	0669	HOUSTON	12	TPC FTIR South	8600 Park Place Blvd 	13-Jan-2006	Texas Petrochemicals
+482010670	0670	HOUSTON	12	TPC FTIR North	8600 Park Place Blvd 	01-Jan-2006	Texas Petrochemicals
+482010671	0671	HOUSTON	12	Goodyear GC	9728 West Road 	04-May-2006	Goodyear Tire & Rubber Co
+482010673	0673	HOUSTON	12	Goodyear Houston Site #2	2000 Goodyear Dr 	01-Oct-2006	Goodyear Tire & Rubber Co
+482010803	0114, 0603	HOUSTON	12	HRM #3 Haden Rd	1504 1/2 Haden Road 	14-Nov-1992	Houston Regional Monitoring
+482010807	0607	HOUSTON	12	HRM 7 BAYTOWN	4621-4639 W Baker Rd 	29-Nov-1999	Houston Regional Monitoring
+482011015	0165, 1015	HOUSTON	12	Lynchburg Ferry	4364 Independence Parkway South 	24-Apr-2003	TCEQ
+482011017	1017	HOUSTON	12	Baytown Garth	4898 Ashbel Cove Drive, Trailer A 	05-Jun-2012	TCEQ
+482011034	0001	HOUSTON	12	Houston East	1262 1/2 Mae Drive 	01-Jan-1973	TCEQ
+482011035	0055, 0113, 0304, 0403	HOUSTON	12	Clinton	9525 1/2 Clinton Dr 	01-Jan-1972	TCEQ
+482011039	0035, 0139, 0235, 1001, 3000	HOUSTON	12	Houston Deer Park #2	4413 Glenwood Avenue 	22-Oct-1996	TCEQ
+482011043	0243	HOUSTON	12	La Porte Airport C243	La Porte Airport 2434 Buchanan Street	09-Jun-2005	TCEQ
+482011049	1049	HOUSTON	12	Pasadena Richey Elementary School	610 2/3 South Richey Street 	01-Jul-2008	TCEQ
+482011050	0045	HOUSTON	12	Seabrook Friendship Park	4522 Park Rd 	29-Jul-2001	TCEQ
+482011052	1052	HOUSTON	12	Houston North Loop	822 North Loop 	13-Apr-2015	TCEQ
+482011066	1066	HOUSTON	12	Houston Southwest Freeway	5617 Westward Avenue 	22-Jan-2014	TCEQ
+482011614	1614	HOUSTON	12	HRM 16-Deer Park	600-658 Luella Ave 	01-Feb-2021	Houston Regional Monitoring
+482016000	0175, 1020	HOUSTON	12	Cesar Chavez	4829 A  Galveston Rd 	11-Mar-2004	TCEQ
+482030002	0085	TYLER	05	Karnack	Hwy 134 &amp; Spur 449 	30-Jun-2001	TCEQ
+482031079	1079	TYLER	05	Hallsville Red Oak Road	9206 Red Oak Road 	06-Dec-2016	TCEQ
+482090614	0614	AUSTIN	11	Dripping Springs School	29400 Ranch Road 12 	11-Mar-2003	Capital Area Council of Governments
+482091630	1630	AUSTIN	11	CAPCOG Lake Kyle Park	700 Lehman Rd 	05-Apr-2023	Capital Area Council of Governments
+482091675	1675	AUSTIN	11	CAPCOG San Marcos Staples Road	599 Staples Road 	20-Sep-2011	Capital Area Council of Governments
+482150043	0043, 0143	HARLINGEN	15	Mission	2300 North Glasscock 	01-Jul-1995	TCEQ
+482151046	1046	HARLINGEN	15	Edinburg East Freddy Gonzalez Drive	1491 East Freddy Gonzalez Drive 	08-Jul-2015	TCEQ
+482210001	0073, 0681	DALLAS/FORT WORTH	04	Granbury	200 N Gordon Street 	09-May-2000	TCEQ
+482271072	1072	MIDLAND	07	Big Spring Midway	1218 N. Midway Rd 	03-Dec-2016	TCEQ
+482311006	0198, 1006	DALLAS/FORT WORTH	04	Greenville	824 Sayle Street 	20-Mar-2003	TCEQ
+482331073	1073	AMARILLO	01	Borger FM 1559	19440 FM 1559 	02-Nov-2016	TCEQ
+482450009	0002, 0112, 2002	BEAUMONT	10	Beaumont Downtown	1086 Vermont Avenue 	01-Jan-1980	TCEQ
+482450011	0028, 0128, 0228	BEAUMONT	10	Port Arthur West	623 Ellias Street 	01-Jan-1981	TCEQ
+482450014	0119	BEAUMONT	10	Groves	3355 Grandview Ave &amp; 32nd St 	01-Sep-1993	TCEQ
+482450017	0136	BEAUMONT	10	Port Neches Avenue L	605 Avenue L 	25-Jul-1994	TCEQ
+482450018	1019, 2001	BEAUMONT	10	Jefferson County Airport	End of 90th Street @ Jefferson County Airport 	01-Oct-1994	TCEQ
+482450021	0303, 0689	BEAUMONT	10	Port Arthur Memorial School	2200 Jefferson Drive 	06-Mar-2000	South East Texas Regional Planning Commission
+482450022	0064, 0654	BEAUMONT	10	Hamshire	12552 Second St 	10-Feb-2000	TCEQ
+482450101	0640, 1654	BEAUMONT	10	SETRPC  40  Sabine Pass	5200 Mechanic 	01-Jan-2000	South East Texas Regional Planning Commission
+482450102	0643	BEAUMONT	10	SETRPC 43 Jefferson Co Airport	Jefferson County Airport 	05-Aug-2008	South East Texas Regional Planning Commission
+482450628	0628, 1628, 628	BEAUMONT	10	SETRPC Port Arthur	6956 James Gamble Drive 	05-Oct-2004	South East Texas Regional Planning Commission
+482451035	1035	BEAUMONT	10	Nederland 17th Street	1516 17th Street 	30-Aug-2006	TCEQ
+482451050	1050	BEAUMONT	10	Beaumont Mary	598 Craig Street 	13-Oct-2010	TCEQ
+482451071	1071	BEAUMONT	10	Port Arthur West 7th Street Gate 2	West 7th Street, Valero Port Arthur Gate 2 	30-Sep-2016	TCEQ
+482510003	0077, 0682	DALLAS/FORT WORTH	04	Cleburne Airport	1650 Airport Drive 	10-May-2000	TCEQ
+482511008	1008	DALLAS/FORT WORTH	04	Johnson County Luisa	2420 Luisa Ln 	23-Nov-2010	TCEQ
+482511063	1063	DALLAS/FORT WORTH	04	Mansfield Flying L Lane	1310 Flying L Lane 	01-Oct-2012	North Texas Commission
+482511501	1501	DALLAS/FORT WORTH	04	Godley FM2331	12404 FM2331 	13-Jul-2013	North Texas Commission
+482551070	1070	SAN ANTONIO	13	Karnes County	1100B East Main Avenue 	17-Dec-2014	TCEQ
+482570005	0071	DALLAS/FORT WORTH	04	Kaufman	3790 S Houston St 	11-Sep-2000	TCEQ
+482570020	1089	DALLAS/FORT WORTH	04	Terrell Jamison Court	8 Jamison Ct 	22-Dec-2010	TCEQ
+482730314	0314	CORPUS CHRISTI	14	National Seashore	20420 Park Road 	25-Oct-2002	TCEQ
+483031028	1028	LUBBOCK	02	Lubbock 12th Street	3901 East 12th Street 	13-Aug-2016	TCEQ
+483091037	1037	WACO	09	Waco Mazanec	4472 Mazanec Rd 	16-Apr-2007	TCEQ
+483230004	0319, 0655	LAREDO	16	Eagle Pass	265 Foster Maldonado 	01-Jun-2005	TCEQ
+483291095	1095	MIDLAND	07	Midland Avalon Drive	5510-U Avalon Drive 	02-Sep-2021	TCEQ
+483371507	1507	ABILENE	03	Bowie Patterson Street	1032 Patterson Street 	31-Oct-2013	North Texas Commission
+483390078	0078	HOUSTON	12	Conroe Relocated	9472A Hwy 1484 	01-Oct-2001	TCEQ
+483491051	1051	DALLAS/FORT WORTH	04	Corsicana Airport	Corsicana Airport 	16-Jun-2009	TCEQ
+483491081	1081	DALLAS/FORT WORTH	04	Richland Southeast 1220 Road	Southeast 1220 Road 	16-Nov-2016	TCEQ
+483550025	0004	CORPUS CHRISTI	14	Corpus Christi West	902 Airport Road 	01-Jan-1981	TCEQ
+483550026	0021	CORPUS CHRISTI	14	Corpus Christi Tuloso	9860 La Branch 	01-Jan-1984	TCEQ
+483550029	0168, 0170, 0195	CORPUS CHRISTI	14	Corpus Christi Hillcrest	1802 Nueces Bay Blvd (Citgo Refinery Co) 	01-Nov-1994	TCEQ
+483550032	0098, 0149, 0155	CORPUS CHRISTI	14	Corpus Christi Huisache	3810 Huisache Street 	06-Aug-1997	TCEQ
+483550034	0199, 0635	CORPUS CHRISTI	14	Dona Park	5707 Up River Rd 	31-Jan-2001	TCEQ
+483550083	0083	CORPUS CHRISTI	14	Corpus Christi Palm	1511 Palm Drive 	18-May-2010	TCEQ
+483551024	1024	CORPUS CHRISTI	14	Williams Park	2518 Dempsey Rd 	08-Aug-2005	TCEQ
+483611001	0009, 0141	BEAUMONT	10	West Orange	2700 Austin Ave 	01-Jan-1974	TCEQ
+483611083	1083	BEAUMONT	10	Orange 1st Street	2239 1st Street 	03-Oct-2016	TCEQ
+483611100	0311, 0642, 0665	BEAUMONT	10	SETRPC 42 Mauriceville	Intersection of TX Hwys 62 &amp; 12 	01-Jan-1999	South East Texas Regional Planning Commission
+483631502	1502	DALLAS/FORT WORTH	04	Mineral Wells 23rd Street	2000 NE 23rd Street 	21-Aug-2013	North Texas Commission
+483670081	0076	DALLAS/FORT WORTH	04	Parker County	3033 New Authon Rd 	26-Jul-2000	TCEQ
+483671506	1506	DALLAS/FORT WORTH	04	Weatherford Tin Top Road	2753 Tin Top Road 	13-Oct-2013	North Texas Commission
+483751025	1025	AMARILLO	01	Amarillo 24th Avenue	4205 NE 24th Avenue 	16-Oct-2013	TCEQ
+483751077	1077	AMARILLO	01	Amarillo Xcel El Rancho	Folsom Rd. &amp; El Rancho Rd. 	16-Dec-2016	TCEQ
+483951076	1076	WACO	09	Franklin Oak Grove	8127 Oak Grove Road 	13-Oct-2016	TCEQ
+483970001	0069	DALLAS/FORT WORTH	04	Rockwall Heath	100 E Heath St 	08-Aug-2000	TCEQ
+484011082	1082	TYLER	05	Tatum CR 2181d Martin Creek Lake	9515 County Road 2181d 	01-Nov-2017	TCEQ
+484230007	0082	TYLER	05	Tyler Airport Relocated	14790 County Road 1145 	25-May-2000	TCEQ
+484390075	0075	DALLAS/FORT WORTH	04	Eagle Mountain Lake	14290 Morris Dido Newark Rd 	06-Jun-2000	TCEQ
+484391002	0013, 0060	DALLAS/FORT WORTH	04	Fort Worth Northwest	3317 Ross Ave 	01-Jan-1975	TCEQ
+484391006	0310	DALLAS/FORT WORTH	04	Haws Athletic Center	600 1/2 Congress St 	01-Apr-2001	TCEQ
+484391009	1009	DALLAS/FORT WORTH	04	Everman Johnson Park	633 Everman Parkway 	28-Jun-2011	North Texas Commission
+484391018	1018	DALLAS/FORT WORTH	04	Arlington UT Campus	1101 S. Pecan St. 	20-Sep-2012	North Texas Commission
+484391053	1053	DALLAS/FORT WORTH	04	Fort Worth California Parkway North	1198 California Parkway North 	12-Mar-2015	TCEQ
+484391062	1062	DALLAS/FORT WORTH	04	Kennedale Treepoint Drive	5419 Treepoint Drive 	29-Jun-2012	North Texas Commission
+484391065	1065	DALLAS/FORT WORTH	04	Fort Worth Joe B. Rushing Road	2525 Joe B. Rushing Road 	17-Sep-2013	North Texas Commission
+484391503	1503	DALLAS/FORT WORTH	04	Fort Worth Benbrook Lake	7001 Lakeside Drive 	01-Oct-2013	North Texas Commission
+484392003	0017	DALLAS/FORT WORTH	04	Keller	FAA Site off Alta Vista Road 	11-Feb-1981	TCEQ
+484393009	0070, 0182	DALLAS/FORT WORTH	04	Grapevine Fairway	4100 Fairway Dr 	04-Aug-2000	TCEQ
+484393011	0061	DALLAS/FORT WORTH	04	Arlington Municipal Airport	5504 South Collins Street 	17-Jan-2002	TCEQ
+484411509	1509	ABILENE	03	Abilene Industrial Boulevard	1939 Industrial Blvd 	18-Dec-2013	North Texas Commission
+484491078	1078	TYLER	05	Cookville FM 4855	385 CR 4855 	07-Dec-2016	TCEQ
+484530014	0003	AUSTIN	11	Austin North Hills Drive	3824 North Hills Drive 	01-Jan-1979	TCEQ
+484530020	0038	AUSTIN	11	Austin Audubon Society	12200 Lime Creek Rd 	28-Feb-1997	TCEQ
+484530021	0171	AUSTIN	11	Austin Webberville Rd	2600B Webberville Rd 	29-Sep-1999	TCEQ
+484531068	1068	AUSTIN	11	Austin North Interstate 35	8912 N IH 35 SVRD SB 	16-Apr-2014	TCEQ
+484531605	1605	AUSTIN	11	St. Edwards University	3001 South Congress 	22-Jan-2016	St. Edwards University
+484531619	1619	AUSTIN	11	CAPCOG East Austin	2401 Holly Street 	21-Feb-2020	Capital Area Council of Governments
+484531633	1633	AUSTIN	11	CAPCOG Pflugerville	17912 Becker Farm Rd 	24-Jul-2024	Capital Area Council of Governments
+484690003	0087	CORPUS CHRISTI	14	Victoria	106 Mockingbird Lane 	01-Apr-1989	TCEQ
+484790016	0044, 0144	LAREDO	16	Laredo College	West End Washington Street (corner of Taylor and Crawford Roads)	15-Feb-1996	TCEQ
+484790017	0066, 0173	LAREDO	16	Laredo Bridge	700 Zaragosa St 	21-Sep-1999	TCEQ
+484790313	0313	LAREDO	16	World Trade Bridge	Mines Road 11601 FM 1472 	13-Aug-2002	TCEQ
+484851508	1508	ABILENE	03	Wichita Falls MWSU	MWSU grounds 	19-Dec-2013	North Texas Commission
+484910690	0690	AUSTIN	11	CAPCOG Lake Georgetown	500 Lake Overlook Drive 	20-Sep-2007	Capital Area Council of Governments
+484911620	1620	AUSTIN	11	CAPCOG Round Rock Brushy Creek West	1116 E. Austin Avenue 	01-Mar-2021	Capital Area Council of Governments
+484911629	1629	AUSTIN	11	CAPCOG Taylor Murphy Park	1213 Davis Street 	04-Apr-2023	Capital Area Council of Governments
+484931038	1038	SAN ANTONIO	13	Floresville Hospital Boulevard	1404 Hospital Blvd 	18-Jul-2013	TCEQ
+484970088	0088	DALLAS/FORT WORTH	04	Decatur Thompson	190 E. Thompson St, Unit B 	06-Oct-2010	North Texas Commission
+484971064	1064	DALLAS/FORT WORTH	04	Rhome Seven Hills Road	639 CR 4651 	12-Nov-2012	North Texas Commission
