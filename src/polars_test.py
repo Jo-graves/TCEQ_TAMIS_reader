@@ -6,20 +6,43 @@ import pandas as pd
 
 
 
-def get_header(filepath):
-    '''Gets header of filepath (e.g., where column headers are located)'''
+def get_TCEQ_header_row_number(filepath: str):
+    '''
+    Finds the number of rows from the start of a TCEQ GeoTAMIS report that 
+    the data column headers are located
+    
+    Parameters
+    ----------
+    filepath: str
+        filepath to GeoTAMIS data to open and parse
+
+        
+    Returns
+    ----------
+    int
+        The number of rows from the start of the TCEQ GeoTAMIS report that 
+        the data column headers are located
+
+    
+    Example
+    ---------
+    # TODO
+
+
+    
+    '''
     with open(filepath, "r+") as pracfile: 
             for line_index, line in enumerate(pracfile):
                 if "State Cd" in line:
                     return line_index
                 
-def convert_date_and_time_columns_to_datetime(df: pl.DataFrame,
+def polars_convert_date_and_time_columns_to_datetime(df: pl.DataFrame,
                                               date_column: str = "Date",
                                               date_format: str = "%Y%m%d",
                                               time_column: str = "Time",
                                               time_format: str = "%H:%M",
-                                              tzone_in: str = "Etc/GMT+6", 
-                                              tzone_out: str = "Etc/GMT+6" ) -> pl.DataFrame:
+                                              tzone_in: str = None, 
+                                              tzone_out: str = None ) -> pl.DataFrame:
     '''
     Create combined datetime column with tzone info from individual date and time columns in a polars dataframe
 
@@ -43,8 +66,8 @@ def convert_date_and_time_columns_to_datetime(df: pl.DataFrame,
 
     tzone_in: str
         Timezone code for date and times being read in. TCEQ TAMIS data is presented in LST. 
-        Default: ETC/GMT+6 -- the timezone covering most of Texas. Stations near El-Paso will be ETC/GMT+7.
-
+        Default: None 
+        
     tzone_out: str
         Timezone code output data is converted to.
         Default: ETC/GMT+6 -- the timezone covering most of Texas. Stations near El-Paso will be ETC/GMT+7.
@@ -60,8 +83,7 @@ def convert_date_and_time_columns_to_datetime(df: pl.DataFrame,
 
     Example
     ---------
-
-
+    # TODO
 
 
     '''
@@ -69,62 +91,150 @@ def convert_date_and_time_columns_to_datetime(df: pl.DataFrame,
     df = df.with_columns(pl.col(date_column).str.to_date(format=date_format))
     df = df.with_columns(pl.col(time_column).str.to_time(format=time_format))
     df = df.with_columns(pl.col(date_column).dt.combine(pl.col(time_column)).alias("Datetime"))
-    df = df.with_columns(pl.col("Datetime").dt.replace_time_zone(tzone_in).dt.convert_time_zone(tzone_out))
+
+    # Only add tzone info if tzone_in is not None
+    # Only convert tzone if both tzone_in and tzone_out is specified
+    if tzone_in is not None:
+        df = df.with_columns(pl.col("Datetime").dt.replace_time_zone(tzone_in))
+    
+        if tzone_out is not None:
+            df = df.with_columns(pl.col("Datetime").dt.convert_time_zone(tzone_out))
+
+
     df = df.with_columns(pl.exclude(date_column, time_column))
     return df
    
-def read_tceq_to_csv(filepath, tzone_in = "Etc/GMT+6", tzone_out = "Etc/GMT+6"):
+def pl_drop_col_if_all_null(df):
+
+    '''Drops all columns in a dataframe which have only null records
+    
+    Parameters
+    ----------
+    df: pl.DataFrame
+        dataframe to drop columns from
+
+
+    Returns
+    ----------
+    pl.Dataframe
+        view of original dataframew with null columns removed
+
+
+    Example
+    ----------
+    #TODO
 
     '''
+
+    df = df[[column.name for column in df if not (column.null_count() == df.height)]]
+    return df
+
+def read_tceq_to_pl_dataframe(filepath: str | Path, 
+                     tzone_in: str = "Etc/GMT+6", 
+                     tzone_out: str = "Etc/GMT+6",
+                     **kwargs):
+
+    '''
+    Reads a TCEQ GeoTAMIS report (.txt), extracts the data,  processes the timezone info, 
+    and returns a polars dataframe
+
+
+    Parameters
+    -----------
+    filepath: str | Path
+        filepath or Path (e.g. returned from pathlib.Path()) to GeoTAMIS 
+        report to read and process
     
+    tzone_in: str
+        Timezone code for date and times being read in. TCEQ TAMIS data is presented in LST. 
+        Default: None 
+
+    tzone_out: str
+        Timezone code output data is converted to.
+        Default: ETC/GMT+6 -- the timezone covering most of Texas. Stations near El-Paso will be ETC/GMT+7.
+
+    **kwargs: str
+        Additional arguments passed to tzone conversion. See polars_convert_data_and_time_columns_to_datetime().
+
+
+    
+    Returns
+    ---------
+    pl.Dataframe
+        polars dataframe in wide format containing GeoTAMIS records
+
+
+    Example
+    --------
+    #TODO
+    
+
     See also
     ---------
+    polars_convert_date_and_time_columns_to_datetime()
+
     Info on time-tagging conventions from GeoTAMIS: https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_daily_summary.pl
     
+
+    Helpful information
+    -------------------
+
+    GeoTAMIS reports data collected over some timestep at the start of the timestep 
+    (e.g., data collected between 1 p.m. and 2 p.m. is reported at 1 p.m.). Data is also
+    reported in local standard time (LST). Standard time does not consider daylight savings time.
+    Most of Texas is in Central Standard Time (CST), except for portions of the far west of the state
+    which is in mountain time (MT).
+
+    Central standard time tzone code: Etc/GMT+6
+    Mountain time tzone code: Etc/GMT+7
+
     '''
      
     # Read in table
-    TCEQ_HEADER = get_header(filepath)
+    TCEQ_HEADER = get_TCEQ_header_row_number(filepath)
     print(TCEQ_HEADER)
     df = pl.read_csv(filepath, has_header=True, skip_rows=TCEQ_HEADER)
 
     # drop columns if all values are null
-    df = df[[s.name for s in df if not (s.null_count() == df.height)]]
-
-    pf = pd.read_csv
+    df = pl_drop_col_if_all_null(df)
 
     # Get datetime columns
-    df = convert_date_and_time_columns_to_datetime(df, tzone_in=tzone_in, tzone_out=tzone_out)
+    df = polars_convert_date_and_time_columns_to_datetime(df, tzone_in=tzone_in, tzone_out=tzone_out, **kwargs)
 
-  
     return df
      
 def get_clean_reference_info():
+
+    '''
+    Pulls in GeoTAMIS parameter, unit, and site codes for labeling raw GeoTAMIS data'''
  
+    # Get this script's path in user filesystem (allows for os-independent execution)
     script_path = Path(os.path.realpath(__file__)).parent
 
-    params = fr"{script_path}/ref_files/tceq_parameters.csv"
-    units = fr"{script_path}/ref_files/tceq_units.csv"
-    site_info = fr"{script_path}/ref_files/tceq_site_locations.txt"
+    # Grab TCEQ param, units, and site_info filepaths relative to this script, then read in
+    TCEQ_parameter_codes_fpath = fr"{script_path}/ref_files/tceq_parameters.csv"
+    TCEQ_unit_codes_fpath = fr"{script_path}/ref_files/tceq_units.csv"
+    TCEQ_site_info_codes_fpath = fr"{script_path}/ref_files/tceq_site_locations.csv"
 
-    try:
-        tceq_keys = pd.read_table(params) #open tceq parameter info file to match parameter codes to parameters
-        tceq_units = pd.read_table(units) #open tceq unit info file to match unit codes to units
-        tceq_site_info = pd.read_table(site_info)
+    tceq_param_codes = pd.read_csv(TCEQ_parameter_codes_fpath) 
+    tceq_unit_codes = pd.read_csv(TCEQ_unit_codes_fpath)
+    tceq_site_info_codes = pd.read_csv(TCEQ_site_info_codes_fpath)
 
-    except:
-        tceq_keys = pd.read_table(f"{script_path}/ref_files/tceq_parameters.txt") #open tceq parameter info file to match parameter codes to parameters
-        tceq_units = pd.read_table(f"{script_path}/ref_files/tceq_units.txt") #open tceq unit info file to match unit codes to units
-        tceq_site_info = pd.read_table(f"{script_path}/ref_files/tceq_site_locations.txt")
+    return tceq_param_codes, tceq_unit_codes, tceq_site_info_codes
+
 
 
 def main(fpath):
-     df = read_tceq_to_csv(fpath)
-     print(df)
+    #  df = read_tceq_to_pl_dataframe(fpath)
+    #  print(df)
+    print(get_clean_reference_info())
+
 
 if __name__ == "__main__":
      
+
     file_path = Path(os.path.realpath(__file__)).parent
+    # print(type(file_path))
     fpath = f"{file_path}/../tests/2025_kc_autogc_w_ws_wd_comma.txt"
     
     main(fpath)
