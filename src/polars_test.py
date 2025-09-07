@@ -2,9 +2,6 @@
 import polars as pl
 from pathlib import Path
 import os
-import pandas as pd
-
-
 
 def get_TCEQ_header_row_number(filepath: str):
     '''
@@ -192,14 +189,18 @@ def read_and_extract_tceq_data_to_df(filepath: str | Path,
      
     # Read in table
     TCEQ_HEADER = get_TCEQ_header_row_number(filepath)
-    print(TCEQ_HEADER)
-    df = pl.read_csv(filepath, has_header=True, skip_rows=TCEQ_HEADER)
+    df = pl.read_csv(filepath, 
+                     has_header=True, 
+                     skip_rows=TCEQ_HEADER)
 
     # drop columns if all values are null
     df = pl_drop_col_if_all_null(df)
 
     # Get datetime columns
-    df = polars_convert_date_and_time_columns_to_datetime(df, tzone_in=tzone_in, tzone_out=tzone_out, **kwargs)
+    df = polars_convert_date_and_time_columns_to_datetime(df, 
+                                                          tzone_in=tzone_in, 
+                                                          tzone_out=tzone_out, 
+                                                          **kwargs)
 
     return df
      
@@ -222,22 +223,45 @@ def get_clean_reference_info():
 
     return tceq_param_codes, tceq_unit_codes, tceq_site_info_codes
 
-def read_tceq_to_pl_dataframe(filepath, tzone_in="Etc/GMT+6", tzone_out="Etc/GMT+6", **kwargs):
+def read_tceq_to_pl_dataframe(filepath, 
+                              tzone_in="Etc/GMT+6", 
+                              tzone_out="Etc/GMT+6", 
+                              save = False, 
+                              saved_file_type = "csv",
+                              **kwargs):
     
+    # Extract unformatted data to dataframe
     df = read_and_extract_tceq_data_to_df(filepath, tzone_in=tzone_in, tzone_out=tzone_out, **kwargs)
     
+    # Get parameter codes
     tceq_parameter_codes, tceq_unit_codes, tceq_site_info_codes = get_clean_reference_info()
 
+    # Add parameter, unit, and location info to dataframe
     df_w_params = df.join(tceq_parameter_codes, on = "Parameter Cd", how = "inner")
     df_w_params_and_units = df_w_params.join(tceq_unit_codes, on = "Unit Cd", how = "inner")
     df_w_params_and_units_and_location = df_w_params_and_units.join(tceq_site_info_codes, on = "Site ID", how = "inner")
 
-    return df_w_params_and_units_and_location
+    # Create new column that merges parameter name with units for pivoting
+    df_w_params_and_units_and_location = df_w_params_and_units_and_location.with_columns(("TCEQ " + pl.col("Parameter Name") + " (" + pl.col("Unit Abbr") + ")").alias("Column_Name"))
+    
+    # Pivot rows to column format 
+    df_clean = df_w_params_and_units_and_location.select(pl.col("Value", "Column_Name", "Datetime",  "Site Name", "Site ID"))
 
+    # Pivot data to long format
+    df_clean_piv = df_clean.pivot(index=["Datetime", "Site Name", "Site ID"], values = "Value", on="Column_Name")
 
-def main(fpath):
-    df = read_tceq_to_pl_dataframe(fpath)
-    print(df)
+     # Saving functions
+    if save == True:
+
+        if saved_file_type == "csv":
+                df_clean_piv.write_csv(Path(filepath).with_suffix(".csv"))
+                print(f"Processed file saved to: {Path(filepath).with_suffix(".csv")}")
+
+        elif saved_file_type == 'parquet':
+            df_clean_piv.write_parquet(Path(filepath).with_suffix(".gzip"))
+            print(f"Processed file saved to: {Path(filepath).with_suffix(".gzip")}")
+    
+    return df_clean_piv
 
 
 if __name__ == "__main__":
@@ -246,6 +270,7 @@ if __name__ == "__main__":
     # print(type(file_path))
     fpath = f"{file_path}/../tests/2025_kc_autogc_w_ws_wd_comma.txt"
     
-    main(fpath)
+    read_tceq_to_pl_dataframe(fpath, save = True)
+
 
 # %%
