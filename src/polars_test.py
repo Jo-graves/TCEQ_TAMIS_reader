@@ -129,7 +129,7 @@ def pl_drop_col_if_all_null(df):
     df = df[[column.name for column in df if not (column.null_count() == df.height)]]
     return df
 
-def read_tceq_to_pl_dataframe(filepath: str | Path, 
+def read_and_extract_tceq_data_to_df(filepath: str | Path, 
                      tzone_in: str = "Etc/GMT+6", 
                      tzone_out: str = "Etc/GMT+6",
                      **kwargs):
@@ -216,22 +216,31 @@ def get_clean_reference_info():
     TCEQ_unit_codes_fpath = fr"{script_path}/ref_files/tceq_units.csv"
     TCEQ_site_info_codes_fpath = fr"{script_path}/ref_files/tceq_site_locations.csv"
 
-    tceq_param_codes = pd.read_csv(TCEQ_parameter_codes_fpath) 
-    tceq_unit_codes = pd.read_csv(TCEQ_unit_codes_fpath)
-    tceq_site_info_codes = pd.read_csv(TCEQ_site_info_codes_fpath)
+    tceq_param_codes = pl.read_csv(TCEQ_parameter_codes_fpath) 
+    tceq_unit_codes = pl.read_csv(TCEQ_unit_codes_fpath)
+    tceq_site_info_codes = pl.read_csv(TCEQ_site_info_codes_fpath)
 
     return tceq_param_codes, tceq_unit_codes, tceq_site_info_codes
 
+def read_tceq_to_pl_dataframe(filepath, tzone_in="Etc/GMT+6", tzone_out="Etc/GMT+6", **kwargs):
+    
+    df = read_and_extract_tceq_data_to_df(filepath, tzone_in=tzone_in, tzone_out=tzone_out, **kwargs)
+    
+    tceq_parameter_codes, tceq_unit_codes, tceq_site_info_codes = get_clean_reference_info()
+
+    df_w_params = df.join(tceq_parameter_codes, on = "Parameter Cd", how = "inner")
+    df_w_params_and_units = df_w_params.join(tceq_unit_codes, on = "Unit Cd", how = "inner")
+    df_w_params_and_units_and_location = df_w_params_and_units.join(tceq_site_info_codes, on = "Site ID", how = "inner")
+
+    return df_w_params_and_units_and_location
 
 
 def main(fpath):
-    #  df = read_tceq_to_pl_dataframe(fpath)
-    #  print(df)
-    print(get_clean_reference_info())
+    df = read_tceq_to_pl_dataframe(fpath)
+    print(df)
 
 
 if __name__ == "__main__":
-     
 
     file_path = Path(os.path.realpath(__file__)).parent
     # print(type(file_path))
