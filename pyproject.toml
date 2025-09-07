@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "geotam_processor"
-version = "2.0.3"
+version = "2.0.6"
 authors = [
   { name="JDG", email="157560746+Jo-graves@users.noreply.github.com" },
 ]
@@ -19,6 +19,7 @@ classifiers = [
 dependencies = [
   "pandas",
   "pyarrow",
+  "polars",
 ]
 
 license = "MIT"
