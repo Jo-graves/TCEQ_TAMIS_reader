@@ -25,6 +25,9 @@ https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.main
 > 
 > <img width="822" height="249" alt="image" src="https://github.com/user-attachments/assets/2fc065bf-6fe0-4ebc-a0e0-e9e50e3ef50b" />
 
+## Reference tables
+Several reference tables are included in the package. Additional information is provided in [Reference Table Information](./resources/reference_table_information.md)
+
 
 
 
