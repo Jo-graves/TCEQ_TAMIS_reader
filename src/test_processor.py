@@ -1,6 +1,7 @@
 from pathlib import Path
 import os 
 import geotam_processor as gp
+import polars_test as pt
 import importlib
 import pandas as pd
 importlib.reload(gp)
@@ -33,11 +34,14 @@ def test_equivalence_w_files():
 
     test_equivalence(f2, f3)
  
-
+def test_comma_pl():
+    f1 = f"{file_path}/../tests/2025_kc_autogc_w_ws_wd_comma.txt"
+    pt.read_tceq_to_pl_dataframe(f1, save = True, saved_file_type="csv")
 
 if __name__ == "__main__":
-    test_pipe()
+    # test_pipe()
     # test_comma()
     # test_equivalence_w_files()
-    test_tab()
+    # test_tab()
+    test_comma_pl()
     
