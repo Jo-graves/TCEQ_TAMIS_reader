@@ -55,7 +55,7 @@ def get_delimiter(filepath: str) -> str:
     ---------
     # TODO
     '''
-    
+
     with open(filepath, "r+") as pracfile: 
             for line_index, line in enumerate(pracfile):
                 if "Fields Delimited by: " in line:
@@ -64,7 +64,6 @@ def get_delimiter(filepath: str) -> str:
                         delimiter = "\t"
                     return delimiter
                 
-
 def polars_convert_date_and_time_columns_to_datetime(df: pl.DataFrame,
                                               date_column: str = "Date",
                                               date_format: str = "%Y%m%d",
@@ -135,7 +134,11 @@ def polars_convert_date_and_time_columns_to_datetime(df: pl.DataFrame,
    
 def pl_drop_col_if_all_null(df):
 
-    '''Drops all columns in a dataframe which have only null records
+    '''
+    Drops all columns in a dataframe which have only null records. 
+    There are sometimes many of these - usualyl occurs if specific station does not
+    have equipment for measuring parameter specfied.
+    
     
     Parameters
     ----------
