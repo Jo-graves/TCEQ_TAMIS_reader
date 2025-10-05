@@ -12,6 +12,9 @@ def pull_extras_data(ref_dir, ref_file):
     
 #### Extras
 def convert_ref_files_to_csv():
+    
+    '''Processes .txt reference files from TCEQ Geotam website to csv for easier reading in main module.
+    The package comes with files that have already been processed. This script is just included as a reference'''
 
 
     params, tceq_keys = pull_extras_data("ref_files", "tceq_parameters.txt")
