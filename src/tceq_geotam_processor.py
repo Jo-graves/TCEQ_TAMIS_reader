@@ -1,7 +1,9 @@
 #%%
 import polars as pl
 from pathlib import Path
+from importlib import resources
 import os
+# import tests
 
 def get_TCEQ_header_row_number(filepath: str) -> int:
     '''
@@ -241,6 +243,13 @@ def read_and_extract_tceq_data_to_df(filepath: str | Path,
                                                           **kwargs)
 
     return df
+
+def pull_ref_info(ref_dir, ref_file):
+    ''' Use pathlib.resources to pull reference file for for labeling raw GeoTAMIS data
+    '''
+    # basically, just add the relative location of the file you want to import 
+    with resources.path(ref_dir, ref_file) as ref_path:
+        return pl.read_csv(ref_path)
      
 def get_clean_reference_info():
 
@@ -249,17 +258,14 @@ def get_clean_reference_info():
     '''
     Pulls in GeoTAMIS parameter, unit, and site codes for labeling raw GeoTAMIS data'''
  
-    # Get this script's path in user filesystem (allows for os-independent execution)
-    script_path = Path(os.path.realpath(__file__)).parent
-
     # Grab TCEQ param, units, and site_info filepaths relative to this script, then read in
-    TCEQ_parameter_codes_fpath = fr"{script_path}/ref_files/tceq_parameters.csv"
-    TCEQ_unit_codes_fpath = fr"{script_path}/ref_files/tceq_units.csv"
-    TCEQ_site_info_codes_fpath = fr"{script_path}/ref_files/tceq_site_locations.csv"
+    TCEQ_parameter_codes_fpath = fr"tceq_parameters.csv"
+    TCEQ_unit_codes_fpath = fr"tceq_units.csv"
+    TCEQ_site_info_codes_fpath = fr"tceq_site_locations.csv"
 
-    tceq_param_codes = pl.read_csv(TCEQ_parameter_codes_fpath) 
-    tceq_unit_codes = pl.read_csv(TCEQ_unit_codes_fpath)
-    tceq_site_info_codes = pl.read_csv(TCEQ_site_info_codes_fpath)
+    tceq_param_codes = pull_ref_info("ref_files", TCEQ_parameter_codes_fpath) 
+    tceq_unit_codes = pull_ref_info("ref_files", TCEQ_unit_codes_fpath)
+    tceq_site_info_codes = pull_ref_info("ref_files", TCEQ_site_info_codes_fpath)
 
     return tceq_param_codes, tceq_unit_codes, tceq_site_info_codes
 
@@ -304,13 +310,7 @@ def read_tceq_to_pl_dataframe(filepath,
     return df_clean_piv
 
 
-if __name__ == "__main__":
-
-    file_path = Path(os.path.realpath(__file__)).parent
-    # print(type(file_path))
-    fpath = f"{file_path}/../tests/test_data/2025_kc_autogc_w_ws_wd_comma.txt"
-    
-    read_tceq_to_pl_dataframe(fpath, save = True)
 
 
-# %%
+
+
