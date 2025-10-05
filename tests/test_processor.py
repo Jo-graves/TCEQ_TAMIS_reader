@@ -1,37 +1,42 @@
 #%%
 from pathlib import Path
 import os 
-import src.tceq_geotam_processor as pt
+import tceq_geotam_processor as pt
 import importlib
-import pandas as pd
 import polars as pl
-importlib.reload(pt)
 import polars.testing as ptesting
+from importlib import resources
 
-file_path = Path(os.path.realpath(__file__)).parent
+importlib.reload(pt)
+
 
 def test_comma():
     '''
     Test if processor works for comma delimited data.
     
     '''
-    test_file = f"{file_path}/test_data/2025_kc_autogc_w_ws_wd_comma.txt"
-    df = pt.read_tceq_to_pl_dataframe(test_file, save = False)
+    with resources.path("test_data", "2025_kc_autogc_w_ws_wd_comma.txt") as test_file:
+        df = pt.read_tceq_to_pl_dataframe(test_file, save = False)
+    
     assert not df.is_empty()
     return df
 
 def test_pipe():
 
     '''Test if processor works for pipe-delimited data'''
-    test_file = f"{file_path}/test_data/2025_kc_autogc_w_ws_wd_pipe.txt"
-    df = pt.read_tceq_to_pl_dataframe(test_file, save = False)
+
+    with resources.path("test_data", "2025_kc_autogc_w_ws_wd_pipe.txt") as test_file:
+        df = pt.read_tceq_to_pl_dataframe(test_file, save = False)
+
     assert not df.is_empty()
     return df
 
 def test_tab():
     """Test if processor works for tab-delimited data"""
-    test_file = f"{file_path}/test_data/2025_kc_autogc_w_ws_wd_tab.txt"
-    df = pt.read_tceq_to_pl_dataframe(test_file, save = False)
+
+    with resources.path("test_data", "2025_kc_autogc_w_ws_wd_tab.txt") as test_file:
+        df = pt.read_tceq_to_pl_dataframe(test_file, save = False)
+
     assert not df.is_empty()
     return df
 
@@ -58,8 +63,11 @@ def proc_tceq_formatted_ethane_2025():
     Process data formatted by TCEQ (ethane) for comparing with data processed with TCEQ processor package
     
     '''
-    f1 = f"{file_path}/test_data/202503_kc_autogc_formatted_tceq_ethane.txt"
-    df = pl.read_csv(f1).select(pl.exclude("Rec"))
+
+    with resources.path("test_data", "202503_kc_autogc_formatted_tceq_ethane.txt") as test_file:
+        df = pl.read_csv(test_file).select(pl.exclude("Rec"))
+
+    
     df = df.unpivot(index = "Day")
     
     # Hours are in a.m. p.m. format. This extracts the HH entry from the HH:MM formatted timestamps
@@ -92,8 +100,11 @@ def compare_tceq_formatted_and_processed_data_ethane_2025():
     '''Compare the tceq formatted data and data processed from geotam_processor package
     
     '''
-    f1 = f"{file_path}/test_data/2025_kc_autogc_w_ws_wd_tab.txt"
-    df = pt.read_tceq_to_pl_dataframe(f1, save = False, saved_file_type="csv")
+
+    with resources.path("test_data", "2025_kc_autogc_w_ws_wd_tab.txt") as test_file:
+        df = pt.read_tceq_to_pl_dataframe(test_file, save = False)
+
+    
     df = df.select(pl.col("Datetime", "TCEQ Ethane (ppbv)"))
     df = df.with_columns(pl.col("TCEQ Ethane (ppbv)").round(2))
 
@@ -117,4 +128,4 @@ if __name__ == "__main__":
     
 
 
-# %%
+

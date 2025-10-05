@@ -3,6 +3,7 @@ import polars as pl
 from pathlib import Path
 from importlib import resources
 import os
+# import tests
 
 def get_TCEQ_header_row_number(filepath: str) -> int:
     '''
@@ -243,12 +244,11 @@ def read_and_extract_tceq_data_to_df(filepath: str | Path,
 
     return df
 
-def pull_ref_info(ref_file):
+def pull_ref_info(ref_dir, ref_file):
     ''' Use pathlib.resources to pull reference file for for labeling raw GeoTAMIS data
     '''
-
     # basically, just add the relative location of the file you want to import 
-    with resources.path("ref_files", ref_file) as ref_path:
+    with resources.path(ref_dir, ref_file) as ref_path:
         return pl.read_csv(ref_path)
      
 def get_clean_reference_info():
@@ -263,9 +263,9 @@ def get_clean_reference_info():
     TCEQ_unit_codes_fpath = fr"tceq_units.csv"
     TCEQ_site_info_codes_fpath = fr"tceq_site_locations.csv"
 
-    tceq_param_codes = pull_ref_info(TCEQ_parameter_codes_fpath) 
-    tceq_unit_codes = pull_ref_info(TCEQ_unit_codes_fpath)
-    tceq_site_info_codes = pull_ref_info(TCEQ_site_info_codes_fpath)
+    tceq_param_codes = pull_ref_info("ref_files", TCEQ_parameter_codes_fpath) 
+    tceq_unit_codes = pull_ref_info("ref_files", TCEQ_unit_codes_fpath)
+    tceq_site_info_codes = pull_ref_info("ref_files", TCEQ_site_info_codes_fpath)
 
     return tceq_param_codes, tceq_unit_codes, tceq_site_info_codes
 
@@ -310,15 +310,7 @@ def read_tceq_to_pl_dataframe(filepath,
     return df_clean_piv
 
 
-if __name__ == "__main__":
 
-    file_path = Path(os.path.realpath(__file__)).parent
-    # print(type(file_path))
-    fpath = f"{file_path}/../tests/test_data/2025_kc_autogc_w_ws_wd_comma.txt"
-    
-    a = read_tceq_to_pl_dataframe(fpath, save = False)
-
-    print(a)
 
 
 # %%

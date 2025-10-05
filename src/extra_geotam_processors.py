@@ -1,21 +1,22 @@
 #%%
-import os
 from pathlib import Path
 import pandas as pd
+import tceq_geotam_processor as tgp
+import importlib
+importlib.reload(tgp)
+from importlib import resources
 
-
+def pull_extras_data(ref_dir, ref_file):
+    with resources.path(ref_dir, ref_file) as ref_path:
+        return ref_path, pd.read_table(ref_path)
+    
 #### Extras
 def convert_ref_files_to_csv():
-    file_path = Path(os.path.realpath(__file__)).parent
 
-    params = fr"{file_path}/ref_files/tceq_parameters.txt"
-    units = fr"{file_path}/ref_files/tceq_units.txt"
-    site_info = fr"{file_path}/ref_files/tceq_site_locations.txt"
 
-    tceq_keys = pd.read_table(params) 
-    tceq_units = pd.read_table(units)
-    tceq_site_info = pd.read_table(site_info)
-
+    params, tceq_keys = pull_extras_data("ref_files", "tceq_parameters.txt")
+    units, tceq_units = pull_extras_data("ref_files", "tceq_units.txt")
+    site_info, tceq_site_info = pull_extras_data("ref_files", "tceq_site_locations.txt")
 
     tceq_keys.rename(columns = {"Parm Code": "Parameter Cd", "Name":"Parameter Name"}, inplace = True)
     tceq_units.rename(columns = {"Code": "Unit Cd", "Description": "Unit Description", "Abbr": "Unit Abbr", "Type": "Unit Type"}, inplace = True)
@@ -32,4 +33,6 @@ def convert_ref_files_to_csv():
 
 if __name__ == "__main__":
     convert_ref_files_to_csv() 
+
+
 # %%
