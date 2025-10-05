@@ -308,7 +308,7 @@ if __name__ == "__main__":
 
     file_path = Path(os.path.realpath(__file__)).parent
     # print(type(file_path))
-    fpath = f"{file_path}/../tests/2025_kc_autogc_w_ws_wd_comma.txt"
+    fpath = f"{file_path}/../tests/test_data/2025_kc_autogc_w_ws_wd_comma.txt"
     
     read_tceq_to_pl_dataframe(fpath, save = True)
 
