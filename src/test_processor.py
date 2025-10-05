@@ -1,3 +1,4 @@
+#%%
 from pathlib import Path
 import os 
 import geotam_processor as gp
@@ -38,6 +39,9 @@ def test_comma_pl():
     f1 = f"{file_path}/../tests/2025_kc_autogc_w_ws_wd_comma.txt"
     pt.read_tceq_to_pl_dataframe(f1, save = True, saved_file_type="csv")
 
+def test_pipe_pl():
+    
+
 if __name__ == "__main__":
     # test_pipe()
     # test_comma()
@@ -45,3 +49,4 @@ if __name__ == "__main__":
     # test_tab()
     test_comma_pl()
     
+# %%

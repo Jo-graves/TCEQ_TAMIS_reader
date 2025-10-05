@@ -3,7 +3,7 @@ import polars as pl
 from pathlib import Path
 import os
 
-def get_TCEQ_header_row_number(filepath: str):
+def get_TCEQ_header_row_number(filepath: str) -> int:
     '''
     Finds the number of rows from the start of a TCEQ GeoTAMIS report that 
     the data column headers are located
@@ -32,7 +32,39 @@ def get_TCEQ_header_row_number(filepath: str):
             for line_index, line in enumerate(pracfile):
                 if "State Cd" in line:
                     return line_index
+
+def get_delimiter(filepath: str) -> str:
+    '''
+    Reads the raw file header lines and finds the character string used to
+    delimit the data columns.
+    
+    Parameters
+    ----------
+    filepath: str
+        filepath to GeoTAMIS data to open and parse
+
+        
+    Returns
+    ----------
+    str
+        The character string used to
+        delimit the data columns.
+
+    
+    Example
+    ---------
+    # TODO
+    '''
+    
+    with open(filepath, "r+") as pracfile: 
+            for line_index, line in enumerate(pracfile):
+                if "Fields Delimited by: " in line:
+                    delimiter = line.split("Fields Delimited by: ")[1].split()[0]
+                    if delimiter == "Tab":
+                        delimiter = "\t"
+                    return delimiter
                 
+
 def polars_convert_date_and_time_columns_to_datetime(df: pl.DataFrame,
                                               date_column: str = "Date",
                                               date_format: str = "%Y%m%d",
