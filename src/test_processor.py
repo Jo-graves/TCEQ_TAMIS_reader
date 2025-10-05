@@ -117,7 +117,7 @@ def compare_tceq_formatted_and_processed_data_ethane():
 
 
 def compare_tceq_formatted_and_processed_data_ethane_2025():
-    f1 = f"{file_path}/../tests/2025_kc_autogc_w_ws_wd_comma.txt"
+    f1 = f"{file_path}/../tests/2025_kc_autogc_w_ws_wd_tab.txt"
     df = pt.read_tceq_to_pl_dataframe(f1, save = False, saved_file_type="csv")
     df = df.select(pl.col("Datetime", "TCEQ Ethane (ppbv)"))
     df = df.with_columns(pl.col("TCEQ Ethane (ppbv)").round(2))
@@ -125,11 +125,13 @@ def compare_tceq_formatted_and_processed_data_ethane_2025():
     df2 = proc_tceq_formatted_ethane_2025()
     # df2 = df2.filter(pl.col("Datetime").is_between(pl.datetime(2025,4,8, time_zone = "Etc/GMT+6"), pl.datetime(2023,4,20,23, time_zone = "Etc/GMT+6"))).sort('Datetime')
 
-    print(df2)
-    print(df)
-    df = df.filter(pl.col("Datetime").is_between(pl.datetime(2025,4,8, time_zone = "Etc/GMT+6"), pl.datetime(2025,4,20,23, time_zone = "Etc/GMT+6"))).sort('Datetime')
-    df2 = df2.filter(pl.col("Datetime").is_between(pl.datetime(2025,4,8, time_zone = "Etc/GMT+6"), pl.datetime(2025,4,20,23, time_zone = "Etc/GMT+6"))).sort('Datetime')
+    # print(df2)
+    # print(df)
+    df = df.filter(pl.col("Datetime").is_between(pl.datetime(2025,4,8, time_zone = "Etc/GMT+6"), pl.datetime(2025,4,20,23, time_zone = "Etc/GMT+6"))).sort('Datetime').upsample("Datetime", every="1h", maintain_order = True)
+    df2 = df2.filter(pl.col("Datetime").is_between(pl.datetime(2025,4,8, time_zone = "Etc/GMT+6"), pl.datetime(2025,4,20,23, time_zone = "Etc/GMT+6"))).sort('Datetime').upsample("Datetime", every="1h", maintain_order = True)
     
+    # print(df, df2)
+
 
     # If no error, they're essentially the same
     ptesting.assert_frame_equal(df, df2, check_exact = False, abs_tol = 0.1)
