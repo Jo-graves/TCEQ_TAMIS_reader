@@ -62,6 +62,7 @@ def get_delimiter(filepath: str) -> str:
                     delimiter = line.split("Fields Delimited by: ")[1].split()[0]
                     if delimiter == "Tab":
                         delimiter = "\t"
+
                     return delimiter
                 
 def polars_convert_date_and_time_columns_to_datetime(df: pl.DataFrame,
@@ -224,8 +225,10 @@ def read_and_extract_tceq_data_to_df(filepath: str | Path,
      
     # Read in table
     TCEQ_HEADER = get_TCEQ_header_row_number(filepath)
+    DELIM = get_delimiter(filepath)
     df = pl.read_csv(filepath, 
-                     has_header=True, 
+                     has_header=True,
+                     separator = DELIM, 
                      skip_rows=TCEQ_HEADER)
 
     # drop columns if all values are null
@@ -240,6 +243,8 @@ def read_and_extract_tceq_data_to_df(filepath: str | Path,
     return df
      
 def get_clean_reference_info():
+
+    ## TODO: convert this to importlib.resources approach
 
     '''
     Pulls in GeoTAMIS parameter, unit, and site codes for labeling raw GeoTAMIS data'''
