@@ -5,41 +5,43 @@ from importlib import resources
 
 def get_TCEQ_header_row_number(filepath: str | Path) -> int:
     '''
-    Finds the number of rows from the start of a TCEQ GeoTAMIS report that 
+Finds the number of rows from the start of a TCEQ GeoTAMIS report that 
+the data column headers are located
+
+Parameters
+----------
+filepath: str
+    filepath to GeoTAMIS data to open and parse
+
+    
+Returns
+----------
+int
+    The number of rows from the start of the TCEQ GeoTAMIS report that 
     the data column headers are located
-    
-    Parameters
-    ----------
-    filepath: str
-        filepath to GeoTAMIS data to open and parse
 
-        
-    Returns
-    ----------
-    int
-        The number of rows from the start of the TCEQ GeoTAMIS report that 
-        the data column headers are located
 
-    
-    Example
-    ---------
+Example
+---------
 
-    Sample raw data report:
+Sample raw data report:
 
-    ===============================================================================
-    1.       AQS Raw Data (RD) Transaction Report, Version 1.6, 3/11/2011
-    2.       Run By: TAMIS User
-    ...
-    12.       Transaction Type,Action,State Cd,County Cd,Site ID,Parameter Cd,...
-    13.   RD,I,48,255,1070,43202,01,1,008,128,20250407,00:00,55.055,,,,,,,,,,,,,,,
-    ...
-    ===============================================================================
+```
+===============================================================================
+1.   AQS Raw Data (RD) Transaction Report, Version 1.6, 3/11/2011
+2.   Run By: TAMIS User 
+...
+12.  Transaction Type,Action,State Cd,County Cd,Site ID,Parameter Cd,...
+13.  RD,I,48,255,1070,43202,01,1,008,128,20250407,00:00,55.055,,,,,,,,,,,,,,,
+...
+===============================================================================
+```
 
-    If data is stored in "filepath":
-
-    >>> tgp.get_TCEQ_header_row_number(filepath)
-    12
-    
+If data is stored in "filepath":
+```
+>>> tgp.get_TCEQ_header_row_number(filepath)
+12
+```  
     '''
 
     with open(filepath, "r+") as pracfile: 
@@ -49,56 +51,59 @@ def get_TCEQ_header_row_number(filepath: str | Path) -> int:
 
 def get_delimiter(filepath: str | Path) -> str:
     '''
-    Reads the raw file header lines and finds the character string used to
+Reads the raw file header lines and finds the character string used to
+delimit the data columns.
+
+Parameters
+----------
+filepath: str
+    filepath to GeoTAMIS data to open and parse
+
+    
+Returns
+----------
+str
+    The character string used to
     delimit the data columns.
-    
-    Parameters
-    ----------
-    filepath: str
-        filepath to GeoTAMIS data to open and parse
 
-        
-    Returns
-    ----------
-    str
-        The character string used to
-        delimit the data columns.
 
     
-    Examples
-    ---------
-    Sample raw data report with comma delimiter:
+Examples
+---------
+    
+Sample raw data report with comma delimiter:
 
-    ===============================================================================
-        AQS Raw Data (RD) Transaction Report, Version 1.6, 3/11/2011
-        ...
-        Run Date: 08/29/2025 16:58:22,  Run Time:      3.00 seconds
-        Fields Delimited by: ,  Action: I  Caution!  This report does not use the pipe (|) delimiter required in AQS Transaction reports.
-        ...
-    ===============================================================================
+```
+AQS Raw Data (RD) Transaction Report, Version 1.6, 3/11/2011 
+... 
+Run Date: 08/29/2025 16:58:22,  Run Time:      3.00 seconds
+Fields Delimited by: ,  Action: I  Caution!  This report does not use the pipe (|) delimiter required in AQS Transaction reports.
+...
+``` 
 
-    If data is stored in "filepath":
 
-    >>> tgp.get_delimiter(filepath)
-    ,
+If data is stored in "filepath":
 
+```
+>>> tgp.get_delimiter(filepath)
+,
+```
     
 
-    Sample raw data report with tab delimiter:
+Sample raw data report with tab delimiter:
+```
+AQS Raw Data (RD) Transaction Report, Version 1.6, 3/11/2011
+...
+Run Date: 08/29/2025 16:58:22,  Run Time:      3.00 seconds 
+Fields Delimited by: Tab  Action: I  Caution!  This report does not use the pipe (|) delimiter required in AQS Transaction reports.
+...
+```
 
-    ===============================================================================
-        AQS Raw Data (RD) Transaction Report, Version 1.6, 3/11/2011
-        ...
-        Run Date: 08/29/2025 16:58:22,  Run Time:      3.00 seconds
-        Fields Delimited by: Tab  Action: I  Caution!  This report does not use the pipe (|) delimiter required in AQS Transaction reports.
-        ...
-    ===============================================================================
-
-    If data is stored in "filepath":
-
-    >>> tgp.get_delimiter(filepath)
-    \t
-    
+If data is stored in "filepath":
+```
+>>> tgp.get_delimiter(filepath)
+\\t
+```  
     '''
 
     with open(filepath, "r+") as pracfile: 
@@ -110,7 +115,6 @@ def get_delimiter(filepath: str | Path) -> str:
 
                     return delimiter
 
-
 def polars_convert_date_and_time_columns_to_datetime(df: pl.DataFrame,
                                               date_column: str = "Date",
                                               date_format: str = "%Y%m%d",
@@ -119,93 +123,96 @@ def polars_convert_date_and_time_columns_to_datetime(df: pl.DataFrame,
                                               tzone_in: str = None, 
                                               tzone_out: str = None ) -> pl.DataFrame:
     '''
-    Create combined datetime column with tzone info from individual date and time columns in a polars dataframe
+Create combined datetime column with tzone info from individual date and time columns in a polars dataframe
+
+
+Parameters
+-----------
+df: pl.Dataframe
+    Polars dataframe with individual date and time columns to convert
+
+date_column: str
+    Name of column containing date information
+
+date_format: str
+    datetime format code representing the format of the date_column data
+
+time_column: str
+    Name of column containing time information
+
+time_format: str
+    datetime format code representing the format of the time_column data
+
+tzone_in: str
+    Timezone code for date and times being read in. TCEQ TAMIS data is presented in LST. \t
+    Default: None 
+    
+tzone_out: str
+    Timezone code output data is converted to. \t
+    Default: Etc/GMT+6
 
     
-    Parameters
-    -----------
-    df: pl.Dataframe
-        Polars dataframe with individual date and time columns to convert
-    
-    date_column: str
-        Name of column containing date information
+Returns
+---------
 
-    date_format: str
-        datetime format code representing the format of the date_column data
-    
-    time_column: str
-        Name of column containing time information
-
-    time_format: str
-        datetime format code representing the format of the time_column data
-
-    tzone_in: str
-        Timezone code for date and times being read in. TCEQ TAMIS data is presented in LST. 
-        Default: None 
-        
-    tzone_out: str
-        Timezone code output data is converted to.
-        Default: ETC/GMT+6 -- the timezone covering most of Texas. Stations near El-Paso will be ETC/GMT+7.
-
-        
-    Returns
-    ---------
-
-    pl.Dataframe
-        View of the original polars dataframe passed to the function now with a new "Datetime" column 
-        that is the combination of the original date and time columns
+pl.Dataframe
+    The original polars dataframe now with a new "Datetime" column 
 
 
-    Example
-    ---------
-    >>> d_range = pl.datetime_range(pl.datetime(2025, 4, 7), pl.datetime(2025, 4, 21,23), eager = True, interval="1h")
-    >>> df = pl.DataFrame({"Date": d_range.dt.date().dt.strftime("%Y%m%d").cast(int), "Time": d_range.dt.time().dt.strftime("%H:%M")})
-    >>> df
-    ┌──────────┬───────┐
-    │ Date     ┆ Time  │
-    │ ---      ┆ ---   │
-    │ i64      ┆ str   │
-    ╞══════════╪═══════╡
-    │ 20250407 ┆ 00:00 │
-    │ 20250407 ┆ 01:00 │
-    │ 20250407 ┆ 02:00 │
-    │ 20250407 ┆ 03:00 │
-    │ 20250407 ┆ 04:00 │
-    │ …        ┆ …     │
-    │ 20250421 ┆ 19:00 │
-    │ 20250421 ┆ 20:00 │
-    │ 20250421 ┆ 21:00 │
-    │ 20250421 ┆ 22:00 │
-    │ 20250421 ┆ 23:00 │
-    └──────────┴───────┘
+Example
+---------
+```
+>>> d_range = pl.datetime_range(pl.datetime(2025, 4, 7), pl.datetime(2025, 4, 21,23), eager = True, interval="1h")
+>>> df = pl.DataFrame({"Date": d_range.dt.date().dt.strftime("%Y%m%d").cast(int), "Time": d_range.dt.time().dt.strftime("%H:%M")})
+>>> df
+┌──────────┬───────┐
+│ Date     ┆ Time  │
+│ ---      ┆ ---   │
+│ i64      ┆ str   │
+╞══════════╪═══════╡
+│ 20250407 ┆ 00:00 │
+│ 20250407 ┆ 01:00 │
+│ 20250407 ┆ 02:00 │
+│ 20250407 ┆ 03:00 │
+│ 20250407 ┆ 04:00 │
+│ …        ┆ …     │
+│ 20250421 ┆ 19:00 │
+│ 20250421 ┆ 20:00 │
+│ 20250421 ┆ 21:00 │
+│ 20250421 ┆ 22:00 │
+│ 20250421 ┆ 23:00 │
+└──────────┴───────┘
 
-    >>> df2 = tgp.polars_convert_date_and_time_columns_to_datetime(df = df, 
-                                                                  date_column = "Date",
-                                                                  date_format: str = "%Y%m%d",
-                                                                  time_column: str = "Time",
-                                                                  time_format: str = "%H:%M",
-                                                                  tzone_in: str = "Etc/GMT+6", 
-                                                                  tzone_out: str = "Etc/GMT+6")
-    >>> df2
-    ┌────────────┬──────────┬─────────────────────────┐
-    │ Date       ┆ Time     ┆ Datetime                │
-    │ ---        ┆ ---      ┆ ---                     │
-    │ date       ┆ time     ┆ datetime[μs, Etc/GMT+6] │
-    ╞════════════╪══════════╪═════════════════════════╡
-    │ 2025-04-07 ┆ 00:00:00 ┆ 2025-04-07 00:00:00 -06 │
-    │ 2025-04-07 ┆ 03:00:00 ┆ 2025-04-07 03:00:00 -06 │
-    │ 2025-04-07 ┆ 04:00:00 ┆ 2025-04-07 04:00:00 -06 │
-    │ 2025-04-07 ┆ 05:00:00 ┆ 2025-04-07 05:00:00 -06 │
-    │ 2025-04-07 ┆ 06:00:00 ┆ 2025-04-07 06:00:00 -06 │
-    │ …          ┆ …        ┆ …                       │
-    │ 2025-04-21 ┆ 19:00:00 ┆ 2025-04-21 19:00:00 -06 │
-    │ 2025-04-21 ┆ 20:00:00 ┆ 2025-04-21 20:00:00 -06 │
-    │ 2025-04-21 ┆ 21:00:00 ┆ 2025-04-21 21:00:00 -06 │
-    │ 2025-04-21 ┆ 22:00:00 ┆ 2025-04-21 22:00:00 -06 │
-    │ 2025-04-21 ┆ 23:00:00 ┆ 2025-04-21 23:00:00 -06 │
-    └────────────┴──────────┴─────────────────────────┘
+>>> df2 = tgp.polars_convert_date_and_time_columns_to_datetime(df = df, 
+                                                                date_column = "Date",
+                                                                date_format: str = "%Y%m%d",
+                                                                time_column: str = "Time",
+                                                                time_format: str = "%H:%M",
+                                                                tzone_in: str = "Etc/GMT+6", 
+                                                                tzone_out: str = "Etc/GMT+6")
+>>> df2
+┌────────────┬──────────┬─────────────────────────┐
+│ Date       ┆ Time     ┆ Datetime                │
+│ ---        ┆ ---      ┆ ---                     │
+│ date       ┆ time     ┆ datetime[μs, Etc/GMT+6] │
+╞════════════╪══════════╪═════════════════════════╡
+│ 2025-04-07 ┆ 00:00:00 ┆ 2025-04-07 00:00:00 -06 │
+│ 2025-04-07 ┆ 03:00:00 ┆ 2025-04-07 03:00:00 -06 │
+│ 2025-04-07 ┆ 04:00:00 ┆ 2025-04-07 04:00:00 -06 │
+│ 2025-04-07 ┆ 05:00:00 ┆ 2025-04-07 05:00:00 -06 │
+│ 2025-04-07 ┆ 06:00:00 ┆ 2025-04-07 06:00:00 -06 │
+│ …          ┆ …        ┆ …                       │
+│ 2025-04-21 ┆ 19:00:00 ┆ 2025-04-21 19:00:00 -06 │
+│ 2025-04-21 ┆ 20:00:00 ┆ 2025-04-21 20:00:00 -06 │
+│ 2025-04-21 ┆ 21:00:00 ┆ 2025-04-21 21:00:00 -06 │
+│ 2025-04-21 ┆ 22:00:00 ┆ 2025-04-21 22:00:00 -06 │
+│ 2025-04-21 ┆ 23:00:00 ┆ 2025-04-21 23:00:00 -06 │
+└────────────┴──────────┴─────────────────────────┘
 
-
+```
+Notes
+-------
+Etc/GMT+6 is the timezone covering most of Texas. Stations near El-Paso will be Etc/GMT+7.
 
     '''
 
@@ -228,73 +235,76 @@ def polars_convert_date_and_time_columns_to_datetime(df: pl.DataFrame,
 
     return df
    
-
-
 def pl_drop_col_if_all_null(df: pl.DataFrame) -> pl.DataFrame:
 
     '''
-    Drops all columns in a dataframe which have only null records. 
-    There are sometimes many of these - usually occurs if specific station does not
-    have equipment for measuring parameter specfied.
-    
-    
-    Parameters
-    ----------
-    df: pl.DataFrame
-        dataframe to drop columns from
+Drops all columns in a dataframe which have only null records. 
 
 
-    Returns
-    ----------
-    pl.Dataframe
-        view of original dataframew with null columns removed
+Parameters
+----------
+df: pl.DataFrame
+    dataframe to drop columns from
 
 
-    Example
-    ----------
+Returns
+----------
+pl.Dataframe
+    Original dataframe with null columns removed
 
-    >>> d_range = pl.datetime_range(pl.datetime(2025, 4, 7), pl.datetime(2025, 4, 21,23), eager = True, interval="1h")
-    >>> a = np.arange(0, len(d_range), 1)
-    >>> df = pl.DataFrame({"Datetime": d_range, "a": a})
-    >>> df = df.with_columns(pl.lit(None).alias("b"), pl.lit(None).alias("c"))
-    >>> df
-    ┌─────────────────────┬─────┬──────┬──────┐
-    │ Datetime            ┆ a   ┆ b    ┆ c    │
-    │ ---                 ┆ --- ┆ ---  ┆ ---  │
-    │ datetime[μs]        ┆ i64 ┆ null ┆ null │
-    ╞═════════════════════╪═════╪══════╪══════╡
-    │ 2025-04-07 00:00:00 ┆ 0   ┆ null ┆ null │
-    │ 2025-04-07 01:00:00 ┆ 1   ┆ null ┆ null │
-    │ 2025-04-07 02:00:00 ┆ 2   ┆ null ┆ null │
-    │ 2025-04-07 03:00:00 ┆ 3   ┆ null ┆ null │
-    │ 2025-04-07 04:00:00 ┆ 4   ┆ null ┆ null │
-    │ …                   ┆ …   ┆ …    ┆ …    │
-    │ 2025-04-21 19:00:00 ┆ 355 ┆ null ┆ null │
-    │ 2025-04-21 20:00:00 ┆ 356 ┆ null ┆ null │
-    │ 2025-04-21 21:00:00 ┆ 357 ┆ null ┆ null │
-    │ 2025-04-21 22:00:00 ┆ 358 ┆ null ┆ null │
-    │ 2025-04-21 23:00:00 ┆ 359 ┆ null ┆ null │
-    └─────────────────────┴─────┴──────┴──────┘
 
-    >>> df = tgp.pl_drop_col_if_all_null(df = df)
-    >>> df
-    ┌─────────────────────┬─────┐
-    │ Datetime            ┆ a   │
-    │ ---                 ┆ --- │
-    │ datetime[μs]        ┆ i64 │
-    ╞═════════════════════╪═════╡
-    │ 2025-04-07 00:00:00 ┆ 0   │
-    │ 2025-04-07 01:00:00 ┆ 1   │
-    │ 2025-04-07 02:00:00 ┆ 2   │
-    │ 2025-04-07 03:00:00 ┆ 3   │
-    │ 2025-04-07 04:00:00 ┆ 4   │
-    │ …                   ┆ …   │
-    │ 2025-04-21 19:00:00 ┆ 355 │
-    │ 2025-04-21 20:00:00 ┆ 356 │
-    │ 2025-04-21 21:00:00 ┆ 357 │
-    │ 2025-04-21 22:00:00 ┆ 358 │
-    │ 2025-04-21 23:00:00 ┆ 359 │
-    └─────────────────────┴─────┘
+Example
+----------
+```
+>>> d_range = pl.datetime_range(pl.datetime(2025, 4, 7), pl.datetime(2025, 4, 21,23), eager = True, interval="1h")
+>>> a = np.arange(0, len(d_range), 1)
+>>> df = pl.DataFrame({"Datetime": d_range, "a": a})
+>>> df = df.with_columns(pl.lit(None).alias("b"), pl.lit(None).alias("c"))
+>>> df
+┌─────────────────────┬─────┬──────┬──────┐
+│ Datetime            ┆ a   ┆ b    ┆ c    │
+│ ---                 ┆ --- ┆ ---  ┆ ---  │
+│ datetime[μs]        ┆ i64 ┆ null ┆ null │
+╞═════════════════════╪═════╪══════╪══════╡
+│ 2025-04-07 00:00:00 ┆ 0   ┆ null ┆ null │
+│ 2025-04-07 01:00:00 ┆ 1   ┆ null ┆ null │
+│ 2025-04-07 02:00:00 ┆ 2   ┆ null ┆ null │
+│ 2025-04-07 03:00:00 ┆ 3   ┆ null ┆ null │
+│ 2025-04-07 04:00:00 ┆ 4   ┆ null ┆ null │
+│ …                   ┆ …   ┆ …    ┆ …    │
+│ 2025-04-21 19:00:00 ┆ 355 ┆ null ┆ null │
+│ 2025-04-21 20:00:00 ┆ 356 ┆ null ┆ null │
+│ 2025-04-21 21:00:00 ┆ 357 ┆ null ┆ null │
+│ 2025-04-21 22:00:00 ┆ 358 ┆ null ┆ null │
+│ 2025-04-21 23:00:00 ┆ 359 ┆ null ┆ null │
+└─────────────────────┴─────┴──────┴──────┘
+
+>>> df = tgp.pl_drop_col_if_all_null(df = df)
+>>> df
+┌─────────────────────┬─────┐
+│ Datetime            ┆ a   │
+│ ---                 ┆ --- │
+│ datetime[μs]        ┆ i64 │
+╞═════════════════════╪═════╡
+│ 2025-04-07 00:00:00 ┆ 0   │
+│ 2025-04-07 01:00:00 ┆ 1   │
+│ 2025-04-07 02:00:00 ┆ 2   │
+│ 2025-04-07 03:00:00 ┆ 3   │
+│ 2025-04-07 04:00:00 ┆ 4   │
+│ …                   ┆ …   │
+│ 2025-04-21 19:00:00 ┆ 355 │
+│ 2025-04-21 20:00:00 ┆ 356 │
+│ 2025-04-21 21:00:00 ┆ 357 │
+│ 2025-04-21 22:00:00 ┆ 358 │
+│ 2025-04-21 23:00:00 ┆ 359 │
+└─────────────────────┴─────┘
+```
+
+Notes
+------
+There are sometimes many null columns after the raw data is processed. It usually occurs if a station does not
+have equipment for measuring all of the parameters included in the data access request. 
+Dropping all null columns manually is usually cumbersome.
     '''
     
     df = df[[column.name for column in df if not (column.null_count() == df.height)]]
@@ -306,111 +316,111 @@ def read_and_extract_tceq_data_to_df(filepath: str | Path,
                      **kwargs) -> pl.DataFrame:
 
     '''
-    Reads a TCEQ GeoTAMIS report (.txt), extracts the data,  processes the timezone info, 
-    and returns a polars dataframe
+Reads a TCEQ GeoTAMIS report (.txt), extracts the data,  processes the timezone info, 
+and returns a polars dataframe. Data is described by parameter and unit codes.
 
 
-    Parameters
-    -----------
-    filepath: str | Path
-        filepath or Path (e.g. returned from pathlib.Path()) to GeoTAMIS 
-        report to read and process
-    
-    tzone_in: str
-        Timezone code for date and times being read in. TCEQ TAMIS data is presented in LST. 
-        Default: None 
+Parameters
+-----------
+filepath: str | Path
+    filepath or Path (e.g. returned from pathlib.Path()) to GeoTAMIS 
+    report to read and process
 
-    tzone_out: str
-        Timezone code output data is converted to.
-        Default: ETC/GMT+6 -- the timezone covering most of Texas. Stations near El-Paso will be ETC/GMT+7.
+tzone_in: str
+    Timezone code for date and times being read in. TCEQ TAMIS data is presented in LST. 
+    Default: None 
 
-    **kwargs: str
-        Additional arguments passed to tzone conversion. See polars_convert_data_and_time_columns_to_datetime().
+tzone_out: str
+    Timezone code output data is converted to.
+    Default: ETC/GMT+6 -- the timezone covering most of Texas. Stations near El-Paso will be ETC/GMT+7.
 
-
-    
-    Returns
-    ---------
-    pl.Dataframe
-        polars dataframe in wide format containing GeoTAMIS records
-
-
-    Example
-    --------
-    Sample data from raw GeoTAMIS report:
-
-    AQS Raw Data (RD) Transaction Report, Version 1.6, 3/11/2011
-    Run By: TAMIS User
-    Run Date: 08/29/2025 16:58:22,  Run Time:      3.00 seconds
-    Fields Delimited by: ,  Action: I  Caution!  This report does not use the pipe (|) delimiter required in AQS Transaction reports.
-    Measurements reported from: 04/07/2025 00:00:00 up to but not including: 04/22/2025 00:00:00
-    Sample Duration Code: 1  Report in AQS Units: N
-    Report only valid data: Y  Validation levels included (0,1,2,3): 3
-    Only allow AQS codes: N  Column headings included: Y
-    Report Missing Measurements: N  Check for Negative Measurements: N
-    Comment: 
-    Transaction Type,Action,State Cd,County Cd,Site ID,Parameter Cd,POC,Dur Cd,Unit Cd,Meth Cd,Date,Time,Value,Null Data Cd,Col Freq,Mon Protocol ID,Qual Cd 1,Qual Cd 2,Qual Cd 3,Qual Cd 4,Qual Cd 5,Qual Cd 6,Qual Cd 7,Qual Cd 8,Qual Cd 9,Qual Cd 10,Alternate MDL,Uncertainty Value
-    RD,I,48,255,1070,43202,01,1,008,128,20250407,00:00,55.055,,,,,,,,,,,,,,,
-    RD,I,48,255,1070,43202,01,1,008,128,20250407,03:00,44.3327,,,,,,,,,,,,,,,
-    RD,I,48,255,1070,43202,01,1,008,128,20250407,04:00,35.5938,,,,,,,,,,,,,,,
-    RD,I,48,255,1070,43202,01,1,008,128,20250407,05:00,40.8661,,,,,,,,,,,,,,,
-    RD,I,48,255,1070,43202,01,1,008,128,20250407,06:00,41.76815,,,,,,,,,,,,,,,
-    RD,I,48,255,1070,43202,01,1,008,128,20250407,07:00,36.3294,,,,,,,,,,,,,,,
-
-    If data is in file at "filepath":
-
-    >>> df = tgp.read_and_extract_tceq_data_to_df(fpath = filepath, 
-                                                  tzone_in = "Etc/GMT+6", 
-                                                  tzone_out = "Etc/GMT+6")
-    >>> df.columns
-    ['Transaction Type', 'Action', 'State Cd', 'County Cd', 'Site ID', 'Parameter Cd', 'POC', 'Dur Cd', 'Unit Cd', 'Meth Cd', 'Date', 'Time', 'Value', 'Datetime']
-
-    >>> df.head(5)
-
-    ┌─────────────┬────────┬──────────┬───────────┬───┬────────────┬──────────┬──────────┬─────────────┐
-    │ Transaction ┆ Action ┆ State Cd ┆ County Cd ┆ … ┆ Date       ┆ Time     ┆ Value    ┆ Datetime    │
-    │ Type        ┆ ---    ┆ ---      ┆ ---       ┆   ┆ ---        ┆ ---      ┆ ---      ┆ ---         │
-    │ ---         ┆ str    ┆ i64      ┆ i64       ┆   ┆ date       ┆ time     ┆ f64      ┆ datetime[μs │
-    │ str         ┆        ┆          ┆           ┆   ┆            ┆          ┆          ┆ ,           │
-    │             ┆        ┆          ┆           ┆   ┆            ┆          ┆          ┆ Etc/GMT+6]  │
-    ╞═════════════╪════════╪══════════╪═══════════╪═══╪════════════╪══════════╪══════════╪═════════════╡
-    │ RD          ┆ I      ┆ 48       ┆ 255       ┆ … ┆ 2025-04-07 ┆ 00:00:00 ┆ 55.055   ┆ 2025-04-07  │
-    │             ┆        ┆          ┆           ┆   ┆            ┆          ┆          ┆ 00:00:00    │
-    │             ┆        ┆          ┆           ┆   ┆            ┆          ┆          ┆ -06         │
-    │ RD          ┆ I      ┆ 48       ┆ 255       ┆ … ┆ 2025-04-07 ┆ 03:00:00 ┆ 44.3327  ┆ 2025-04-07  │
-    │             ┆        ┆          ┆           ┆   ┆            ┆          ┆          ┆ 03:00:00    │
-    │             ┆        ┆          ┆           ┆   ┆            ┆          ┆          ┆ -06         │
-    │ RD          ┆ I      ┆ 48       ┆ 255       ┆ … ┆ 2025-04-07 ┆ 04:00:00 ┆ 35.5938  ┆ 2025-04-07  │
-    │             ┆        ┆          ┆           ┆   ┆            ┆          ┆          ┆ 04:00:00    │
-    │             ┆        ┆          ┆           ┆   ┆            ┆          ┆          ┆ -06         │
-    │ RD          ┆ I      ┆ 48       ┆ 255       ┆ … ┆ 2025-04-07 ┆ 05:00:00 ┆ 40.8661  ┆ 2025-04-07  │
-    │             ┆        ┆          ┆           ┆   ┆            ┆          ┆          ┆ 05:00:00    │
-    │             ┆        ┆          ┆           ┆   ┆            ┆          ┆          ┆ -06         │
-    │ RD          ┆ I      ┆ 48       ┆ 255       ┆ … ┆ 2025-04-07 ┆ 06:00:00 ┆ 41.76815 ┆ 2025-04-07  │
-    │             ┆        ┆          ┆           ┆   ┆            ┆          ┆          ┆ 06:00:00    │
-    │             ┆        ┆          ┆           ┆   ┆            ┆          ┆          ┆ -06         │
-    └─────────────┴────────┴──────────┴───────────┴───┴────────────┴──────────┴──────────┴─────────────┘
+**kwargs: str
+    Additional arguments passed to tzone conversion. See `polars_convert_data_and_time_columns_to_datetime`.
 
 
 
-    See also
-    ---------
-    polars_convert_date_and_time_columns_to_datetime()
+Returns
+---------
+pl.Dataframe
+    polars dataframe in wide format containing GeoTAMIS records
 
-    Info on time-tagging conventions from GeoTAMIS: https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_daily_summary.pl
-    
 
-    Helpful information
-    -------------------
+Example
+--------
+Sample data from raw GeoTAMIS report:
+```
+AQS Raw Data (RD) Transaction Report, Version 1.6, 3/11/2011
+Run By: TAMIS User
+Run Date: 08/29/2025 16:58:22,  Run Time:      3.00 seconds
+Fields Delimited by: ,  Action: I  Caution!  This report does not use the pipe (|) delimiter required in AQS Transaction reports.
+Measurements reported from: 04/07/2025 00:00:00 up to but not including: 04/22/2025 00:00:00
+Sample Duration Code: 1  Report in AQS Units: N
+Report only valid data: Y  Validation levels included (0,1,2,3): 3
+Only allow AQS codes: N  Column headings included: Y
+Report Missing Measurements: N  Check for Negative Measurements: N
+Comment: 
+Transaction Type,Action,State Cd,County Cd,Site ID,Parameter Cd,POC,Dur Cd,Unit Cd,Meth Cd,Date,Time,Value,Null Data Cd,Col Freq,Mon Protocol ID,Qual Cd 1,Qual Cd 2,Qual Cd 3,Qual Cd 4,Qual Cd 5,Qual Cd 6,Qual Cd 7,Qual Cd 8,Qual Cd 9,Qual Cd 10,Alternate MDL,Uncertainty Value
+RD,I,48,255,1070,43202,01,1,008,128,20250407,00:00,55.055,,,,,,,,,,,,,,,
+RD,I,48,255,1070,43202,01,1,008,128,20250407,03:00,44.3327,,,,,,,,,,,,,,,
+RD,I,48,255,1070,43202,01,1,008,128,20250407,04:00,35.5938,,,,,,,,,,,,,,,
+RD,I,48,255,1070,43202,01,1,008,128,20250407,05:00,40.8661,,,,,,,,,,,,,,,
+RD,I,48,255,1070,43202,01,1,008,128,20250407,06:00,41.76815,,,,,,,,,,,,,,,
+RD,I,48,255,1070,43202,01,1,008,128,20250407,07:00,36.3294,,,,,,,,,,,,,,,
+```
+If data is in file at "filepath":
+```
+>>> df = tgp.read_and_extract_tceq_data_to_df(fpath = filepath, 
+                                                tzone_in = "Etc/GMT+6", 
+                                                tzone_out = "Etc/GMT+6")
+>>> df.columns
+['Transaction Type', 'Action', 'State Cd', 'County Cd', 'Site ID', 'Parameter Cd', 'POC', 'Dur Cd', 'Unit Cd', 'Meth Cd', 'Date', 'Time', 'Value', 'Datetime']
 
-    GeoTAMIS reports data collected over some timestep at the start of the timestep 
-    (e.g., data collected between 1 p.m. and 2 p.m. is reported at 1 p.m.). Data is also
-    reported in local standard time (LST). Standard time does not consider daylight savings time.
-    Most of Texas is in Central Standard Time (CST), except for portions of the far west of the state
-    which is in mountain time (MT).
+>>> df.head(5)
 
-    Central standard time tzone code: Etc/GMT+6
-    Mountain time tzone code: Etc/GMT+7
+┌─────────────┬────────┬──────────┬───────────┬───┬────────────┬──────────┬──────────┬─────────────┐
+│ Transaction ┆ Action ┆ State Cd ┆ County Cd ┆ … ┆ Date       ┆ Time     ┆ Value    ┆ Datetime    │
+│ Type        ┆ ---    ┆ ---      ┆ ---       ┆   ┆ ---        ┆ ---      ┆ ---      ┆ ---         │
+│ ---         ┆ str    ┆ i64      ┆ i64       ┆   ┆ date       ┆ time     ┆ f64      ┆ datetime[μs │
+│ str         ┆        ┆          ┆           ┆   ┆            ┆          ┆          ┆ ,           │
+│             ┆        ┆          ┆           ┆   ┆            ┆          ┆          ┆ Etc/GMT+6]  │
+╞═════════════╪════════╪══════════╪═══════════╪═══╪════════════╪══════════╪══════════╪═════════════╡
+│ RD          ┆ I      ┆ 48       ┆ 255       ┆ … ┆ 2025-04-07 ┆ 00:00:00 ┆ 55.055   ┆ 2025-04-07  │
+│             ┆        ┆          ┆           ┆   ┆            ┆          ┆          ┆ 00:00:00    │
+│             ┆        ┆          ┆           ┆   ┆            ┆          ┆          ┆ -06         │
+│ RD          ┆ I      ┆ 48       ┆ 255       ┆ … ┆ 2025-04-07 ┆ 03:00:00 ┆ 44.3327  ┆ 2025-04-07  │
+│             ┆        ┆          ┆           ┆   ┆            ┆          ┆          ┆ 03:00:00    │
+│             ┆        ┆          ┆           ┆   ┆            ┆          ┆          ┆ -06         │
+│ RD          ┆ I      ┆ 48       ┆ 255       ┆ … ┆ 2025-04-07 ┆ 04:00:00 ┆ 35.5938  ┆ 2025-04-07  │
+│             ┆        ┆          ┆           ┆   ┆            ┆          ┆          ┆ 04:00:00    │
+│             ┆        ┆          ┆           ┆   ┆            ┆          ┆          ┆ -06         │
+│ RD          ┆ I      ┆ 48       ┆ 255       ┆ … ┆ 2025-04-07 ┆ 05:00:00 ┆ 40.8661  ┆ 2025-04-07  │
+│             ┆        ┆          ┆           ┆   ┆            ┆          ┆          ┆ 05:00:00    │
+│             ┆        ┆          ┆           ┆   ┆            ┆          ┆          ┆ -06         │
+│ RD          ┆ I      ┆ 48       ┆ 255       ┆ … ┆ 2025-04-07 ┆ 06:00:00 ┆ 41.76815 ┆ 2025-04-07  │
+│             ┆        ┆          ┆           ┆   ┆            ┆          ┆          ┆ 06:00:00    │
+│             ┆        ┆          ┆           ┆   ┆            ┆          ┆          ┆ -06         │
+└─────────────┴────────┴──────────┴───────────┴───┴────────────┴──────────┴──────────┴─────────────┘
+```
+
+
+See also
+---------
+`polars_convert_date_and_time_columns_to_datetime`
+
+Info on time-tagging conventions from GeoTAMIS: https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_daily_summary.pl
+
+
+Helpful information
+-------------------
+
+GeoTAMIS reports data collected over a given time interval at the beginning of the timestep 
+(e.g., data collected between 1 p.m. and 2 p.m. is reported at 1 p.m.). Data is also
+reported in local standard time (LST). Standard time does not consider daylight savings time.
+Most of Texas is in Central Standard Time (CST), except for portions of the far west of the state
+which is in mountain time (MT).
+
+**Central standard time tzone code:** Etc/GMT+6 \t
+**Mountain time tzone code:** Etc/GMT+7
 
     '''
      
@@ -466,8 +476,9 @@ def read_tceq_to_pl_dataframe(filepath: str | Path,
                               saved_file_type: str = "csv",
                               **kwargs) -> pl.DataFrame:
     
-    ''' 
-    Reads in GeoTAMIS raw data file and converts it to a human-readable polars dataframe. Data can be saved
+    """
+    
+    Read GeoTAMIS raw data file and convert to a polars dataframe with human-interpretable data. Data can be saved
     directly to .csv or .gzip (parquet) file formats. 
 
     Parameters
@@ -504,12 +515,11 @@ def read_tceq_to_pl_dataframe(filepath: str | Path,
         polars dataframe in wide format containing GeoTAMIS records with descriptive column names
 
 
-    Examples:
+    Example
     ----------
 
-    No saving
-    ===========
-    Sample data from raw GeoTAMIS report:
+    ```
+    Sample data from raw GeoTAMIS report: 
 
     AQS Raw Data (RD) Transaction Report, Version 1.6, 3/11/2011
     Run By: TAMIS User
@@ -528,9 +538,10 @@ def read_tceq_to_pl_dataframe(filepath: str | Path,
     RD,I,48,255,1070,43202,01,1,008,128,20250407,05:00,40.8661,,,,,,,,,,,,,,,
     RD,I,48,255,1070,43202,01,1,008,128,20250407,06:00,41.76815,,,,,,,,,,,,,,,
     RD,I,48,255,1070,43202,01,1,008,128,20250407,07:00,36.3294,,,,,,,,,,,,,,,
-
+    ``` 
     If data is in file at "filepath":
 
+    ```
     >>> df = tgp.read_tceq_to_pl_dataframe(fpath = filepath, 
                                            tzone_in = "Etc/GMT+6", 
                                            tzone_out = "Etc/GMT+6",
@@ -538,8 +549,9 @@ def read_tceq_to_pl_dataframe(filepath: str | Path,
     >>> df.columns
     ['Datetime', 'Site Name', 'Site ID', 'TCEQ Ethane (ppbv)', 'TCEQ Ethylene (ppbv)', ...,'TCEQ Wind Direction - Resultant (deg)', 'TCEQ Outdoor Temperature (Deg F)']
 
+   
     >>> df.head(5)
-
+    
     ┌────────────┬───────────┬─────────┬───────────┬───┬───────────┬───────────┬───────────┬───────────┐
     │ Datetime   ┆ Site Name ┆ Site ID ┆ TCEQ      ┆ … ┆ TCEQ 1,2, ┆ TCEQ Wind ┆ TCEQ Wind ┆ TCEQ      │
     │ ---        ┆ ---       ┆ ---     ┆ Ethane    ┆   ┆ 3-Trimeth ┆ Speed -   ┆ Direction ┆ Outdoor   │
@@ -564,10 +576,10 @@ def read_tceq_to_pl_dataframe(filepath: str | Path,
     │ 06:00:00   ┆ County    ┆         ┆           ┆   ┆           ┆           ┆           ┆           │
     │ -06        ┆           ┆         ┆           ┆   ┆           ┆           ┆           ┆           │
     └────────────┴───────────┴─────────┴───────────┴───┴───────────┴───────────┴───────────┴───────────┘
-
+    ```
     Saving
-    =======
-
+    -------
+    ```
     >>> df = tgp.read_tceq_to_pl_dataframe(fpath = filepath, 
                                            tzone_in = "Etc/GMT+6", 
                                            tzone_out = "Etc/GMT+6",
@@ -575,8 +587,8 @@ def read_tceq_to_pl_dataframe(filepath: str | Path,
                                            saved_file_type = "parquet")
 
     Processed file saved to: /path/to/filepath.gzip
-
-    '''
+    ```
+    """
     
     # Extract unformatted data to dataframe
     df = read_and_extract_tceq_data_to_df(filepath, tzone_in=tzone_in, tzone_out=tzone_out, **kwargs)
@@ -611,10 +623,4 @@ def read_tceq_to_pl_dataframe(filepath: str | Path,
             print(f"Processed file saved to: {Path(filepath).with_suffix(".gzip")}")
     
     return df_clean_piv
-
-
-
-
-
-
 
