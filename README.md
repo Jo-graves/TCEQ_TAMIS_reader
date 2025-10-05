@@ -43,14 +43,14 @@ https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.main
 > <img width="822" height="249" alt="image" src="https://github.com/user-attachments/assets/2fc065bf-6fe0-4ebc-a0e0-e9e50e3ef50b" />
 
 ## Reference tables
-Several reference tables are included in the package. Additional information is provided in [Reference Table Information](./resources/reference_table_information.md)
+Several reference tables are included in the package. Additional information is provided in [Reference table information](./docs/reference_table_information.md)
 
 ## Documentation
 
 The primary function is
 ### read_tceq_to_pl_dataframe()
 
-It is used to read GeoTAMIS raw data fils and convert them to a polars dataframe with human-interpretable data. Data can be saved directly to .csv or .gzip (parquet) file formats. 
+It is used to read GeoTAMIS raw data files and convert them to a polars dataframe with human-interpretable data. Data is returned as a polars dataframe. Alternatively, data can also be saved directly to .csv or .gzip (parquet) file formats. 
 
 Parameters
 -----------
