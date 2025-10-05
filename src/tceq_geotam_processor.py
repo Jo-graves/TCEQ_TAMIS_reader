@@ -466,7 +466,8 @@ def read_tceq_to_pl_dataframe(filepath: str | Path,
                               saved_file_type: str = "csv",
                               **kwargs) -> pl.DataFrame:
     
-    ''' Reads in GeoTAMIS raw data file and converts it to a human-readable polars dataframe. Data can be saved
+    ''' 
+    Reads in GeoTAMIS raw data file and converts it to a human-readable polars dataframe. Data can be saved
     directly to .csv or .gzip (parquet) file formats. 
 
     Parameters
@@ -617,7 +618,3 @@ def read_tceq_to_pl_dataframe(filepath: str | Path,
 
 
 
-# %%
-
-
-# %%

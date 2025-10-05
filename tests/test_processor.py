@@ -1,6 +1,4 @@
 #%%
-from pathlib import Path
-import os 
 import tceq_geotam_processor as pt
 import importlib
 import polars as pl
@@ -8,7 +6,6 @@ import polars.testing as ptesting
 from importlib import resources
 
 importlib.reload(pt)
-
 
 def test_comma():
     '''
@@ -54,9 +51,6 @@ def test_equivalence():
     ptesting.assert_frame_equal(df1, df3)
     ptesting.assert_frame_equal(df2, df3)
 
-
-
-
 def proc_tceq_formatted_ethane_2025():
 
     '''
@@ -94,7 +88,6 @@ def proc_tceq_formatted_ethane_2025():
 
     return df
 
-
 def compare_tceq_formatted_and_processed_data_ethane_2025():
 
     '''
@@ -118,7 +111,6 @@ def compare_tceq_formatted_and_processed_data_ethane_2025():
     ptesting.assert_frame_equal(df, df2, check_exact = False, abs_tol = 0.1)
     
 
-
 if __name__ == "__main__":
 
 
@@ -128,12 +120,3 @@ if __name__ == "__main__":
 
 
     
-
-
-
-
-# %%
-
-# %%
-
-# %%
