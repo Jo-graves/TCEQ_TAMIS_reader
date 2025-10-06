@@ -50,7 +50,7 @@ The [geoTAM viewer](https://tceq.maps.arcgis.com/apps/webappviewer/index.html?id
 ![alt text](image.png)
 
 ## Reference tables
-Several reference tables are included in the package. Additional information is provided in [Reference table information](./docs/reference_table_information.md)
+Several reference tables are included in the package. Additional information is provided in the [docs](./docs/reference_table_information.md)
 
 
 
