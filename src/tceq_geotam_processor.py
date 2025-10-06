@@ -149,7 +149,7 @@ tzone_in: str
     
 tzone_out: str
     Timezone code output data is converted to. \t
-    Default: Etc/GMT+6
+    Default: None
 
     
 Returns

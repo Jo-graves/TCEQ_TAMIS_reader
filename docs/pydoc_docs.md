@@ -200,7 +200,7 @@ Parameters
 - **tzone_out:** str
     
         Timezone code output data is converted to.
-        Default: Etc/GMT+6
+        Default: None
 
 
 Returns
@@ -282,12 +282,12 @@ Etc/GMT+6 is the timezone covering most of Texas. Stations near El-Paso will be 
 - **tzone_in:** str
     
         Timezone code for date and times being read in. TCEQ TAMIS data is presented in LST.
-        Default: None
+        Default: Etc/GMT+6
 
 - **tzone_out:** str
     
         Timezone code output data is converted to. 
-        Default: ETC/GMT+6
+        Default: Etc/GMT+6
 
 - ****kwargs**: str
     
@@ -390,12 +390,12 @@ which is in mountain time (MT).
 - **tzone_in:** str
     
         Timezone code for date and times being read in. TCEQ TAMIS data is presented in LST.
-        Default: None
+        Default: Etc/GMT+6
 
 - **tzone_out:** str
     
         Timezone code output data is converted to. 
-        Default: ETC/GMT+6 
+        Default: Etc/GMT+6 
 
 - **save:** bool
 

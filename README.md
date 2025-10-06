@@ -60,11 +60,11 @@ Parameters
     
     tzone_in: str
         Timezone code for date and times being read in. TCEQ TAMIS data is presented in LST. 
-        Default: None 
+        Default: Etc/GMT+6
 
     tzone_out: str
         Timezone code output data is converted to.
-        Default: ETC/GMT+6
+        Default: Etc/GMT+6
 
     save: bool
         Whether to save the data to a file or not. If true, the processed file is saved to the same path as the original .txt file with an updated file extension (.csv or .gzip)
