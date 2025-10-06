@@ -162,6 +162,6 @@ Processed file saved to: /path/to/filepath.gzip
 
 ## Additional documention
 
-An html documentation file is provided in [Docs](./docs/TCEQ_geotam_reader/src/tceq_geotam_processor.html)
+An html documentation file is provided in [Docs](./docs/pydoc_docs.md)
 
 
