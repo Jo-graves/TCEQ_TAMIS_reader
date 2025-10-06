@@ -378,6 +378,9 @@ which is in mountain time (MT).
 
 **Mountain time tzone code:** Etc/GMT+7
 
+**List of tz codes:** https://gist.github.com/heyalexej/8bf688fd67d7199be4a1682b3eec7568
+
+
 ## read_tceq_to_pl_dataframe() 
     Read GeoTAMIS raw data file and convert to a polars dataframe with human-interpretable data. Data can be saved directly to .csv or .gzip (parquet) file formats.
 

@@ -42,8 +42,17 @@ https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.main
 > 
 > <img width="822" height="249" alt="image" src="https://github.com/user-attachments/assets/2fc065bf-6fe0-4ebc-a0e0-e9e50e3ef50b" />
 
+
+
+### GeoTAM Viewer
+The [geoTAM viewer](https://tceq.maps.arcgis.com/apps/webappviewer/index.html?id=ab6f85198bda483a997a6956a8486539) is a useful resource to see how TAMIS sites are spatially related 
+
+![alt text](image.png)
+
 ## Reference tables
 Several reference tables are included in the package. Additional information is provided in [Reference table information](./docs/reference_table_information.md)
+
+
 
 ## Documentation
 

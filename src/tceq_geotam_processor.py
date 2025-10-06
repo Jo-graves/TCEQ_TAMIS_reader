@@ -421,6 +421,7 @@ which is in mountain time (MT).
 
 **Central standard time tzone code:** Etc/GMT+6 \t
 **Mountain time tzone code:** Etc/GMT+7
+**List of tz codes:** https://gist.github.com/heyalexej/8bf688fd67d7199be4a1682b3eec7568
 
     '''
      
