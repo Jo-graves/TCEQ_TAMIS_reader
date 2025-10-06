@@ -108,10 +108,12 @@ RD,I,48,255,1070,43202,01,1,008,128,20250407,07:00,36.3294,,,,,,,,,,,,,,,
 ...
 ...
 ``` 
-After installing the package, if data is in file at location "filepath":
+After installing the package, if the data is in a file with path "filepath":
 
 ```
 >>> import tceq_geotam_processor as tgp
+>>> from pathlib import Path
+>>> filepath = Path('/path/to/geotam/data')
 
 >>> df = tgp.read_tceq_to_pl_dataframe(fpath = filepath, 
                                         tzone_in = "Etc/GMT+6", 
@@ -162,6 +164,6 @@ Processed file saved to: /path/to/filepath.gzip
 
 ## Additional documention
 
-An html documentation file is provided in [Docs](./docs/pydoc_docs.md)
+Additional documention can be found in the [docs](./docs/pydoc_docs.md)
 
 
