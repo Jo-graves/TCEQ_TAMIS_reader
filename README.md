@@ -95,7 +95,7 @@ Several reference tables are included in the package for converting the raw air 
 
 
 
-## How-to
+## Using the package
 
 The primary function is
 ### read_tceq_to_pl_dataframe()
