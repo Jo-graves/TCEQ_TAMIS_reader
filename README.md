@@ -53,7 +53,7 @@ After the package is installed, the main modules can be imported and used in any
 3. Install conda to the virtual environment if it is not installed already `conda install anaconda::pip`
 4. Run `pip install local_path/to/cloned/repo/TCEQ_geotam_reader`
 
-#### Example using https and cloning directory to Desktop
+#### Example using https to clone the repo and install from the Desktop directory   
 From the command line:
 ```
 >>> cd /Path/to/Desktop                               # Change directory to Desktop
