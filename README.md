@@ -1,7 +1,45 @@
 # GeoTAM Reader
 
 ## Purpose
-The GeoTAM reader converts raw measurement report files from the [Texas Air Monitoring Information System (TAMIS)](https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=home.welcome) into human-interpretable polars dataframes which can then be saved to csv and parquet (.gzip) formats. TAMIS is maintained by the [Texas Commission on Environmental Quality (TCEQ)](https://www.tceq.texas.gov/). Many thanks to TCEQ for providing these services. 
+The GeoTAM reader converts raw measurement report files from the [Texas Air Monitoring Information System (TAMIS)](https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=home.welcome) into human-interpretable polars dataframes which can then be saved to csv and parquet (.gzip) formats. \
+\
+**Example**
+
+```
+Transaction Type,Action,State Cd,County Cd,Site ID,Parameter Cd,POC,Dur Cd,Unit Cd,Meth Cd,Date,Time,Value,Null Data Cd,Col Freq,Mon Protocol ID,Qual Cd 1,Qual Cd 2,Qual Cd 3,Qual Cd 4,Qual Cd 5,Qual Cd 6,Qual Cd 7,Qual Cd 8,Qual Cd 9,Qual Cd 10,Alternate MDL,Uncertainty Value
+RD,I,48,255,1070,43202,01,1,008,128,20250407,00:00,55.055,,,,,,,,,,,,,,,
+RD,I,48,255,1070,43202,01,1,008,128,20250407,03:00,44.3327,,,,,,,,,,,,,,,
+...
+...
+```
+\
+**becomes**
+
+```
+┌────────────┬───────────┬─────────┬───────────┬───┬───────────┬───────────┬───────────┬───────────┐
+│ Datetime   ┆ Site Name ┆ Site ID ┆ TCEQ      ┆ … ┆ TCEQ 1,2, ┆ TCEQ Wind ┆ TCEQ Wind ┆ TCEQ      │
+│ ---        ┆ ---       ┆ ---     ┆ Ethane    ┆   ┆ 3-Trimeth ┆ Speed -   ┆ Direction ┆ Outdoor   │
+│ datetime[μ ┆ str       ┆ i64     ┆ (ppbv)    ┆   ┆ ylbenzene ┆ Resultant ┆ -         ┆ Temperatu │
+│ s,         ┆           ┆         ┆ ---       ┆   ┆ (p…       ┆ (m…       ┆ Resultan… ┆ re (Deg … │
+│ Etc/GMT+6] ┆           ┆         ┆ f64       ┆   ┆ ---       ┆ ---       ┆ ---       ┆ ---       │
+│            ┆           ┆         ┆           ┆   ┆ f64       ┆ f64       ┆ f64       ┆ f64       │
+╞════════════╪═══════════╪═════════╪═══════════╪═══╪═══════════╪═══════════╪═══════════╪═══════════╡
+│ 2025-04-07 ┆ Karnes    ┆ 1070    ┆ 55.055    ┆ … ┆ 0.0       ┆ 3.54543   ┆ 328.241   ┆ 52.3258   │
+│ 00:00:00   ┆ County    ┆         ┆           ┆   ┆           ┆           ┆           ┆           │
+│ -06        ┆           ┆         ┆           ┆   ┆           ┆           ┆           ┆           │
+│ 2025-04-07 ┆ Karnes    ┆ 1070    ┆ 44.3327   ┆ … ┆ 0.0       ┆ 3.42917   ┆ 345.279   ┆ 49.3633   │
+│ 03:00:00   ┆ County    ┆         ┆           ┆   ┆           ┆           ┆           ┆           │
+│ -06        ┆           ┆         ┆           ┆   ┆           ┆           ┆           ┆           │
+│ ....       ┆ ....      ┆ ....    ┆....       ┆   ┆ ....      ┆....       ┆ ....      ┆....       │
+└────────────┴───────────┴─────────┴───────────┴───┴───────────┴───────────┴───────────┴───────────┘
+```
+\
+TAMIS is maintained by the [Texas Commission on Environmental Quality (TCEQ)](https://www.tceq.texas.gov/). From the [TCEQ website](https://www.tceq.texas.gov/airquality/monops): 
+
+'The Clean Air Act provides for establishing national ambient air quality standards (NAAQS) for six commonly occurring air pollutants, or “criteria pollutants”, that can be harmful to public health and the environment. TCEQ monitors ambient air concentrations of these and other pollutants at stationary monitoring sites across the state... \[TAMIS] allows users to generate and download ambient air quality data collected at these monitoring stations.'
+
+
+Many thanks to TCEQ for providing these services. 
 
 
 ## Installation
