@@ -310,7 +310,7 @@ Dropping all null columns manually is usually cumbersome.
     df = df[[column.name for column in df if not (column.null_count() == df.height)]]
     return df
 
-def read_and_extract_tceq_data_to_df(filepath: str | Path, 
+def read_and_extract_tceq_data_to_unformatted_df(filepath: str | Path, 
                      tzone_in: str = "Etc/GMT+6", 
                      tzone_out: str = "Etc/GMT+6",
                      **kwargs) -> pl.DataFrame:
@@ -592,7 +592,7 @@ def read_tceq_to_pl_dataframe(filepath: str | Path,
     """
     
     # Extract unformatted data to dataframe
-    df = read_and_extract_tceq_data_to_df(filepath, tzone_in=tzone_in, tzone_out=tzone_out, **kwargs)
+    df = read_and_extract_tceq_data_to_unformatted_df(filepath, tzone_in=tzone_in, tzone_out=tzone_out, **kwargs)
     
     # Get parameter codes
     tceq_parameter_codes, tceq_unit_codes, tceq_site_info_codes = get_clean_reference_info()
