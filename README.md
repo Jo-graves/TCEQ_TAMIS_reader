@@ -69,7 +69,7 @@ From the command line:
 ```
 pip needs just the filepath to the directory holding the setup.py and *.toml files to install the package. 
 
-The package can be optionally installed in development mode if you plan to edit the source code and would like the edits to appear automatically without having to update the code (e.g., `pip update TCEQ_TAMIS_viewer`). This can be done using the -e flag when installing with pip:  \
+The package can be optionally installed in development mode if you plan to edit the source code and would like the edits to appear automatically without having to update the package in your package manager (e.g., `pip update TCEQ_TAMIS_viewer`). This can be done using the -e flag when installing with pip:  \
 `pip install -e /Path/to/Desktop/TCEQ_TAMIS_reader`
 
 
