@@ -1,7 +1,7 @@
-# GeoTAM Reader
+# TAMIS Reader
 
 ## Purpose
-The GeoTAM reader converts raw measurement report files from the [Texas Air Monitoring Information System (TAMIS)](https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=home.welcome) into human-interpretable polars dataframes which can then be saved to csv and parquet (.gzip) formats. \
+The TAMIS reader converts raw measurement report files from the [Texas Air Monitoring Information System (TAMIS)](https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=home.welcome) into human-interpretable polars dataframes which can then be saved to csv and parquet (.gzip) formats. \
 \
 **Example**
 
@@ -63,12 +63,12 @@ From the command line:
                                                       # conda environment
 
 >>> git clone https://github.com/this_repo            # Clone repo to cwd (Desktop)
->>> pip install /Path/to/Desktop/TCEQ_geotam_reader   # Install package to virtual environment
+>>> pip install /Path/to/Desktop/TCEQ_TAMIS_reader   # Install package to virtual environment
 ```
 pip needs just the filepath to the directory holding the setup.py and *.toml files to install the package. 
 
-The package can be optionally installed in development mode if you plan to edit the source code and would like the edits to appear automatically without having the update the code (e.g., `pip update TCEQ_geotam_viewer`). This can be done using the -e flag when installing with pip:  \
-`pip install -e /Path/to/Desktop/TCEQ_geotam_reader`
+The package can be optionally installed in development mode if you plan to edit the source code and would like the edits to appear automatically without having the update the code (e.g., `pip update TCEQ_TAMIS_viewer`). This can be done using the -e flag when installing with pip:  \
+`pip install -e /Path/to/Desktop/TCEQ_TAMIS_reader`
 
 
 ## Data Access
@@ -89,21 +89,21 @@ The [geoTAM viewer](https://tceq.maps.arcgis.com/apps/webappviewer/index.html?id
 
 
 ## Reference tables
-Several reference tables are included in the package. Additional information is provided in the [docs](./docs/reference_table_information.md)
+Several reference tables are included in the package for converting the raw air quality system (AQS) code to their descriptions. Additional information is provided in the [docs](./docs/reference_table_information.md)
 
 
 
-## Documentation
+## How-to
 
 The primary function is
 ### read_tceq_to_pl_dataframe()
 
-It is used to read GeoTAMIS raw data files and convert them to a polars dataframe with human-interpretable data. Data is returned as a polars dataframe. Alternatively, data can also be saved directly to .csv or .gzip (parquet) file formats. 
+It is used to read raw TAMIS data files and convert them to a polars dataframe with human-interpretable data. Data is returned as a polars dataframe. Alternatively, data can also be saved directly to .csv or .gzip (parquet) file formats. 
 
 Parameters
 -----------
     filepath: str | Path
-        filepath or Path (e.g. returned from pathlib.Path()) to GeoTAMIS 
+        filepath or Path (e.g. returned from pathlib.Path()) to TAMIS 
         report to read and process
     
     tzone_in: str
@@ -129,12 +129,12 @@ Parameters
 Returns
 ---------
     pl.Dataframe
-        polars dataframe in wide format containing GeoTAMIS records with descriptive column names
+        polars dataframe in wide format containing TAMIS records with descriptive column names
 
 Example use
 ------------
 
-Sample data from raw GeoTAMIS report: 
+Sample data from raw TAMIS report: 
 ```
 AQS Raw Data (RD) Transaction Report, Version 1.6, 3/11/2011
 Run By: TAMIS User
@@ -159,9 +159,9 @@ RD,I,48,255,1070,43202,01,1,008,128,20250407,07:00,36.3294,,,,,,,,,,,,,,,
 After installing the package, if the data is in a file with path "filepath":
 
 ```
->>> import tceq_geotam_processor as tgp
+>>> import tceq_tamis_processor as ttp
 >>> from pathlib import Path
->>> filepath = Path('/path/to/geotam/data')
+>>> filepath = Path('/path/to/tamis/data')
 
 >>> df = tgp.read_tceq_to_pl_dataframe(fpath = filepath, 
                                         tzone_in = "Etc/GMT+6", 
