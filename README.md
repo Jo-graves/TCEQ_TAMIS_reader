@@ -163,7 +163,7 @@ After installing the package, if the data is in a file with path "filepath":
 >>> from pathlib import Path
 >>> filepath = Path('/path/to/tamis/data')
 
->>> df = tgp.read_tceq_to_pl_dataframe(fpath = filepath, 
+>>> df = ttp.read_tceq_to_pl_dataframe(fpath = filepath, 
                                         tzone_in = "Etc/GMT+6", 
                                         tzone_out = "Etc/GMT+6",
                                         save = False)
@@ -201,7 +201,7 @@ After installing the package, if the data is in a file with path "filepath":
 Saving
 -------
 ```
->>> df = tgp.read_tceq_to_pl_dataframe(fpath = filepath, 
+>>> df = ttp.read_tceq_to_pl_dataframe(fpath = filepath, 
                                         tzone_in = "Etc/GMT+6", 
                                         tzone_out = "Etc/GMT+6",
                                         save = True, 
