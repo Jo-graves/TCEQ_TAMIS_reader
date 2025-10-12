@@ -51,7 +51,7 @@ After the package is installed, the main modules can be imported and used in any
 1. Clone the repository into any location on your local filesystem using `git clone clone_path_from_github`
 2. Activate a virtual environment (e.g., `conda activate my_env_name`)
 3. Install conda to the virtual environment if it is not installed already `conda install anaconda::pip`
-4. Run `pip install local_path/to/cloned/repo/TCEQ_geotam_reader`
+4. Run `pip install local_path/to/cloned/repo/TCEQ_TAMIS_reader`
 
 #### Example using https to clone the repo and install from the Desktop directory   
 From the command line:
