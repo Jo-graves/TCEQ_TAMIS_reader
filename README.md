@@ -1,7 +1,45 @@
-# GeoTAM Processor
+# TAMIS Reader
 
 ## Purpose
-The GeoTAM processor converts raw measurement report files from the [Texas Air Monitoring Information System (TAMIS)](https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=home.welcome) into csv and parquet (.gzip) formats. TAMIS is maintained by the [Texas Commission on Environmental Quality (TCEQ)](https://www.tceq.texas.gov/).
+The TAMIS reader converts raw measurement report files from the [Texas Air Monitoring Information System (TAMIS)](https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=home.welcome) into human-interpretable polars dataframes which can then be saved to csv and parquet (.gzip) formats. \
+\
+**Example**
+
+```
+Transaction Type,Action,State Cd,County Cd,Site ID,Parameter Cd,POC,Dur Cd,Unit Cd,Meth Cd,Date,Time,Value,Null Data Cd,Col Freq,Mon Protocol ID,Qual Cd 1,Qual Cd 2,Qual Cd 3,Qual Cd 4,Qual Cd 5,Qual Cd 6,Qual Cd 7,Qual Cd 8,Qual Cd 9,Qual Cd 10,Alternate MDL,Uncertainty Value
+RD,I,48,255,1070,43202,01,1,008,128,20250407,00:00,55.055,,,,,,,,,,,,,,,
+RD,I,48,255,1070,43202,01,1,008,128,20250407,03:00,44.3327,,,,,,,,,,,,,,,
+...
+...
+```
+\
+**becomes**
+
+```
+┌────────────┬───────────┬─────────┬───────────┬───┬───────────┬───────────┬───────────┬───────────┐
+│ Datetime   ┆ Site Name ┆ Site ID ┆ TCEQ      ┆ … ┆ TCEQ 1,2, ┆ TCEQ Wind ┆ TCEQ Wind ┆ TCEQ      │
+│ ---        ┆ ---       ┆ ---     ┆ Ethane    ┆   ┆ 3-Trimeth ┆ Speed -   ┆ Direction ┆ Outdoor   │
+│ datetime[μ ┆ str       ┆ i64     ┆ (ppbv)    ┆   ┆ ylbenzene ┆ Resultant ┆ -         ┆ Temperatu │
+│ s,         ┆           ┆         ┆ ---       ┆   ┆ (p…       ┆ (m…       ┆ Resultan… ┆ re (Deg … │
+│ Etc/GMT+6] ┆           ┆         ┆ f64       ┆   ┆ ---       ┆ ---       ┆ ---       ┆ ---       │
+│            ┆           ┆         ┆           ┆   ┆ f64       ┆ f64       ┆ f64       ┆ f64       │
+╞════════════╪═══════════╪═════════╪═══════════╪═══╪═══════════╪═══════════╪═══════════╪═══════════╡
+│ 2025-04-07 ┆ Karnes    ┆ 1070    ┆ 55.055    ┆ … ┆ 0.0       ┆ 3.54543   ┆ 328.241   ┆ 52.3258   │
+│ 00:00:00   ┆ County    ┆         ┆           ┆   ┆           ┆           ┆           ┆           │
+│ -06        ┆           ┆         ┆           ┆   ┆           ┆           ┆           ┆           │
+│ 2025-04-07 ┆ Karnes    ┆ 1070    ┆ 44.3327   ┆ … ┆ 0.0       ┆ 3.42917   ┆ 345.279   ┆ 49.3633   │
+│ 03:00:00   ┆ County    ┆         ┆           ┆   ┆           ┆           ┆           ┆           │
+│ -06        ┆           ┆         ┆           ┆   ┆           ┆           ┆           ┆           │
+│ ....       ┆ ....      ┆ ....    ┆....       ┆   ┆ ....      ┆....       ┆ ....      ┆....       │
+└────────────┴───────────┴─────────┴───────────┴───┴───────────┴───────────┴───────────┴───────────┘
+```
+\
+TAMIS is maintained by the [Texas Commission on Environmental Quality (TCEQ)](https://www.tceq.texas.gov/). From the [TCEQ website](https://www.tceq.texas.gov/airquality/monops): 
+
+'The Clean Air Act provides for establishing national ambient air quality standards (NAAQS) for six commonly occurring air pollutants, or “criteria pollutants”, that can be harmful to public health and the environment. TCEQ monitors ambient air concentrations of these and other pollutants at stationary monitoring sites across the state... \[TAMIS] allows users to generate and download ambient air quality data collected at these monitoring stations.'
+
+
+Many thanks to TCEQ for providing these services. 
 
 
 ## Installation
@@ -13,9 +51,9 @@ After the package is installed, the main modules can be imported and used in any
 1. Clone the repository into any location on your local filesystem using `git clone clone_path_from_github`
 2. Activate a virtual environment (e.g., `conda activate my_env_name`)
 3. Install conda to the virtual environment if it is not installed already `conda install anaconda::pip`
-4. Run `pip install local_path/to/cloned/repo/TCEQ_geotam_reader`
+4. Run `pip install local_path/to/cloned/repo/TCEQ_TAMIS_reader`
 
-#### Example using https and cloning directory to Desktop
+#### Example using https to clone the repo and install from the Desktop directory   
 From the command line:
 ```
 >>> cd /Path/to/Desktop                               # Change directory to Desktop
@@ -25,16 +63,16 @@ From the command line:
                                                       # conda environment
 
 >>> git clone https://github.com/this_repo            # Clone repo to cwd (Desktop)
->>> pip install /Path/to/Desktop/TCEQ_geotam_reader   # Install package to virtual environment
+>>> pip install /Path/to/Desktop/TCEQ_TAMIS_reader   # Install package to virtual environment
 ```
 pip needs just the filepath to the directory holding the setup.py and *.toml files to install the package. 
 
-The package can be optionally installed in development mode if you plan to edit the source code and would like the edits to appear automatically without having the update the code (e.g., `pip update TCEQ_geotam_viewer`). This can be done using the -e flag when installing with pip:  \
-`pip install -e /Path/to/Desktop/TCEQ_geotam_reader`
+The package can be optionally installed in development mode if you plan to edit the source code and would like the edits to appear automatically without having the update the code (e.g., `pip update TCEQ_TAMIS_viewer`). This can be done using the -e flag when installing with pip:  \
+`pip install -e /Path/to/Desktop/TCEQ_TAMIS_reader`
 
 
 ## Data Access
-Data can be accessed at the TCEQ TAMIS data request page:
+Data can be accessed at the TAMIS data request page:
 https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.main
 
 
@@ -45,27 +83,27 @@ https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.main
 
 
 ### GeoTAM Viewer
-The [geoTAM viewer](https://tceq.maps.arcgis.com/apps/webappviewer/index.html?id=ab6f85198bda483a997a6956a8486539) is a useful resource to see how TAMIS sites are spatially related 
+The [geoTAM viewer](https://tceq.maps.arcgis.com/apps/webappviewer/index.html?id=ab6f85198bda483a997a6956a8486539) is a useful resource to see how air quality monitors operated by the TCEQ are spatially distributed and to identify which species are measured at individual stations 
 
 <img width="1369" height="876" alt="image" src="https://github.com/user-attachments/assets/d8ec705d-0104-41dc-a22b-bab645fe5aa3" />
 
 
 ## Reference tables
-Several reference tables are included in the package. Additional information is provided in the [docs](./docs/reference_table_information.md)
+Several reference tables are included in the package for converting the raw air quality system (AQS) code to their descriptions. Additional information is provided in the [docs](./docs/reference_table_information.md)
 
 
 
-## Documentation
+## How-to
 
 The primary function is
 ### read_tceq_to_pl_dataframe()
 
-It is used to read GeoTAMIS raw data files and convert them to a polars dataframe with human-interpretable data. Data is returned as a polars dataframe. Alternatively, data can also be saved directly to .csv or .gzip (parquet) file formats. 
+It is used to read raw TAMIS data files and convert them to a polars dataframe with human-interpretable data. Data is returned as a polars dataframe. Alternatively, data can also be saved directly to .csv or .gzip (parquet) file formats. 
 
 Parameters
 -----------
     filepath: str | Path
-        filepath or Path (e.g. returned from pathlib.Path()) to GeoTAMIS 
+        filepath or Path (e.g. returned from pathlib.Path()) to TAMIS 
         report to read and process
     
     tzone_in: str
@@ -91,12 +129,12 @@ Parameters
 Returns
 ---------
     pl.Dataframe
-        polars dataframe in wide format containing GeoTAMIS records with descriptive column names
+        polars dataframe in wide format containing TAMIS records with descriptive column names
 
 Example use
 ------------
 
-Sample data from raw GeoTAMIS report: 
+Sample data from raw TAMIS report: 
 ```
 AQS Raw Data (RD) Transaction Report, Version 1.6, 3/11/2011
 Run By: TAMIS User
@@ -121,11 +159,11 @@ RD,I,48,255,1070,43202,01,1,008,128,20250407,07:00,36.3294,,,,,,,,,,,,,,,
 After installing the package, if the data is in a file with path "filepath":
 
 ```
->>> import tceq_geotam_processor as tgp
+>>> import tceq_tamis_processor as ttp
 >>> from pathlib import Path
->>> filepath = Path('/path/to/geotam/data')
+>>> filepath = Path('/path/to/tamis/data')
 
->>> df = tgp.read_tceq_to_pl_dataframe(fpath = filepath, 
+>>> df = ttp.read_tceq_to_pl_dataframe(fpath = filepath, 
                                         tzone_in = "Etc/GMT+6", 
                                         tzone_out = "Etc/GMT+6",
                                         save = False)
@@ -163,7 +201,7 @@ After installing the package, if the data is in a file with path "filepath":
 Saving
 -------
 ```
->>> df = tgp.read_tceq_to_pl_dataframe(fpath = filepath, 
+>>> df = ttp.read_tceq_to_pl_dataframe(fpath = filepath, 
                                         tzone_in = "Etc/GMT+6", 
                                         tzone_out = "Etc/GMT+6",
                                         save = True, 
