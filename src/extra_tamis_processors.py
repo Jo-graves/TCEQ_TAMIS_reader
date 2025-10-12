@@ -1,7 +1,7 @@
 #%%
 from pathlib import Path
 import pandas as pd
-import tceq_geotam_processor as tgp
+import tceq_tamis_processor as tgp
 import importlib
 importlib.reload(tgp)
 from importlib import resources

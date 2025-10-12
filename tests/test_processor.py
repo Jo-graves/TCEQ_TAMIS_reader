@@ -1,5 +1,5 @@
 #%%
-import tceq_geotam_processor as pt
+import tceq_tamis_processor as pt
 import importlib
 import polars as pl
 import polars.testing as ptesting
@@ -91,7 +91,7 @@ def proc_tceq_formatted_ethane_2025():
 def compare_tceq_formatted_and_processed_data_ethane_2025():
 
     '''
-    Compare the tceq formatted data and data processed from geotam_processor package
+    Compare the tceq formatted data and data processed from tamis_processor package
     '''
 
     with resources.path("test_data", "2025_kc_autogc_w_ws_wd_tab.txt") as test_file:

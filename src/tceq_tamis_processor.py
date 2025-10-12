@@ -5,19 +5,19 @@ from importlib import resources
 
 def get_TCEQ_header_row_number(filepath: str | Path) -> int:
     '''
-Finds the number of rows from the start of a TCEQ GeoTAMIS report that 
+Finds the number of rows from the start of a TCEQ TAMIS report that 
 the data column headers are located
 
 Parameters
 ----------
 filepath: str
-    filepath to GeoTAMIS data to open and parse
+    filepath to TAMIS data to open and parse
 
     
 Returns
 ----------
 int
-    The number of rows from the start of the TCEQ GeoTAMIS report that 
+    The number of rows from the start of the TCEQ TAMIS report that 
     the data column headers are located
 
 
@@ -39,7 +39,7 @@ Sample raw data report:
 
 If data is stored in "filepath":
 ```
->>> tgp.get_TCEQ_header_row_number(filepath)
+>>> ttp.get_TCEQ_header_row_number(filepath)
 12
 ```  
     '''
@@ -57,7 +57,7 @@ delimit the data columns.
 Parameters
 ----------
 filepath: str
-    filepath to GeoTAMIS data to open and parse
+    filepath to TAMIS data to open and parse
 
     
 Returns
@@ -85,7 +85,7 @@ Fields Delimited by: ,  Action: I  Caution!  This report does not use the pipe (
 If data is stored in "filepath":
 
 ```
->>> tgp.get_delimiter(filepath)
+>>> ttp.get_delimiter(filepath)
 ,
 ```
     
@@ -101,7 +101,7 @@ Fields Delimited by: Tab  Action: I  Caution!  This report does not use the pipe
 
 If data is stored in "filepath":
 ```
->>> tgp.get_delimiter(filepath)
+>>> ttp.get_delimiter(filepath)
 \\t
 ```  
     '''
@@ -183,7 +183,7 @@ Example
 │ 20250421 ┆ 23:00 │
 └──────────┴───────┘
 
->>> df2 = tgp.polars_convert_date_and_time_columns_to_datetime(df = df, 
+>>> df2 = ttp.polars_convert_date_and_time_columns_to_datetime(df = df, 
                                                                 date_column = "Date",
                                                                 date_format: str = "%Y%m%d",
                                                                 time_column: str = "Time",
@@ -279,7 +279,7 @@ Example
 │ 2025-04-21 23:00:00 ┆ 359 ┆ null ┆ null │
 └─────────────────────┴─────┴──────┴──────┘
 
->>> df = tgp.pl_drop_col_if_all_null(df = df)
+>>> df = ttp.pl_drop_col_if_all_null(df = df)
 >>> df
 ┌─────────────────────┬─────┐
 │ Datetime            ┆ a   │
@@ -316,14 +316,14 @@ def read_and_extract_tceq_data_to_unformatted_df(filepath: str | Path,
                      **kwargs) -> pl.DataFrame:
 
     '''
-Reads a TCEQ GeoTAMIS report (.txt), extracts the data,  processes the timezone info, 
+Reads a TCEQ TAMIS report (.txt), extracts the data,  processes the timezone info, 
 and returns a polars dataframe. Data is described by parameter and unit codes.
 
 
 Parameters
 -----------
 filepath: str | Path
-    filepath or Path (e.g. returned from pathlib.Path()) to GeoTAMIS 
+    filepath or Path (e.g. returned from pathlib.Path()) to TAMIS 
     report to read and process
 
 tzone_in: str
@@ -342,12 +342,12 @@ tzone_out: str
 Returns
 ---------
 pl.Dataframe
-    polars dataframe in wide format containing GeoTAMIS records
+    polars dataframe in wide format containing TAMIS records
 
 
 Example
 --------
-Sample data from raw GeoTAMIS report:
+Sample data from raw TAMIS report:
 ```
 AQS Raw Data (RD) Transaction Report, Version 1.6, 3/11/2011
 Run By: TAMIS User
@@ -369,7 +369,7 @@ RD,I,48,255,1070,43202,01,1,008,128,20250407,07:00,36.3294,,,,,,,,,,,,,,,
 ```
 If data is in file at "filepath":
 ```
->>> df = tgp.read_and_extract_tceq_data_to_df(fpath = filepath, 
+>>> df = ttp.read_and_extract_tceq_data_to_df(fpath = filepath, 
                                                 tzone_in = "Etc/GMT+6", 
                                                 tzone_out = "Etc/GMT+6")
 >>> df.columns
@@ -407,13 +407,13 @@ See also
 ---------
 `polars_convert_date_and_time_columns_to_datetime`
 
-Info on time-tagging conventions from GeoTAMIS: https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_daily_summary.pl
+Info on time-tagging conventions from TAMIS: https://www.tceq.texas.gov/cgi-bin/compliance/monops/agc_daily_summary.pl
 
 
 Helpful information
 -------------------
 
-GeoTAMIS reports data collected over a given time interval at the beginning of the timestep 
+TAMIS reports data collected over a given time interval at the beginning of the timestep 
 (e.g., data collected between 1 p.m. and 2 p.m. is reported at 1 p.m.). Data is also
 reported in local standard time (LST). Standard time does not consider daylight savings time.
 Most of Texas is in Central Standard Time (CST), except for portions of the far west of the state
@@ -447,7 +447,7 @@ which is in mountain time (MT).
 
 def pull_ref_info(ref_dir: str | Path, ref_file: str) -> resources.path:
     ''' 
-    Use pathlib.resources to pull reference file for for labeling raw GeoTAMIS data
+    Use pathlib.resources to pull reference file for for labeling raw TAMIS data
     '''
     # basically, just add the relative location of the file you want to import 
     with resources.path(ref_dir, ref_file) as ref_path:
@@ -457,7 +457,7 @@ def get_clean_reference_info() -> tuple:
 
 
     '''
-    Pulls in GeoTAMIS parameter, unit, and site codes for labeling raw GeoTAMIS data'''
+    Pulls in TAMIS parameter, unit, and site codes for labeling raw TAMIS data'''
  
     # Grab TCEQ param, units, and site_info filepaths relative to this script, then read in
     TCEQ_parameter_codes_fpath = fr"tceq_parameters.csv"
@@ -479,13 +479,13 @@ def read_tceq_to_pl_dataframe(filepath: str | Path,
     
     """
     
-    Read GeoTAMIS raw data file and convert to a polars dataframe with human-interpretable data. Data can be saved
+    Read TAMIS raw data file and convert to a polars dataframe with human-interpretable data. Data can be saved
     directly to .csv or .gzip (parquet) file formats. 
 
     Parameters
     -----------
     filepath: str | Path
-        filepath or Path (e.g. returned from pathlib.Path()) to GeoTAMIS 
+        filepath or Path (e.g. returned from pathlib.Path()) to TAMIS 
         report to read and process
     
     tzone_in: str
@@ -513,14 +513,14 @@ def read_tceq_to_pl_dataframe(filepath: str | Path,
     Returns
     ---------
     pl.Dataframe
-        polars dataframe in wide format containing GeoTAMIS records with descriptive column names
+        polars dataframe in wide format containing TAMIS records with descriptive column names
 
 
     Example
     ----------
 
     ```
-    Sample data from raw GeoTAMIS report: 
+    Sample data from raw TAMIS report: 
 
     AQS Raw Data (RD) Transaction Report, Version 1.6, 3/11/2011
     Run By: TAMIS User
@@ -543,7 +543,7 @@ def read_tceq_to_pl_dataframe(filepath: str | Path,
     If data is in file at "filepath":
 
     ```
-    >>> df = tgp.read_tceq_to_pl_dataframe(fpath = filepath, 
+    >>> df = ttp.read_tceq_to_pl_dataframe(fpath = filepath, 
                                            tzone_in = "Etc/GMT+6", 
                                            tzone_out = "Etc/GMT+6",
                                            save = False)
@@ -581,7 +581,7 @@ def read_tceq_to_pl_dataframe(filepath: str | Path,
     Saving
     -------
     ```
-    >>> df = tgp.read_tceq_to_pl_dataframe(fpath = filepath, 
+    >>> df = ttp.read_tceq_to_pl_dataframe(fpath = filepath, 
                                            tzone_in = "Etc/GMT+6", 
                                            tzone_out = "Etc/GMT+6",
                                            save = True, 
