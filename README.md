@@ -1,7 +1,7 @@
 # GeoTAM Reader
 
 ## Purpose
-The GeoTAM processor converts raw measurement report files from the [Texas Air Monitoring Information System (TAMIS)](https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=home.welcome) into human-interpretable polars dataframes which can then be saved to csv and parquet (.gzip) formats. TAMIS is maintained by the [Texas Commission on Environmental Quality (TCEQ)](https://www.tceq.texas.gov/). Many thanks to TCEQ for providing these services. 
+The GeoTAM reader converts raw measurement report files from the [Texas Air Monitoring Information System (TAMIS)](https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=home.welcome) into human-interpretable polars dataframes which can then be saved to csv and parquet (.gzip) formats. TAMIS is maintained by the [Texas Commission on Environmental Quality (TCEQ)](https://www.tceq.texas.gov/). Many thanks to TCEQ for providing these services. 
 
 
 ## Installation
