@@ -3,12 +3,12 @@ requires = ["setuptools", "setuptools-scm"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "geotam_processor"
-version = "3.0.1"
+name = "tceq_tamis_processor"
+version = "3.0.2"
 authors = [
   { name="JDG", email="157560746+Jo-graves@users.noreply.github.com" },
 ]
-description = "Convert geotam outputs to csv or parquet"
+description = "Convert raw TAMIS data to human-interpretable dataframe"
 readme = "README.md"
 requires-python = ">=3.9"
 classifiers = [
