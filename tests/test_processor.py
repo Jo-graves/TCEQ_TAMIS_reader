@@ -88,7 +88,7 @@ def proc_tceq_formatted_ethane_2025():
 
     return df
 
-def compare_tceq_formatted_and_processed_data_ethane_2025():
+def test_compare_tceq_formatted_and_processed_data_ethane_2025():
 
     '''
     Compare the tceq formatted data and data processed from tamis_processor package
@@ -114,7 +114,7 @@ def compare_tceq_formatted_and_processed_data_ethane_2025():
 if __name__ == "__main__":
 
 
-    compare_tceq_formatted_and_processed_data_ethane_2025()
+    test_compare_tceq_formatted_and_processed_data_ethane_2025()
     test_equivalence()
 
 
