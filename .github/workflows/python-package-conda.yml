@@ -40,4 +40,5 @@ jobs:
       run: |
         ls
         conda install pytest
+        cd tests
         python -m pytest
