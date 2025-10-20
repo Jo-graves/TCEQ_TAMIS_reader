@@ -39,4 +39,6 @@ jobs:
     - name: Test with pytest
       run: |
         conda install pytest
+        [tool.pytest.ini_options]
+        pythonpath = "tests/test_data"
         python -m pytest
