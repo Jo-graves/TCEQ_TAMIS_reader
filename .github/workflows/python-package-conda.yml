@@ -27,7 +27,7 @@ jobs:
         
     - name: Build package (if needed for distribution)
       run: |
-        pip install . 
+        pip install -e . 
         
     - name: Lint with flake8
       run: |
