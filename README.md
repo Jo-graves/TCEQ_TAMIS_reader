@@ -47,6 +47,8 @@ This repo is a python package so it can be cloned to a local filesystem and then
 (similar to using conda or pip to install packages directly from online package channels).
 After the package is installed, the main modules can be imported and used in any scripts running in the virtual environment.
 
+**Disclaimer**: as of v3.0.1, the methods for accessing the raw air quality system (AQS) codes used to convert the raw data to their human-interpretable descriptions has been updated to require the scripts be installed as a package. See installation instructions below. 
+
 ### To install the package:
 1. Clone the repository into any location on your local filesystem using `git clone clone_path_from_github`
 2. Activate a virtual environment (e.g., `conda activate my_env_name`)
@@ -67,7 +69,7 @@ From the command line:
 ```
 pip needs just the filepath to the directory holding the setup.py and *.toml files to install the package. 
 
-The package can be optionally installed in development mode if you plan to edit the source code and would like the edits to appear automatically without having the update the code (e.g., `pip update TCEQ_TAMIS_viewer`). This can be done using the -e flag when installing with pip:  \
+The package can be optionally installed in development mode if you plan to edit the source code and would like the edits to appear automatically without having to update the package in your package manager (e.g., `pip update TCEQ_TAMIS_viewer`). This can be done using the -e flag when installing with pip:  \
 `pip install -e /Path/to/Desktop/TCEQ_TAMIS_reader`
 
 
@@ -93,7 +95,7 @@ Several reference tables are included in the package for converting the raw air 
 
 
 
-## How-to
+## Using the package
 
 The primary function is
 ### read_tceq_to_pl_dataframe()
