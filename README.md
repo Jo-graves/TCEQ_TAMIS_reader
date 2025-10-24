@@ -74,30 +74,31 @@ The package can be optionally installed in development mode if you plan to edit 
 
 
 ## Data Access
-Data can be accessed at the TAMIS data request page:
-https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.main
+Data can be accessed at the [TAMIS data request page](https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.main):
+
 
 
 > Landing page
 > 
 > <img width="822" height="249" alt="image" src="https://github.com/user-attachments/assets/2fc065bf-6fe0-4ebc-a0e0-e9e50e3ef50b" />
 
+After submitting the request form, a text (.txt) file will be available for download. This file contains the raw measurements and is reported using the [EPA Air Quality System (AQS) reporting format](https://aqs.epa.gov/aqsweb/documents/TransactionFormats.html). Aditional information is [provided by the TCEQ](https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.terms&rt=3381).
 
 
 ### GeoTAM Viewer
-The [geoTAM viewer](https://tceq.maps.arcgis.com/apps/webappviewer/index.html?id=ab6f85198bda483a997a6956a8486539) is a useful resource to see how air quality monitors operated by the TCEQ are spatially distributed and to identify which species are measured at each location
+The [geoTAM viewer](https://tceq.maps.arcgis.com/apps/webappviewer/index.html?id=ab6f85198bda483a997a6956a8486539) is a useful resource to see how air quality monitors operated by the TCEQ are spatially distributed and to identify which species are measured at each location:
 
 <img width="1369" height="876" alt="image" src="https://github.com/user-attachments/assets/d8ec705d-0104-41dc-a22b-bab645fe5aa3" />
 
 
 ## Reference tables
-Several reference tables are included in the package for converting the raw air quality system (AQS) code to their descriptions. Additional information is provided in the [docs](./docs/reference_table_information.md)
+Several reference tables are included in the package for converting the raw air quality system (AQS) code to their descriptions. Additional information is provided in the [docs](./docs/reference_table_information.md).
 
 
 
 ## Using the package
 
-The primary function is
+The primary function is:
 ### read_tceq_to_pl_dataframe()
 
 It is used to read raw TAMIS data files and convert them to a polars dataframe with human-interpretable data. Data is returned as a polars dataframe. Alternatively, data can also be saved directly to .csv or .gzip (parquet) file formats. 
@@ -158,7 +159,7 @@ RD,I,48,255,1070,43202,01,1,008,128,20250407,07:00,36.3294,,,,,,,,,,,,,,,
 ...
 ...
 ``` 
-After installing the package, if the data is in a file with path "filepath":
+After installing the package, if the data is in a file with path "/path/to/tamis/data":
 
 ```
 >>> import tceq_tamis_processor as ttp
