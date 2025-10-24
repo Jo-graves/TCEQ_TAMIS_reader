@@ -85,7 +85,7 @@ https://www17.tceq.texas.gov/tamis/index.cfm?fuseaction=report.main
 
 
 ### GeoTAM Viewer
-The [geoTAM viewer](https://tceq.maps.arcgis.com/apps/webappviewer/index.html?id=ab6f85198bda483a997a6956a8486539) is a useful resource to see how air quality monitors operated by the TCEQ are spatially distributed and to identify which species are measured at individual measurement locations 
+The [geoTAM viewer](https://tceq.maps.arcgis.com/apps/webappviewer/index.html?id=ab6f85198bda483a997a6956a8486539) is a useful resource to see how air quality monitors operated by the TCEQ are spatially distributed and to identify which species are measured at each location
 
 <img width="1369" height="876" alt="image" src="https://github.com/user-attachments/assets/d8ec705d-0104-41dc-a22b-bab645fe5aa3" />
 
