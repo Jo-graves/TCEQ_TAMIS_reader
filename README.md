@@ -47,7 +47,7 @@ This repo is a python package so it can be cloned to a local filesystem and then
 (similar to using conda or pip to install packages directly from online package channels).
 After the package is installed, the main modules can be imported and used in any scripts running in the virtual environment.
 
-**Disclaimer**: as of v3.0.1, the methods for accessing the raw air quality system (AQS) codes used to convert the raw data to their human-interpretable descriptions has been updated to require that the scripts be installed as a package. See installation instructions below. 
+**Disclaimer**: as of v3.0.1, the methods for accessing the raw air quality system (AQS) codes used to convert the raw data to their human-interpretable descriptions has been updated and now requires that the scripts be installed as a package. See installation instructions below. 
 
 ### To install the package:
 1. Clone the repository into any location on your local filesystem using `git clone clone_path_from_github`
